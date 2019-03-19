@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
+  // CSS selector. Include this in .html as <app-root> to include everything from this component (.ts, .html, .module.ts etc.)
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
