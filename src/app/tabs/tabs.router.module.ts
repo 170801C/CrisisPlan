@@ -11,30 +11,30 @@ const routes: Routes = [
     // Array of child Route objects (e.g. tabs/tab1 --> tab1 is a child route of tabs)
     children: [
       {
-        path: 'tab1',
+        path: 'plan',
         children: [
           {
             path: '',
-            // Relative file path to this module#module name
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
+            // Relative file path to this filename.module#module_name
+            loadChildren: '../pages/plan/plan.module#PlanPageModule'  
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'appointment',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
+            loadChildren: '../pages/appointments/appointments.module#AppointmentsPageModule'          
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'settings',
         children: [
           {
             path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
+            loadChildren: '../pages/settings/settings.module#SettingsPageModule'
           }
         ]
       },
@@ -47,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/plan',
     pathMatch: 'full'
   }
 ];
