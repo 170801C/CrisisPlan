@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SymptomsService } from '../../services/symptoms.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-symptoms',
@@ -20,12 +21,12 @@ export class SymptomsPage implements OnInit {
   ]
 
   // Set up dependency injection 
-  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService) { }
+  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private router: Router) { }
 
   // Initialize variables 
   ngOnInit() {
     this.symptomForm = this.formBuilder.group({
-      // Date-Time in this format: "day_word month_word day year time GMT+0800 (Singapore Standard Time)". toISOString() can be considered
+      // Date-Time in this format: "day_word month_word day year time GMT+0800 (Singapore Standard Time)". toISOString() can be considered too
       dateTime: new Date().toString(),
       id: Date.now(),
       hadMeal: ['', Validators.required],
@@ -48,6 +49,8 @@ export class SymptomsPage implements OnInit {
   }
 
   createPlan() {
+    // Analyze the symptoms
+
     // level 0 - Normal. Continue your regular healthy living habits
     // level 1 - Attention. See a clinic/family doctor
     // level 2 - Important. Call TCS or see a clinic/family doctor
@@ -109,16 +112,22 @@ export class SymptomsPage implements OnInit {
     console.log("blood sugar level: ", this.symptomForm.value.bloodSugarLevel)
     console.log("description temp: ", this.symptomForm.value.temperatureDescription)
 
-    this.saveSymptoms();
+    // Add the symptoms to storage
+    this.saveSymptoms()
+      .then(_ => {
+        // Go to plan page to view the symptoms from storage listed
+        this.router.navigate(['plan']);
+      })
   }
 
   saveSymptoms() {
     // Extract the FormGroup values and assign them to toSave, which is an object 
     let toSave = this.symptomForm.value;
-    // Add the symptoms to Ionic storage
-    this.symptomsService.addSymptoms(toSave);
-
-    // this.symptomsService.getSymptoms();
+    // Add the symptoms to storage
+    return this.symptomsService.addSymptoms(toSave)
+    // .then(_ => {
+    //   console.log(this.symptomsService.getAllSymptoms());
+    // });
   }
 }
 
