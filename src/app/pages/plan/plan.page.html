@@ -6,4 +6,17 @@
 
 <ion-content padding>
 
+  <ion-list *ngFor="let symptom of symptoms">
+
+    <ion-item>
+      <ion-label>Temperature</ion-label>{{ symptom.temperature }}
+    </ion-item>
+
+  </ion-list>
+
+  <ion-button routerLink="/symptoms">
+    <p slot="end">Enter your symptoms and get your crisis plan!</p>
+  </ion-button>
+
+
 </ion-content>

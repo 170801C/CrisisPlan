@@ -11,28 +11,36 @@ export class SymptomsService {
   constructor(private storage: Storage) { }
 
   addSymptoms(mySymptoms) {
-    console.log("Save symptoms: ", mySymptoms);
-    if (!this.storage.get(SYMPTOMS_KEY)) {console.log("no value in storage")}
-    else {console.log("value in storage", this.storage.get(SYMPTOMS_KEY))}
-
     // Ionic storage uses, in this case, SQLite.
     // Get the value of the key in storage
     return this.storage.get(SYMPTOMS_KEY)
-      .then(symptoms => {
+      .then(result => {
         // If there is no value for this key, create a new symptoms array with the new mySymptoms inserted 
-        if (!symptoms) {
+        if (!result) {
           return this.storage.set(SYMPTOMS_KEY, [mySymptoms]);
         }
         else {
           // Push the new mySymptoms into the existing symptoms array
-          symptoms.push(mySymptoms);
-          return this.storage.set(SYMPTOMS_KEY, mySymptoms);
+          result.push(mySymptoms);
+          return this.storage.set(SYMPTOMS_KEY, result);
         }
+      })
+  }
+
+  getAllSymptoms() {
+    return this.storage.get(SYMPTOMS_KEY).then(result => {
+      // If there is no symptoms array value in storage, return an empty Array.  
+      if (!result) {
+        return [];
+      }
+      else {
+        return result;
+      }
     })
   }
 
-  getSymptoms() {
-    return this.storage.get(SYMPTOMS_KEY);
-    // console.log("Symptoms in storage: ", this.storage.get(SYMPTOMS_KEY));
+  // Delete all symptoms in the SYMPTOM_KEY
+  deleteSymptoms() {
+    this.storage.remove(SYMPTOMS_KEY);
   }
 }
