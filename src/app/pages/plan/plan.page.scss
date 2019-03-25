@@ -1,0 +1,36 @@
+app-plan {
+  
+}
+.item-content {
+    background-color:#ff00ff;
+  }
+
+
+.xitem {
+    background: #f091f0;
+}
+$text-color: #10dc60;
+
+$ion-label: #10dc60;
+
+.ion-button {
+    --color:  #222022;
+    --color:var($ion-label, #222);
+}
+
+.critical {
+    background-color: #FF0000;
+    background: #FF0000;
+}
+
+.important {
+    background-color: #FFA500;
+}
+
+.attention {
+    background-color: #FFFF00;
+}
+
+.normal {
+    background-color: #008000;
+}

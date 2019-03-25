@@ -86,23 +86,29 @@ export class SymptomsPage implements OnInit {
     if (this.symptomForm.value.hadMeal == 'no') {
       if (this.symptomForm.value.bloodSugar <= 2.78 || this.symptomForm.value.bloodSugar >= 16.65) {
         this.symptomForm.value.bloodSugarLevel = 3;
+        this.symptomForm.value.bloodSugarColor = this.colors[0];
       }
       else if (this.symptomForm.value.bloodSugar >= 8.88 && this.symptomForm.value.bloodSugar < 16.65) {
         this.symptomForm.value.bloodSugarLevel = 2;
+        this.symptomForm.value.bloodSugarColor = this.colors[1];
       }
       else if (this.symptomForm.value.bloodSugar > 2.78 && this.symptomForm.value.bloodSugar < 4 || this.symptomForm.value.bloodSugar >= 6.66 && this.symptomForm.value.bloodSugar < 8.88) {
         this.symptomForm.value.bloodSugarLevel = 1;
+        this.symptomForm.value.bloodSugarColor = this.colors[2];
       }
       else if (this.symptomForm.value.bloodSugar >= 4 && this.symptomForm.value.bloodSugar < 6.66) {
         this.symptomForm.value.bloodSugarLevel = 0;
+        this.symptomForm.value.bloodSugarColor = this.colors[3];
       }
     }
     else {
       if (this.symptomForm.value.bloodSugar <= 7.8) {
         this.symptomForm.value.bloodSugarLevel = 0;
+        this.symptomForm.value.bloodSugarColor = this.colors[3];
       }
       else {
         this.symptomForm.value.bloodSugarLevel = 1;
+        this.symptomForm.value.bloodSugarColor = this.colors[2];
       }
     }
     console.log("Temperature: ", this.symptomForm.value.temperature);

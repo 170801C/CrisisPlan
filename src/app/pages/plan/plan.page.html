@@ -6,15 +6,61 @@
 
 <ion-content padding>
 
+  <!-- Critical symptoms -->
+  <!-- <ion-list color="secondary" *ngFor="let symptom of symptoms" > -->
   <ion-list *ngFor="let symptom of symptoms">
+    <ng-container *ngIf="symptom.bloodSugarLevel == 3 || symptom.temperatureLevel == 3">
+      <!-- <ion-item class="xitem" color="primary-contrast" > -->
+      <ion-item class="critical" color="primary-contrast">
 
-    <ion-item>
-      <ion-label>Temperature</ion-label>{{ symptom.temperature }}
-    </ion-item>
+        <!-- <div class="item-content">
+          </div> -->
 
+        <ion-label>Temperature</ion-label>{{ symptom.temperature }}
+        <br>
+        <ion-label>Blood sugar</ion-label>{{ symptom.bloodSugar }}
+
+      </ion-item>
+    </ng-container>
   </ion-list>
 
-  <ion-button routerLink="/symptoms">
+  <!-- Important symptoms -->
+  <ion-list *ngFor="let symptom of symptoms">
+    <ng-container *ngIf="symptom.bloodSugarLevel == 2 || symptom.temperatureLevel == 2">
+      <ion-item class="important" color="primary-contrast">
+        <ion-label>Temperature</ion-label>{{ symptom.temperature }}
+        <br>
+        <ion-label>Blood sugar</ion-label>{{ symptom.bloodSugar }}
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <!-- Attention symptoms -->
+  <ion-list *ngFor="let symptom of symptoms">
+    <ng-container *ngIf="symptom.bloodSugarLevel == 1 || symptom.temperatureLevel == 1">
+      <ion-item class="important" color="primary-contrast">
+        <ion-label>Temperature</ion-label>{{ symptom.temperature }}
+        <br>
+        <ion-label>Blood sugar</ion-label>{{ symptom.bloodSugar }}
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <!-- Normal symptoms -->
+  <ion-list *ngFor="let symptom of symptoms">
+    <ng-container *ngIf="symptom.bloodSugarLevel == 0 || symptom.temperatureLevel == 0">
+      <ion-item class="important" color="primary-contrast">
+        <ion-label>Temperature</ion-label>{{ symptom.temperature }}
+        <br>
+        <ion-label>Blood sugar</ion-label>{{ symptom.bloodSugar }}
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+
+
+
+  <ion-button class="ion-button" routerLink="/symptoms">
     <p slot="end">Enter your symptoms and get your crisis plan!</p>
   </ion-button>
 
