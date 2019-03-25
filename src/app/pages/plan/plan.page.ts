@@ -22,11 +22,6 @@ export class PlanPage implements OnInit {
       })
   }
 
-  // Try another lifecycle hook to get latest data from storage after submitting form
-  ionViewDidEnter() {
-
-  }
-
   loadSymptoms() {
     this.symptomService.getAllSymptoms()
       .then(result => {
