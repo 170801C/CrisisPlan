@@ -2,23 +2,42 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SymptomsService } from '../../services/symptoms.service';
 import { Router } from '@angular/router';
+import { temperatureModel } from '../../models/temperatureModel';
+import { bloodSugarModel } from 'src/app/models/bloodSugarModel';
 
 @Component({
   selector: 'app-symptoms',
   templateUrl: './symptoms.page.html',
   styleUrls: ['./symptoms.page.scss'],
 })
+
 export class SymptomsPage implements OnInit {
 
   // Declare variables
   symptomForm: FormGroup;
-  hadMealChanged: string;
   colors = [
     '#FF0000',   // Red
     '#FFA500',   // Orange
     '#FFFF00',   // Yellow
     '#008000'    // Green
-  ]
+  ];
+  temperature: temperatureModel = {
+    id: null,
+    temperature: null,
+    temperatureLevel: null,
+    temperatureDescription: null,
+    temperatureAction: null,
+    temperatureColor: null
+  };
+  bloodSugar: bloodSugarModel = {
+    id: null,
+    bloodSugar: null,
+    bloodSugarLevel: null,
+    bloodSugarDescription: null,
+    bloodSugarAction: null,
+    bloodSugarColor: null
+  }
+  plan = [];
 
   // Set up dependency injection 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private router: Router) { }
@@ -26,10 +45,7 @@ export class SymptomsPage implements OnInit {
   // Initialize variables 
   ngOnInit() {
     this.symptomForm = this.formBuilder.group({
-      // Date-Time in this format: "day_word month_word day year time GMT+0800 (Singapore Standard Time)". toISOString() can be considered too
-      dateTime: new Date().toString(),
-      id: Date.now(),
-      hadMeal: ['', Validators.required],
+      id: null,
       temperature: [null, Validators.required],
       temperatureLevel: null,
       temperatureDescription: null,
@@ -44,8 +60,6 @@ export class SymptomsPage implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    // Return the value of hadMeal and assign it to hadMealChanged, after user inputs hadMeal. 
-    this.symptomForm.get('hadMeal').valueChanges.subscribe(data => this.hadMealChanged = data);
   }
 
   createPlan() {
@@ -86,15 +100,19 @@ export class SymptomsPage implements OnInit {
     if (this.symptomForm.value.hadMeal == 'no') {
       if (this.symptomForm.value.bloodSugar <= 2.78 || this.symptomForm.value.bloodSugar >= 16.65) {
         this.symptomForm.value.bloodSugarLevel = 3;
+        this.symptomForm.value.bloodSugarColor = this.colors[0];
       }
       else if (this.symptomForm.value.bloodSugar >= 8.88 && this.symptomForm.value.bloodSugar < 16.65) {
         this.symptomForm.value.bloodSugarLevel = 2;
+        this.symptomForm.value.bloodSugarColor = this.colors[1];
       }
       else if (this.symptomForm.value.bloodSugar > 2.78 && this.symptomForm.value.bloodSugar < 4 || this.symptomForm.value.bloodSugar >= 6.66 && this.symptomForm.value.bloodSugar < 8.88) {
         this.symptomForm.value.bloodSugarLevel = 1;
+        this.symptomForm.value.bloodSugarColor = this.colors[2];
       }
       else if (this.symptomForm.value.bloodSugar >= 4 && this.symptomForm.value.bloodSugar < 6.66) {
         this.symptomForm.value.bloodSugarLevel = 0;
+        this.symptomForm.value.bloodSugarColor = this.colors[3];
       }
     }
     else {
@@ -113,18 +131,40 @@ export class SymptomsPage implements OnInit {
     console.log("description temp: ", this.symptomForm.value.temperatureDescription)
 
     // Add the symptoms to storage
-    this.saveSymptoms()
+    this.savePlan()
       .then(_ => {
         // Go to plan page to view the symptoms from storage listed
         this.router.navigate(['plan']);
       })
   }
 
-  saveSymptoms() {
+  savePlan() {
+    // Insert temperature form values into temperature model object 
+    this.temperature.temperature = this.symptomForm.value.temperature;
+    this.temperature.temperatureLevel = this.symptomForm.value.temperatureLevel;
+    this.temperature.temperatureDescription = this.symptomForm.value.temperatureDescription;
+    this.temperature.temperatureAction = this.symptomForm.value.temperatureAction;
+    this.temperature.temperatureColor = this.symptomForm.value.temperatureColor;
+
+    // Insert bloodSugar form values into bloodSugar model object 
+    this.bloodSugar.bloodSugar = this.symptomForm.value.bloodSugar;
+    this.bloodSugar.bloodSugarLevel = this.symptomForm.value.bloodSugarLevel;
+    this.bloodSugar.bloodSugarDescription = this.symptomForm.value.bloodSugarDescription;
+    this.bloodSugar.bloodSugarAction = this.symptomForm.value.bloodSugarAction;
+    this.bloodSugar.bloodSugarColor = this.symptomForm.value.bloodSugarColor;
+
+
+    // Push all symptoms model objects into the plan array 
+    this.plan.push(this.temperature);
+    this.plan.push(this.bloodSugar);
+
+    // Add the plan to storage
+    return this.symptomsService.addPlans(this.plan);
+
     // Extract the FormGroup values and assign them to toSave, which is an object 
-    let toSave = this.symptomForm.value;
+    // let toSave = this.symptomForm.value;
     // Add the symptoms to storage
-    return this.symptomsService.addSymptoms(toSave)
+    // return this.symptomsService.addSymptoms(toSave)
     // .then(_ => {
     //   console.log(this.symptomsService.getAllSymptoms());
     // });

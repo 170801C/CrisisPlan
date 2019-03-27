@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-const SYMPTOMS_KEY = "mySymptoms";
+const PLANS_KEY = "myPlans";
 
 @Injectable({
   providedIn: 'root'
@@ -10,37 +10,38 @@ export class SymptomsService {
 
   constructor(private storage: Storage) { }
 
-  addSymptoms(mySymptoms) {
+  addPlans(myPlan) {
     // Ionic storage uses, in this case, SQLite.
     // Get the value of the key in storage
-    return this.storage.get(SYMPTOMS_KEY)
+    return this.storage.get(PLANS_KEY)
       .then(result => {
-        // If there is no value for this key, create a new symptoms array with the new mySymptoms inserted 
+        // If there is no value for this key, create a new plans array with the new myPlans inserted 
         if (!result) {
-          return this.storage.set(SYMPTOMS_KEY, [mySymptoms]);
+          return this.storage.set(PLANS_KEY, [myPlan]);
         }
         else {
-          // Push the new mySymptoms into the existing symptoms array
-          result.push(mySymptoms);
-          return this.storage.set(SYMPTOMS_KEY, result);
+          // Push the new myPlans into the existing plans array
+          result.push(myPlan);
+          return this.storage.set(PLANS_KEY, result);
         }
       })
   }
 
-  getAllSymptoms() {
-    return this.storage.get(SYMPTOMS_KEY).then(result => {
-      // If there is no symptoms array value in storage, return an empty Array.  
+  getAllPlans() {
+    return this.storage.get(PLANS_KEY).then(result => {
+      // If there is no plans array value in storage, return an empty array.  
       if (!result) {
         return [];
       }
       else {
+        console.log(result);
         return result;
       }
     })
   }
 
-  // Delete all symptoms in the SYMPTOM_KEY
-  deleteSymptoms() {
-    this.storage.remove(SYMPTOMS_KEY);
+  // Delete all value for the key
+  deletePlans() {
+    this.storage.remove(PLANS_KEY);
   }
 }

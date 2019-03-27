@@ -9,8 +9,8 @@ import { SymptomsService } from '../../services/symptoms.service';
 })
 export class PlanPage implements OnInit {
 
-  // Decalre a variable to hold all symptoms from storage, to use in template
-  symptoms = [];
+  // Decalre an array to hold all plans from storage, to be used in template
+  plans = [];
 
   constructor(private platform: Platform, private symptomService: SymptomsService) { }
 
@@ -18,19 +18,18 @@ export class PlanPage implements OnInit {
     // When the platform is ready, load all the symptoms from the persistent storage
     this.platform.ready()
       .then(() => {
-        this.loadSymptoms();
+        this.loadPlans();
       })
   }
 
   // Try another lifecycle hook to get latest data from storage after submitting form
   ionViewDidEnter() {
-
   }
 
-  loadSymptoms() {
-    this.symptomService.getAllSymptoms()
+  loadPlans() {
+    this.symptomService.getAllPlans()
       .then(result => {
-        this.symptoms = result;
+        this.plans = result;
       })
   }
 }

@@ -6,11 +6,33 @@
 
 <ion-content padding>
 
-  <ion-list *ngFor="let symptom of symptoms">
+  <ion-list *ngFor="let plan of plans">
 
-    <ion-item>
-      <ion-label>Temperature</ion-label>{{ symptom.temperature }}
-    </ion-item>
+    <ion-list *ngIf="plan[0].temperatureLevel == 3">
+
+      <ion-item>
+        <ion-label>
+          Temperature {{ plan[0].temperature }}
+          <br>
+          Temperature Level {{ plan[0].temperatureLevel }}
+        </ion-label>
+
+        <ion-item>
+          <ion-label>Blood Sugar</ion-label>{{ plan[1].bloodSugar }}
+          <br>
+          Blood Sugar Level {{ plan[1].bloodSugarLevel }}
+        </ion-item>
+
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngIf="plan[0].temperatureLevel == 2">
+      
+      <ion-item>
+        <ion-label>Blood Sugar</ion-label>{{ plan[1].bloodSugar }}
+      </ion-item>
+    </ion-list>
 
   </ion-list>
 
@@ -18,5 +40,5 @@
     <p slot="end">Enter your symptoms and get your crisis plan!</p>
   </ion-button>
 
-
 </ion-content>
+<ion-label>First<br />Second<br />Third</ion-label>

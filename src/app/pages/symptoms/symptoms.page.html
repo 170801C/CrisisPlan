@@ -9,15 +9,9 @@
   <ion-list>
     <form [formGroup]="symptomForm" (ngSubmit)="createPlan()">
 
-      <ion-item>
-        <ion-label>Have you had a meal within the last 2 hours?<br><sub>Note: Diagnosis will be more accurate before a meal.</sub></ion-label>
-        <ion-select formControlName="hadMeal" name="hadMeal" placeholder="Select one">
-          <ion-select-option value="yes">Yes</ion-select-option>
-          <ion-select-option value="no">No</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <p>Enter suggested inputs:</p>
 
-      <ion-item *ngIf="hadMealChanged">
+      <ion-item>
         <ion-label>Blood sugar</ion-label>
         <ion-input type="number" formControlName="bloodSugar" name="bloodSugar"></ion-input>
       </ion-item>
@@ -25,11 +19,6 @@
       <ion-item>
         <ion-label>Temperature</ion-label>
         <ion-input type="number" formControlName="temperature" name="temperature"></ion-input>
-      </ion-item>
-
-      <ion-item [hidden]=true>
-        <ion-label position="stacked">DateTime</ion-label>
-        <ion-datetime formControlName="dateTime" displayFormat="MM/DD/YYYY" name="dateTime"></ion-datetime>
       </ion-item>
 
       <!-- <ion-button expand="full" type="submit" [disabled]="!symptomForm.valid"> -->
