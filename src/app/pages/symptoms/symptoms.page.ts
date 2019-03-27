@@ -24,18 +24,18 @@ export class SymptomsPage implements OnInit {
   temperature: temperatureModel = {
     id: null,
     temperature: null,
-    temperatureLevel: null,
-    temperatureDescription: null,
-    temperatureAction: null,
-    temperatureColor: null
+    level: null,
+    description: null,
+    action: null,
+    color: null
   };
   bloodSugar: bloodSugarModel = {
     id: null,
     bloodSugar: null,
-    bloodSugarLevel: null,
-    bloodSugarDescription: null,
-    bloodSugarAction: null,
-    bloodSugarColor: null
+    level: null,
+    description: null,
+    action: null,
+    color: null
   }
   plan = [];
 
@@ -96,36 +96,25 @@ export class SymptomsPage implements OnInit {
       this.symptomForm.value.temperatureAction = "Action to take: Call 995";
     }
 
-    // Blood sugar
-    if (this.symptomForm.value.hadMeal == 'no') {
-      if (this.symptomForm.value.bloodSugar <= 2.78 || this.symptomForm.value.bloodSugar >= 16.65) {
-        this.symptomForm.value.bloodSugarLevel = 3;
-        this.symptomForm.value.bloodSugarColor = this.colors[0];
-      }
-      else if (this.symptomForm.value.bloodSugar >= 8.88 && this.symptomForm.value.bloodSugar < 16.65) {
-        this.symptomForm.value.bloodSugarLevel = 2;
-        this.symptomForm.value.bloodSugarColor = this.colors[1];
-      }
-      else if (this.symptomForm.value.bloodSugar > 2.78 && this.symptomForm.value.bloodSugar < 4 || this.symptomForm.value.bloodSugar >= 6.66 && this.symptomForm.value.bloodSugar < 8.88) {
-        this.symptomForm.value.bloodSugarLevel = 1;
-        this.symptomForm.value.bloodSugarColor = this.colors[2];
-      }
-      else if (this.symptomForm.value.bloodSugar >= 4 && this.symptomForm.value.bloodSugar < 6.66) {
-        this.symptomForm.value.bloodSugarLevel = 0;
-        this.symptomForm.value.bloodSugarColor = this.colors[3];
-      }
+    // Blood sugar, before meal
+    if (this.symptomForm.value.bloodSugar <= 2.78 || this.symptomForm.value.bloodSugar >= 16.65) {
+      this.symptomForm.value.bloodSugarLevel = 3;
+      this.symptomForm.value.bloodSugarColor = this.colors[0];
     }
-    else {
-      if (this.symptomForm.value.bloodSugar <= 7.8) {
-        this.symptomForm.value.bloodSugarLevel = 0;
-      }
-      else {
-        this.symptomForm.value.bloodSugarLevel = 1;
-      }
+    else if (this.symptomForm.value.bloodSugar >= 8.88 && this.symptomForm.value.bloodSugar < 16.65) {
+      this.symptomForm.value.bloodSugarLevel = 2;
+      this.symptomForm.value.bloodSugarColor = this.colors[1];
+    }
+    else if (this.symptomForm.value.bloodSugar > 2.78 && this.symptomForm.value.bloodSugar < 4 || this.symptomForm.value.bloodSugar >= 6.66 && this.symptomForm.value.bloodSugar < 8.88) {
+      this.symptomForm.value.bloodSugarLevel = 1;
+      this.symptomForm.value.bloodSugarColor = this.colors[2];
+    }
+    else if (this.symptomForm.value.bloodSugar >= 4 && this.symptomForm.value.bloodSugar < 6.66) {
+      this.symptomForm.value.bloodSugarLevel = 0;
+      this.symptomForm.value.bloodSugarColor = this.colors[3];
     }
     console.log("Temperature: ", this.symptomForm.value.temperature);
     console.log("Temperature level: ", this.symptomForm.value.temperatureLevel);
-    console.log("hadmeal: ", this.symptomForm.value.hadMeal)
     console.log("Blood sugar: ", this.symptomForm.value.bloodSugar)
     console.log("blood sugar level: ", this.symptomForm.value.bloodSugarLevel)
     console.log("description temp: ", this.symptomForm.value.temperatureDescription)
@@ -141,17 +130,17 @@ export class SymptomsPage implements OnInit {
   savePlan() {
     // Insert temperature form values into temperature model object 
     this.temperature.temperature = this.symptomForm.value.temperature;
-    this.temperature.temperatureLevel = this.symptomForm.value.temperatureLevel;
-    this.temperature.temperatureDescription = this.symptomForm.value.temperatureDescription;
-    this.temperature.temperatureAction = this.symptomForm.value.temperatureAction;
-    this.temperature.temperatureColor = this.symptomForm.value.temperatureColor;
+    this.temperature.level = this.symptomForm.value.temperatureLevel;
+    this.temperature.description = this.symptomForm.value.temperatureDescription;
+    this.temperature.action = this.symptomForm.value.temperatureAction;
+    this.temperature.color = this.symptomForm.value.temperatureColor;
 
     // Insert bloodSugar form values into bloodSugar model object 
     this.bloodSugar.bloodSugar = this.symptomForm.value.bloodSugar;
-    this.bloodSugar.bloodSugarLevel = this.symptomForm.value.bloodSugarLevel;
-    this.bloodSugar.bloodSugarDescription = this.symptomForm.value.bloodSugarDescription;
-    this.bloodSugar.bloodSugarAction = this.symptomForm.value.bloodSugarAction;
-    this.bloodSugar.bloodSugarColor = this.symptomForm.value.bloodSugarColor;
+    this.bloodSugar.level = this.symptomForm.value.bloodSugarLevel;
+    this.bloodSugar.description = this.symptomForm.value.bloodSugarDescription;
+    this.bloodSugar.action = this.symptomForm.value.bloodSugarAction;
+    this.bloodSugar.color = this.symptomForm.value.bloodSugarColor;
 
 
     // Push all symptoms model objects into the plan array 

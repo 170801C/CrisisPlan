@@ -1,8 +1,8 @@
 export interface bloodSugarModel {
     id: number;
     bloodSugar: string,
-    bloodSugarLevel: string,
-    bloodSugarDescription: string,
-    bloodSugarAction: string,
-    bloodSugarColor: string
+    level: number,
+    description: string,
+    action: string,
+    color: string
 }
