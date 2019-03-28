@@ -22,8 +22,25 @@ export class PlanPage implements OnInit {
     // When the platform is ready, load all the plans from storage
     this.platform.ready()
       .then(() => {
+        this.criticals.length = 0;
+        this.importants.length = 0;
+        this.attentions.length = 0;
+        this.normals.length = 0;
+        console.log("on change? criticals arr: ", this.criticals);
         this.loadPlans();
       })
+  }
+
+  ionViewWillEnter() {
+    // Empty the arrays
+    this.criticals.length = 0;
+    this.importants.length = 0;
+    this.attentions.length = 0;
+    this.normals.length = 0;
+    console.log("ioionViewWillEnter. Check criticals array: ", this.criticals);
+
+    // Get the plans array, sort them, to be displayed
+    this.loadPlans();
   }
 
   // Try another lifecycle hook to get latest data from storage after submitting form
@@ -43,7 +60,7 @@ export class PlanPage implements OnInit {
         else if (input.level == 1) {
           this.attentions.push(input);
         }
-        else {
+        else if (input.level == 0) {
           this.normals.push(input);
         }
       }

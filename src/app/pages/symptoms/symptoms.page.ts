@@ -75,43 +75,47 @@ export class SymptomsPage implements OnInit {
       this.symptomForm.value.temperatureLevel = 0;
       this.symptomForm.value.temperatureColor = this.colors[3];
       this.symptomForm.value.temperatureDescription = "You have a normal body temperature";
-      this.symptomForm.value.temperatureAction = "Action to take: Maintain your regular healthy living habits"
+      this.symptomForm.value.temperatureAction = "Maintain your regular healthy living habits"
     }
     else if (this.symptomForm.value.temperature >= 38 && this.symptomForm.value.temperature < 39 || this.symptomForm.value.temperature <= 35 && this.symptomForm.value.temperature > 34) {
       this.symptomForm.value.temperatureLevel = 1;
       this.symptomForm.value.temperatureColor = this.colors[2];
       this.symptomForm.value.temperatureDescription = "You may have: \n1. Fever and chills \n2. Hyperthermia";
-      this.symptomForm.value.temperatureAction = "Action to take: Visit a clinic or see a family doctor";
+      this.symptomForm.value.temperatureAction = "Visit a clinic or see a family doctor";
     }
     else if (this.symptomForm.value.temperature >= 39 && this.symptomForm.value.temperature < 41 || this.symptomForm.value.temperature <= 34 && this.symptomForm.value.temperature > 32) {
       this.symptomForm.value.temperatureLevel = 2;
       this.symptomForm.value.temperatureColor = this.colors[1];
       this.symptomForm.value.temperatureDescription = "You may have: \n1. Convulsions \n2. Severe sweating, flushed and red \n3. Fast heart rate \n4. Breathlessness \n5. Exhaustion \n6. Dizziness \n7. Vomiting \n8. Dehydration \n9. Fainting";
-      this.symptomForm.value.temperatureAction = "Action to take: Call TCS, visit a clinic or see a family doctor";
+      this.symptomForm.value.temperatureAction = "Call TCS, visit a clinic or see a family doctor";
     }
     else if (this.symptomForm.value.temperature >= 41 || this.symptomForm.value.temperature <= 32) {
       this.symptomForm.value.temperatureLevel = 3;
       this.symptomForm.value.temperatureColor = this.colors[0];
       this.symptomForm.value.temperatureDescription = "You may have: \n1. Hallucinations \n2. Delirium \n3. Fainting \n4. Vomiting \n5. Dizziness \n6. Breathlessness \n7. Convulsions \n8. Fast heart rate \n9. Comatose \n10. Shock \n11. Brain damage \n12. Cardio-respiratory collapse";
-      this.symptomForm.value.temperatureAction = "Action to take: Call 995";
+      this.symptomForm.value.temperatureAction = "Call 995";
     }
 
     // Blood sugar, before meal
     if (this.symptomForm.value.bloodSugar <= 2.78 || this.symptomForm.value.bloodSugar >= 16.65) {
       this.symptomForm.value.bloodSugarLevel = 3;
       this.symptomForm.value.bloodSugarColor = this.colors[0];
+      this.symptomForm.value.bloodSugarAction = "Call 995";
     }
     else if (this.symptomForm.value.bloodSugar >= 8.88 && this.symptomForm.value.bloodSugar < 16.65) {
       this.symptomForm.value.bloodSugarLevel = 2;
       this.symptomForm.value.bloodSugarColor = this.colors[1];
+      this.symptomForm.value.bloodSugarAction = "Call TCS, visit a clinic or see a family doctor";
     }
     else if (this.symptomForm.value.bloodSugar > 2.78 && this.symptomForm.value.bloodSugar < 4 || this.symptomForm.value.bloodSugar >= 6.66 && this.symptomForm.value.bloodSugar < 8.88) {
       this.symptomForm.value.bloodSugarLevel = 1;
       this.symptomForm.value.bloodSugarColor = this.colors[2];
+      this.symptomForm.value.bloodSugarAction = "Visit a clinic or see a family doctor";
     }
     else if (this.symptomForm.value.bloodSugar >= 4 && this.symptomForm.value.bloodSugar < 6.66) {
       this.symptomForm.value.bloodSugarLevel = 0;
       this.symptomForm.value.bloodSugarColor = this.colors[3];
+      this.symptomForm.value.bloodSugarAction = "Maintain your regular healthy living habits"
     }
     console.log("Temperature: ", this.symptomForm.value.temperature);
     console.log("Temperature level: ", this.symptomForm.value.temperatureLevel);
@@ -142,12 +146,10 @@ export class SymptomsPage implements OnInit {
     this.bloodSugar.action = this.symptomForm.value.bloodSugarAction;
     this.bloodSugar.color = this.symptomForm.value.bloodSugarColor;
 
-
     // Push all symptoms model objects into the plan array 
-    this.plan.push(this.temperature);
-    this.plan.push(this.bloodSugar);
+    this.plan.push(this.temperature, this.bloodSugar);
 
-    // Add the plan to storage
+    // Add the plan array to storage
     return this.symptomsService.addPlans(this.plan);
 
     // Extract the FormGroup values and assign them to toSave, which is an object 

@@ -37,7 +37,6 @@ export class SymptomsService {
         return [];
       }
       else {
-        console.log(result);
         return result;
       }
     })
@@ -46,5 +45,10 @@ export class SymptomsService {
   // Delete all value for the key
   deletePlans() {
     this.storage.remove(PLANS_KEY);
+  }
+
+  // Return Promise<LocalForage> type!
+  storageReady() {
+    return this.storage.ready();
   }
 }
