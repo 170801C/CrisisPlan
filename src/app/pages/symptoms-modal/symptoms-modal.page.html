@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>symptomsModal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="inputForm" (ngSubmit)="saveInput()">
+
+    <p>Enter your symptom:</p>
+
+    <ion-item>
+      <ion-label>Type</ion-label>
+      <ion-select formControlName="type" okText="Ok">
+        <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
+        <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
+        <ion-select-option value="temperature">Temperature</ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="stacked">Level</ion-label>
+      <ion-row class="color-row">
+        <ion-col size="3" class="color-col" *ngFor="let color of colors" [style.background]="color"
+          [class.selected]="color == memoryForm.get('color').value" tappable (click)="setColor(color)">
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea formControlName="description" rows="6"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Action</ion-label>
+      <ion-input formControlName="action"></ion-input>
+    </ion-item>
+
+    <!-- Submit form button -->
+    <ion-button expand="full" type="submit">
+      <ion-icon name="checkmark" slot="start"></ion-icon>
+      Add input
+    </ion-button>
+
+  </form>
+
+</ion-content>

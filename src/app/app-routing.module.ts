@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'appointments', loadChildren: './pages/appointments/appointments.module#AppointmentsPageModule' },
   { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'symptoms', loadChildren: './pages/symptoms/symptoms.module#SymptomsPageModule' },
+  { path: 'symptoms-modal', loadChildren: './pages/symptoms-modal/symptoms-modal.module#SymptomsModalPageModule' },
 ];
 @NgModule({
   imports: [

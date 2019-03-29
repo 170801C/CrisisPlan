@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 const PLANS_KEY = "myPlans";
+const SYMPTOMS_KEY = "mySymptoms"
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,18 @@ const PLANS_KEY = "myPlans";
 export class SymptomsService {
 
   constructor(private storage: Storage) { }
+
+  addSymptom(mySymptom) {
+    return this.storage.get(SYMPTOMS_KEY).then(symptoms => {
+      if (!symptoms) {
+        return this.storage.set(SYMPTOMS_KEY, mySymptom);
+      }
+      else {
+        symptoms.push(mySymptom);
+        return this.storage.set(SYMPTOMS_KEY, symptoms);
+      }
+    })
+  }
 
   addPlans(myPlan) {
     // Ionic storage uses, in this case, SQLite.

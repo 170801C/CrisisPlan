@@ -6,28 +6,11 @@
 
 <ion-content padding>
 
-  <ion-list>
-    <form [formGroup]="symptomForm" (ngSubmit)="createPlan()">
-
-      <p>Enter suggested inputs:</p>
-
-      <ion-item>
-        <ion-label>Blood sugar</ion-label>
-        <ion-input type="number" formControlName="bloodSugar" name="bloodSugar"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Temperature</ion-label>
-        <ion-input type="number" formControlName="temperature" name="temperature"></ion-input>
-      </ion-item>
-
-      <!-- <ion-button expand="full" type="submit" [disabled]="!symptomForm.valid"> -->
-      <ion-button expand="full" type="submit">
-        <ion-icon name="checkmark" slot="start"></ion-icon>
-        Submit
-      </ion-button>
-
-    </form>
-  </ion-list>
+  <!-- Add input button -->
+  <ion-fab horizontal="start" vertical="top" slot="fixed">
+    <ion-fab-button (click)="addInput()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
