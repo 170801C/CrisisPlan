@@ -43,12 +43,17 @@ export class PlanPage implements OnInit {
   }
 
   emptyArrays() {
-    this.criticals = []
-    return Promise.resolve(this.criticals);
-    //  this.criticals = [].toPromise()
-    //   this.importants = [],
-    //   this.attentions = [],
-    //   this.normals = [])
+    this.criticals = [];
+    // this.importants = [];
+    // this.attentions = [];
+    // this.normals = [];
+
+    return Promise.resolve(this.criticals)
+      .then(() => {
+        this.importants = [];
+        this.attentions = [];
+        this.normals = [];
+      })
   }
 
   // Sort the plans array into their level categories 
