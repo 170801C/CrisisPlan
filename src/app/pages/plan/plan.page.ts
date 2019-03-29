@@ -59,19 +59,17 @@ export class PlanPage implements OnInit {
   // Sort the plans array into their level categories 
   sortInputs(plans) {
     for (let plan of plans) {
-      for (let input of plan) {
-        if (input.level == 3) {
-          this.criticals.push(input);
-        }
-        else if (input.level == 2) {
-          this.importants.push(input);
-        }
-        else if (input.level == 1) {
-          this.attentions.push(input);
-        }
-        else if (input.level == 0) {
-          this.normals.push(input);
-        }
+      if (plan.level == 3) {
+        this.criticals.push(plan);
+      }
+      else if (plan.level == 2) {
+        this.importants.push(plan);
+      }
+      else if (plan.level == 1) {
+        this.attentions.push(plan);
+      }
+      else if (plan.level == 0) {
+        this.normals.push(plan);
       }
     }
   }

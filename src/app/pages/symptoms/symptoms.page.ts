@@ -118,11 +118,6 @@ export class SymptomsPage implements OnInit {
       this.symptomForm.value.bloodSugarAction = "Maintain your regular healthy living habits"
     }
     console.log("Temperature: ", this.symptomForm.value.temperature);
-    console.log("Temperature level: ", this.symptomForm.value.temperatureLevel);
-    console.log("Blood sugar: ", this.symptomForm.value.bloodSugar)
-    console.log("blood sugar level: ", this.symptomForm.value.bloodSugarLevel)
-    console.log("description temp: ", this.symptomForm.value.temperatureDescription)
-
     // Add the symptoms to storage
     this.savePlan()
       .then(_ => {
@@ -148,7 +143,7 @@ export class SymptomsPage implements OnInit {
 
     // Push all symptoms model objects into the plan array 
     this.plan.push(this.temperature, this.bloodSugar);
-
+    console.log("Plan before adding to storage: ", this.plan)
     // Add the plan array to storage
     return this.symptomsService.addPlans(this.plan);
 
