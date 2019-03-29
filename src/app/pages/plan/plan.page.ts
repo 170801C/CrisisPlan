@@ -22,6 +22,10 @@ export class PlanPage implements OnInit {
     // When the platform is ready, load all the plans from storage
     this.platform.ready()
       .then(() => {
+        this.criticals = [];
+        this.importants = [];
+        this.attentions = [];
+        this.normals = [];
         this.criticals.length = 0;
         this.importants.length = 0;
         this.attentions.length = 0;
@@ -33,6 +37,10 @@ export class PlanPage implements OnInit {
 
   ionViewWillEnter() {
     // Empty the arrays
+    this.criticals = [];
+    this.importants = [];
+    this.attentions = [];
+    this.normals = [];
     this.criticals.length = 0;
     this.importants.length = 0;
     this.attentions.length = 0;
