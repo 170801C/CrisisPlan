@@ -22,37 +22,33 @@ export class PlanPage implements OnInit {
     // When the platform is ready, load all the plans from storage
     this.platform.ready()
       .then(() => {
-        this.criticals = [];
-        this.importants = [];
-        this.attentions = [];
-        this.normals = [];
-        this.criticals.length = 0;
-        this.importants.length = 0;
-        this.attentions.length = 0;
-        this.normals.length = 0;
-        console.log("on change? criticals arr: ", this.criticals);
+        this.emptyArrays();
+        console.log("ngOnInit Check criticals array: ", this.criticals);
+      })
+      .then(() => {
         this.loadPlans();
       })
   }
 
+  // Triggered whenever the ion page is displayed
   ionViewWillEnter() {
     // Empty the arrays
-    this.criticals = [];
-    this.importants = [];
-    this.attentions = [];
-    this.normals = [];
-    this.criticals.length = 0;
-    this.importants.length = 0;
-    this.attentions.length = 0;
-    this.normals.length = 0;
-    console.log("ioionViewWillEnter. Check criticals array: ", this.criticals);
-
-    // Get the plans array, sort them, to be displayed
-    this.loadPlans();
+    this.emptyArrays()
+      .then(() => {
+        console.log("ionViewWillEnter Check criticals array: ", this.criticals);
+      })
+      .then(() => {
+        this.loadPlans();
+      })
   }
 
-  // Try another lifecycle hook to get latest data from storage after submitting form
-  ionViewDidEnter() {
+  emptyArrays() {
+    this.criticals = []
+    return Promise.resolve(this.criticals);
+    //  this.criticals = [].toPromise()
+    //   this.importants = [],
+    //   this.attentions = [],
+    //   this.normals = [])
   }
 
   // Sort the plans array into their level categories 
