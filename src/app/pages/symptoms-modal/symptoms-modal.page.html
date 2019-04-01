@@ -11,20 +11,21 @@
     <p>Enter your symptom:</p>
 
     <ion-item>
-      <ion-label>Type</ion-label>
+      <ion-label position="stacked">Type</ion-label>
       <ion-select formControlName="type" okText="Ok">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
       </ion-select>
     </ion-item>
-    
+
     <ion-item>
       <ion-label position="stacked">Level</ion-label>
       <ion-row class="color-row">
-        <ion-col size="3" class="color-col" *ngFor="let color of colors" [style.background]="color"
-          [class.selected]="color == memoryForm.get('color').value" tappable (click)="setColor(color)">
-        </ion-col>
+          <ion-col size="3" class="color-col" *ngFor="let color_level of color_levels | keyvalue"
+            [style.background]="color_level.value" [class.selected]="color_level.value == inputForm.get('color').value" tappable (click)="setColorAndLevel(color_level.value)">
+            {{ color_level.key }}
+          </ion-col>
       </ion-row>
     </ion-item>
 
@@ -39,7 +40,7 @@
     </ion-item>
 
     <!-- Submit form button -->
-    <ion-button expand="full" type="submit">
+    <ion-button expand="full" type="submit" [disabled]="!inputForm.valid">
       <ion-icon name="checkmark" slot="start"></ion-icon>
       Add input
     </ion-button>

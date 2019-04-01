@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-const PLANS_KEY = "myPlans";
+const PLAN_KEY = "myPlan";
 const SYMPTOMS_KEY = "mySymptoms"
 
 @Injectable({
@@ -9,46 +9,33 @@ const SYMPTOMS_KEY = "mySymptoms"
 })
 export class SymptomsService {
 
+  // symptomsArray = [];
+
   constructor(private storage: Storage) { }
 
   addSymptom(mySymptom) {
-    return this.storage.get(SYMPTOMS_KEY).then(symptoms => {
+    return this.storage.get(PLAN_KEY).then(symptoms => {
+      // If no value in key, create new with mySymptom
       if (!symptoms) {
-        return this.storage.set(SYMPTOMS_KEY, mySymptom);
+        console.log("No existing symptoms")
+        return this.storage.set(PLAN_KEY, [mySymptom]);
       }
       else {
+        // if there is existing value in key, push new mySymptom to symptoms array
+        console.log("Existing symptoms: ", symptoms)
+        console.log("mySymptom: ", mySymptom)
+
+        // this.symptomsArray = symptomsArray.push()
         symptoms.push(mySymptom);
-        return this.storage.set(SYMPTOMS_KEY, symptoms);
+
+        return this.storage.set(PLAN_KEY, symptoms);
       }
     })
   }
 
-  addPlans(myPlan) {
-    // Ionic storage uses, in this case, SQLite.
-    return this.storage.set(PLANS_KEY, myPlan);
-
-    // return this.storage.get(PLANS_KEY)
-    //   .then(result => {
-    //     // If there is no value for this key, create a new plans array with the new myPlans inserted 
-    //     if (!result) {
-    //       console.log("No result in storage: ")
-    //       return this.storage.set(PLANS_KEY, myPlan);
-    //     }
-    //     else {
-    //       // Push the new myPlans into the existing plans array
-    //       // result.push(myPlan);
-    //       // return this.storage.set(PLANS_KEY, result);
-    //       console.log("Result in storage before setting: ", result)
-    //       return this.storage.set(PLANS_KEY, myPlan);
-    //     }
-    //   })
-  }
-
-  getAllPlans() {
-    // this.deletePlans();
-
-    return this.storage.get(PLANS_KEY).then(result => {
-      // If there is no plans array value in storage, return an empty array.  
+  getPlan() {
+    return this.storage.get(PLAN_KEY).then(result => {
+      // If no value in key, return an empty array.  
       if (!result) {
         return [];
       }
@@ -60,7 +47,7 @@ export class SymptomsService {
   }
 
   // Delete all value for the key
-  deletePlans() {
+  deletePlan() {
     // this.storage.remove(PLANS_KEY);
     this.storage.clear();
   }

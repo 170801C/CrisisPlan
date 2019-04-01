@@ -14,7 +14,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.module';
 
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -24,6 +23,6 @@ import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.m
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

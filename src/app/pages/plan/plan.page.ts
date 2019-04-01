@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
+import { ModalController } from '@ionic/angular';
+import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 
 @Component({
   selector: 'app-plan',
@@ -9,80 +11,90 @@ import { SymptomsService } from '../../services/symptoms.service';
 })
 export class PlanPage implements OnInit {
 
-  // Decalre an array to hold all plans from storage, to be used in template
-  plans = [];
+  // Declare an array to hold all plans from storage, to be used in template
+  symptoms = [];
   criticals = [];
   importants = [];
   attentions = [];
   normals = [];
 
-  constructor(private platform: Platform, private symptomService: SymptomsService) { }
+  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController) { }
 
   ngOnInit() {
-    // When the platform is ready, load all the plans from storage
+    // this.symptomService.deletePlan();
+
     this.platform.ready()
       .then(() => {
-        this.emptyArrays();
-        console.log("ngOnInit Check criticals array: ", this.criticals);
-      })
-      .then(() => {
-        this.loadPlans();
+        this.loadPlan();
       })
   }
 
-  // Triggered whenever the ion page is displayed
-  ionViewWillEnter() {
-    // Empty the arrays
-    this.emptyArrays()
-      .then(() => {
-        console.log("ionViewWillEnter Check criticals array: ", this.criticals);
-      })
-      .then(() => {
-        this.loadPlans();
-      })
-  }
-
+  // Clear the colored arrays
   emptyArrays() {
-    this.criticals = [];
-    // this.importants = [];
-    // this.attentions = [];
-    // this.normals = [];
-
-    return Promise.resolve(this.criticals)
-      .then(() => {
-        this.importants = [];
-        this.attentions = [];
-        this.normals = [];
-      })
+    for (let item = 0; item < this.criticals.length; item++) {
+      this.criticals.pop();
+    }
+    for (let item = 0; item < this.importants.length; item++) {
+      this.importants.pop();
+    }
+    for (let item = 0; item < this.attentions.length; item++) {
+      this.attentions.pop();
+    }
+    for (let item = 0; item < this.normals.length; item++) {
+      this.normals.pop();
+    }
   }
 
   // Sort the plans array into their level categories 
-  sortInputs(plans) {
-    for (let plan of plans) {
-      if (plan.level == 3) {
-        this.criticals.push(plan);
+  sortInputs(symptoms) {
+    console.log("Sorting inputs: ", symptoms)
+    for (let symptom of symptoms) {
+      if (symptom.level == "critical") {
+        this.criticals.push(symptom);
       }
-      else if (plan.level == 2) {
-        this.importants.push(plan);
+      else if (symptom.level == "important") {
+        this.importants.push(symptom);
       }
-      else if (plan.level == 1) {
-        this.attentions.push(plan);
+      else if (symptom.level == "attention") {
+        this.attentions.push(symptom);
       }
-      else if (plan.level == 0) {
-        this.normals.push(plan);
+      else if (symptom.level == "normal") {
+        this.normals.push(symptom);
       }
     }
   }
 
-  loadPlans() {
-    this.symptomService.getAllPlans()
+  loadPlan() {
+    this.symptomService.getPlan()
       .then(result => {
-        this.plans = result;
-        this.sortInputs(this.plans);
+        console.log("getPlan() result: ", result)
+        this.symptoms = result;
+
+        this.emptyArrays();
+
+        this.sortInputs(this.symptoms);
+
         console.log('normal: ', this.normals);
         console.log('attention: ', this.attentions);
         console.log('important: ', this.importants);
         console.log('critical: ', this.criticals);
       })
+  }
+
+  // Create a modal to add a new symptom input
+  addInput() {
+    this.modalController.create({
+      component: SymptomsModalPage
+    }).then(modal => {
+      modal.present();
+
+      // Get the data passed when the modal is dismissed 
+      modal.onWillDismiss().then(data => {
+        if (data.data && data.data['reload']) {
+          console.log("Reload page");
+          this.loadPlan();
+        }
+      })
+    })
   }
 }
