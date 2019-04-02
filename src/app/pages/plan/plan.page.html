@@ -15,7 +15,7 @@
 
     <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'bloodSugar'">
       <ion-label>
-        Temperature: {{ critical.temperature }}
+        Temperature: {{ critical.value }} {{ critical.unit }}
         <br>
         Temperature Level: {{ critical.level }}
         <br>
@@ -25,7 +25,7 @@
 
     <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ critical.bloodSugar }}
+        Blood Sugar: {{ critical.value }} {{ critical.unit }}
         <br>
         Blood Sugar Level: {{ critical.level }}
         <br>
@@ -36,7 +36,7 @@
 
     <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'temperature'">
       <ion-label>
-        Blood Sugar: {{ critical.bloodSugar }}
+        Blood Sugar: {{ critical.value }} {{ critical.unit }}
         <br>
         Blood Sugar Level: {{ critical.level }}
         <br>
@@ -51,7 +51,7 @@
 
     <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'bloodSugar'">
       <ion-label>
-        Temperature: {{ important.temperature }}
+        Temperature: {{ important.value }} {{ important.unit }}
         <br>
         Temperature Level: {{ important.level }}
         <br>
@@ -61,7 +61,7 @@
 
     <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ important.bloodSugar }}
+        Blood Sugar: {{ important.value }} {{ important.unit }}
         <br>
         Blood Sugar Level: {{ important.level }}
         <br>
@@ -71,7 +71,7 @@
 
     <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'temperature'">
       <ion-label>
-        Temperature: {{ important.temperature }}
+        Temperature: {{ important.value }} {{ important.unit }}
         <br>
         Temperature Level: {{ important.level }}
         <br>
@@ -86,7 +86,7 @@
 
     <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'bloodSugar'">
       <ion-label>
-        Temperature: {{ attention.temperature }}
+        Temperature: {{ attention.value }} {{ attention.unit }}
         <br>
         Temperature Level: {{ attention.level }}
         <br>
@@ -96,7 +96,7 @@
 
     <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ attention.bloodSugar }}
+        Blood Sugar: {{ attention.value }} {{ attention.unit }}
         <br>
         Blood Sugar Level: {{ attention.level }}
         <br>
@@ -106,7 +106,7 @@
 
     <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'temperature'">
       <ion-label>
-        Blood Sugar: {{ attention.bloodSugar }}
+        Blood Sugar: {{ attention.value }} {{ attention.unit }}
         <br>
         Blood Sugar Level: {{ attention.level }}
         <br>
@@ -121,7 +121,7 @@
 
     <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'bloodSugar'">
       <ion-label>
-        Temperature: {{ normal.temperature }}
+        Temperature: {{ normal.value }} {{ normal.unit }}
         <br>
         Temperature Level: {{ normal.level }}
         <br>
@@ -131,7 +131,7 @@
 
     <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ normal.bloodSugar }}
+        Blood Sugar: {{ normal.value }} {{ normal.unit }}
         <br>
         Blood Sugar Level: {{ normal.level }}
         <br>
@@ -141,7 +141,7 @@
 
     <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'temperature'">
       <ion-label>
-        Blood Sugar: {{ normal.bloodSugar }}
+        Blood Sugar: {{ normal.value }} {{ normal.unit }}
         <br>
         Blood Sugar Level: {{ normal.level }}
         <br>

@@ -13,7 +13,6 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.module';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

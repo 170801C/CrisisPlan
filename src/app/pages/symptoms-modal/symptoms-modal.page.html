@@ -12,20 +12,36 @@
 
     <ion-item>
       <ion-label position="stacked">Type</ion-label>
-      <ion-select formControlName="type" okText="Ok">
+      <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnit()">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
       </ion-select>
     </ion-item>
 
+    <div class="type"
+      *ngIf="!inputForm.controls.type.valid && (inputForm.controls.type.dirty || inputForm.controls.action.touched)">
+      Type already exists. Please edit existing type instead.
+    </div>
+
+    <ion-item>  
+      <ion-label position="stacked">Value</ion-label>
+      <ion-input formControlName="value" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Unit</ion-label>
+      <ion-input formControlName="unit" [(value)]="inputForm.value.unit"></ion-input>
+    </ion-item>
+
     <ion-item>
       <ion-label position="stacked">Level</ion-label>
       <ion-row class="color-row">
-          <ion-col size="3" class="color-col" *ngFor="let color_level of color_levels | keyvalue"
-            [style.background]="color_level.value" [class.selected]="color_level.value == inputForm.get('color').value" tappable (click)="setColorAndLevel(color_level.value)">
-            {{ color_level.key }}
-          </ion-col>
+        <ion-col size="3" class="color-col" *ngFor="let color_level of color_levels | keyvalue"
+          [style.background]="color_level.value" [class.selected]="color_level.value == inputForm.get('color').value"
+          tappable (click)="setColorAndLevel(color_level.value)">
+          {{ color_level.key }}
+        </ion-col>
       </ion-row>
     </ion-item>
 
@@ -38,6 +54,11 @@
       <ion-label position="stacked">Action</ion-label>
       <ion-input formControlName="action"></ion-input>
     </ion-item>
+
+    <div
+      *ngIf="!inputForm.controls.action.valid && (inputForm.controls.action.dirty || inputForm.controls.action.touched)">
+      Action required
+    </div>
 
     <!-- Submit form button -->
     <ion-button expand="full" type="submit" [disabled]="!inputForm.valid">

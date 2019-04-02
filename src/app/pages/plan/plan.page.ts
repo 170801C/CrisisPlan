@@ -84,8 +84,9 @@ export class PlanPage implements OnInit {
   // Create a modal to add a new symptom input
   addInput() {
     this.modalController.create({
-      component: SymptomsModalPage
-    }).then(modal => {
+      component: SymptomsModalPage,
+      componentProps: {symptoms: this.symptoms} 
+    }).then(modal => {  
       modal.present();
 
       // Get the data passed when the modal is dismissed 
