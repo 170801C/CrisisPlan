@@ -19,20 +19,37 @@
       </ion-select>
     </ion-item>
 
-    <div class="type"
-      *ngIf="!inputForm.controls.type.valid && (inputForm.controls.type.dirty || inputForm.controls.action.touched)">
-      Type already exists. Please edit existing type instead.
+    <div *ngIf="type.invalid && (type.dirty || type.touched)" class="error">
+      <div *ngIf="type.errors.required">
+        Type is required
+      </div>
+
+      <div *ngIf="type.errors.existingType">
+        Type already exist. Please edit existing type instead.
+      </div>
     </div>
 
-    <ion-item>  
+    <ion-item>
       <ion-label position="stacked">Value</ion-label>
       <ion-input formControlName="value" type="number"></ion-input>
     </ion-item>
+
+    <div *ngIf="value.invalid && (value.dirty || value.touched)" class="error">
+      <div *ngIf="value.errors.required">
+        Value is required
+      </div>
+    </div>
 
     <ion-item>
       <ion-label position="stacked">Unit</ion-label>
       <ion-input formControlName="unit" [(value)]="inputForm.value.unit"></ion-input>
     </ion-item>
+
+    <div *ngIf="unit.invalid && (unit.dirty || unit.touched)" class="error">
+      <div *ngIf="unit.errors.required">
+        Unit is required
+      </div>
+    </div>
 
     <ion-item>
       <ion-label position="stacked">Level</ion-label>
@@ -55,9 +72,10 @@
       <ion-input formControlName="action"></ion-input>
     </ion-item>
 
-    <div
-      *ngIf="!inputForm.controls.action.valid && (inputForm.controls.action.dirty || inputForm.controls.action.touched)">
-      Action required
+    <div *ngIf="action.invalid && (action.dirty || action.touched)" class="error">
+      <div *ngIf="action.errors.required">
+        Action is required
+      </div>
     </div>
 
     <!-- Submit form button -->

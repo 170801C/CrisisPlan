@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { symptomModel } from '../../models/symptomModel'
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController, NavParams } from '@ionic/angular';
@@ -31,22 +31,31 @@ export class SymptomsModalPage implements OnInit {
     action: null,
     color: null
   };
-  symtomsStorage = this.navParams.get('symptoms');
+  symptomsStorage = this.navParams.get('symptoms');
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController, private navParams: NavParams) { }
 
   ngOnInit() {
     this.inputForm = this.formBuilder.group({
-      id: null,
+      id: [null],
       value: [null, Validators.required],
       unit: [null, Validators.required],
-      type: [null, this.checkForSameType(this.symtomsStorage)],
+      type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
       level: [null],
       description: [null],
       action: [null, Validators.required],
       color: [null],
     })
   }
+
+  // Getters for form validation
+  get action() { return this.inputForm.get('action'); }
+  get type() { return this.inputForm.get('type'); }
+  get value() { return this.inputForm.get('value'); }
+  get unit() { return this.inputForm.get('unit'); }
+
+  // Remove this aft test
+  get description() { return this.inputForm.get('description'); }
 
   // Set the color property of inputForm 
   setColorAndLevel(color) {
@@ -68,10 +77,28 @@ export class SymptomsModalPage implements OnInit {
   }
 
   // Check if input type exists. If yes, invalidate the form as user is to edit existing input instead. Param: formControlName="type" 
-  checkForSameType(symptomsStorage) {
-    return (typeFormControl: AbstractControl) => {
-      for (let symptom in symptomsStorage) {
-        if (symptomsStorage[symptom]['type'] == typeFormControl.value) {
+  // checkForSameType(symptomsStorage) {
+  //   return (typeFormControl: AbstractControl) => {
+  //     for (let symptom in symptomsStorage) {
+  //       if (symptomsStorage[symptom]['type'] == typeFormControl.value) {
+  //         return { 'existingType': true }
+  //       }
+  //     }
+
+  //     // Validation passed
+  //     return null;
+  //   }
+  // }
+
+  checkForSameType(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      console.log("Checking...")
+      for (let symptom in this.symptomsStorage) {
+        console.log("symptomSyorate?: ", this.symptomsStorage[symptom]['type'])
+        console.log("typeFormControl.value before: ", control.value)
+
+        if (this.symptomsStorage[symptom]['type'] == control.value) {
+          console.log("typeFormControl.value exissts: ", control.value)
           return { 'existingType': true }
         }
       }
@@ -82,15 +109,6 @@ export class SymptomsModalPage implements OnInit {
   }
 
   setUnit() {
-    // if (type == "bloodSugar") {
-    //   this.inputForm.value.unit = "mmol/L";
-    // }
-    // else if (type == "bloodPresure") {
-    //   this.inputForm.value.unit = "mmHg";
-    // }
-    // else if (type == "temperature") {
-    //   this.inputForm.value.unit = "degreeCelcius";
-    // }
     console.log("setUnit() called")
     console.log("setUnit() type: ", this.inputForm.value.type)
     if (this.inputForm.value.type == "bloodSugar") {
@@ -103,16 +121,15 @@ export class SymptomsModalPage implements OnInit {
       this.inputForm.value.unit = "degreeCelcius";
     }
 
-    console.log( this.inputForm.value.unit)
+    console.log(this.inputForm.value.unit)
   }
 
   saveInput() {
     // Assign the form values to the symptom model object
     this.symptom.id = this.inputForm.value.id;
-    // this.symptom.value = this.inputForm.value.value;
-    // this.symptom.unit = this.inputForm.value.unit;
+    this.symptom.value = this.inputForm.value.value;
+    this.symptom.unit = this.inputForm.value.unit;
     this.symptom.type = this.inputForm.value.type;
-    this.symptom.level = this.inputForm.value.level;
     this.symptom.description = this.inputForm.value.description;
     this.symptom.action = this.inputForm.value.action;
     this.symptom.color = this.inputForm.value.color;

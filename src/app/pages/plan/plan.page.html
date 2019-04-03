@@ -13,7 +13,7 @@
   <!-- Critical list -->
   <ion-list *ngFor="let critical of criticals">
 
-    <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'bloodSugar'">
+    <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'temperature'">
       <ion-label>
         Temperature: {{ critical.value }} {{ critical.unit }}
         <br>
@@ -25,16 +25,16 @@
 
     <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ critical.value }} {{ critical.unit }}
+        Blood Pressure: {{ critical.value }} {{ critical.unit }}
         <br>
-        Blood Sugar Level: {{ critical.level }}
+        Blood Pressure Level: {{ critical.level }}
         <br>
         Action: {{ critical.action }}
       </ion-label>
     </ion-item>
 
 
-    <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'temperature'">
+    <ion-item class="critical" color="primary-contrast" *ngIf="critical['type'] == 'bloodSugar'">
       <ion-label>
         Blood Sugar: {{ critical.value }} {{ critical.unit }}
         <br>
@@ -49,7 +49,7 @@
   <!-- Important list -->
   <ion-list *ngFor="let important of importants">
 
-    <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'bloodSugar'">
+    <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'temperature'">
       <ion-label>
         Temperature: {{ important.value }} {{ important.unit }}
         <br>
@@ -61,19 +61,19 @@
 
     <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ important.value }} {{ important.unit }}
+        Blood Pressure: {{ important.value }} {{ important.unit }}
         <br>
-        Blood Sugar Level: {{ important.level }}
+        Blood Pressure Level: {{ important.level }}
         <br>
         Action: {{ important.action }}
       </ion-label>
     </ion-item>
 
-    <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'temperature'">
+    <ion-item class="important" color="primary-contrast" *ngIf="important['type'] == 'bloodSugar'">
       <ion-label>
-        Temperature: {{ important.value }} {{ important.unit }}
+        Blood Sugar: {{ important.value }} {{ important.unit }}
         <br>
-        Temperature Level: {{ important.level }}
+        Blood Sugar Level: {{ important.level }}
         <br>
         Action: {{ important.action }}
       </ion-label>
@@ -84,7 +84,7 @@
   <!-- Attention list -->
   <ion-list *ngFor="let attention of attentions">
 
-    <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'bloodSugar'">
+    <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'temperature'">
       <ion-label>
         Temperature: {{ attention.value }} {{ attention.unit }}
         <br>
@@ -96,15 +96,15 @@
 
     <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ attention.value }} {{ attention.unit }}
+        Blood Pressure: {{ attention.value }} {{ attention.unit }}
         <br>
-        Blood Sugar Level: {{ attention.level }}
+        Blood Pressure Level: {{ attention.level }}
         <br>
         Action: {{ attention.action }}
       </ion-label>
     </ion-item>
 
-    <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'temperature'">
+    <ion-item class="attention" color="primary-contrast" *ngIf="attention['type'] == 'bloodSugar'">
       <ion-label>
         Blood Sugar: {{ attention.value }} {{ attention.unit }}
         <br>
@@ -119,7 +119,7 @@
   <!-- Normal list -->
   <ion-list *ngFor="let normal of normals">
 
-    <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'bloodSugar'">
+    <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'temperature'">
       <ion-label>
         Temperature: {{ normal.value }} {{ normal.unit }}
         <br>
@@ -131,15 +131,15 @@
 
     <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'bloodPressure'">
       <ion-label>
-        Blood Sugar: {{ normal.value }} {{ normal.unit }}
+        Blood Pressure: {{ normal.value }} {{ normal.unit }}
         <br>
-        Blood Sugar Level: {{ normal.level }}
+        Blood Pressure Level: {{ normal.level }}
         <br>
         Action: {{ normal.action }}
       </ion-label>
     </ion-item>
 
-    <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'temperature'">
+    <ion-item class="normal" color="primary-contrast" *ngIf="normal['type'] == 'bloodSugar'">
       <ion-label>
         Blood Sugar: {{ normal.value }} {{ normal.unit }}
         <br>

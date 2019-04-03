@@ -21,7 +21,7 @@ export class PlanPage implements OnInit {
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController) { }
 
   ngOnInit() {
-    // this.symptomService.deletePlan();
+    this.symptomService.deletePlan();
 
     this.platform.ready()
       .then(() => {

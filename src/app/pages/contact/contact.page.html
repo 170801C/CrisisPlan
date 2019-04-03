@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start">PDF</ion-button>
+    <ion-title>contact</ion-title>
+    <ion-button routerLink="/critical" slot="end">Next</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="inputForm" (ngSubmit)="saveContact()">
+
+    <ion-item>
+      <ion-label position="stacked">TCS Name</ion-label>
+      <ion-input formControlName="value" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">TCS Contact No.</ion-label>
+      <ion-input formControlName="value" type="number"></ion-input>
+    </ion-item>
+
+  </form>
+
+</ion-content>

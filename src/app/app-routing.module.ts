@@ -8,6 +8,10 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'symptoms', loadChildren: './pages/symptoms/symptoms.module#SymptomsPageModule' },
   { path: 'symptoms-modal', loadChildren: './pages/symptoms-modal/symptoms-modal.module#SymptomsModalPageModule' },
+  { path: 'critical', loadChildren: './pages/critical/critical.module#CriticalPageModule' },
+  { path: 'contact', loadChildren: './pages/contact/contact.module#ContactPageModule' },
+  { path: 'important', loadChildren: './pages/important/important.module#ImportantPageModule' },
+  { path: 'normal', loadChildren: './pages/normal/normal.module#NormalPageModule' },
 ];
 @NgModule({
   imports: [
