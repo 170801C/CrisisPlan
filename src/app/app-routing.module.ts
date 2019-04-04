@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'contact', loadChildren: './pages/contact/contact.module#ContactPageModule' },
   { path: 'important', loadChildren: './pages/important/important.module#ImportantPageModule' },
   { path: 'normal', loadChildren: './pages/normal/normal.module#NormalPageModule' },
+  { path: 'attention', loadChildren: './pages/attention/attention.module#AttentionPageModule' },
 ];
 @NgModule({
   imports: [

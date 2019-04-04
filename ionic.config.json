@@ -1,5 +1,7 @@
 {
   "name": "CrisisPlan",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

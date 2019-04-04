@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 const PLAN_KEY = "myPlan";
-const SYMPTOMS_KEY = "mySymptoms"
 
 @Injectable({
   providedIn: 'root'
 })
 export class SymptomsService {
-
-  // symptomsArray = [];
 
   constructor(private storage: Storage) { }
 
@@ -25,7 +22,6 @@ export class SymptomsService {
         console.log("Existing symptoms: ", symptoms)
         console.log("mySymptom: ", mySymptom)
 
-        // this.symptomsArray = symptomsArray.push()
         symptoms.push(mySymptom);
 
         return this.storage.set(PLAN_KEY, symptoms);
@@ -48,7 +44,11 @@ export class SymptomsService {
 
   // Delete all value for the key
   deletePlan() {
-    // this.storage.remove(PLANS_KEY);
+    this.storage.remove(PLAN_KEY);
+  }
+
+  // Delete everything in storage
+  deleteAll() {
     this.storage.clear();
   }
 

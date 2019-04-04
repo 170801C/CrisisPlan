@@ -23,6 +23,7 @@ export class SymptomsModalPage implements OnInit {
   };
   symptom: symptomModel = {
     id: null,
+    icon: null,
     value: null,
     unit: null,
     type: null,
@@ -38,6 +39,7 @@ export class SymptomsModalPage implements OnInit {
   ngOnInit() {
     this.inputForm = this.formBuilder.group({
       id: [null],
+      icon: [null],
       value: [null, Validators.required],
       unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
@@ -53,9 +55,6 @@ export class SymptomsModalPage implements OnInit {
   get type() { return this.inputForm.get('type'); }
   get value() { return this.inputForm.get('value'); }
   get unit() { return this.inputForm.get('unit'); }
-
-  // Remove this aft test
-  get description() { return this.inputForm.get('description'); }
 
   // Set the color property of inputForm 
   setColorAndLevel(color) {
@@ -76,20 +75,7 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  // Check if input type exists. If yes, invalidate the form as user is to edit existing input instead. Param: formControlName="type" 
-  // checkForSameType(symptomsStorage) {
-  //   return (typeFormControl: AbstractControl) => {
-  //     for (let symptom in symptomsStorage) {
-  //       if (symptomsStorage[symptom]['type'] == typeFormControl.value) {
-  //         return { 'existingType': true }
-  //       }
-  //     }
-
-  //     // Validation passed
-  //     return null;
-  //   }
-  // }
-
+  // Custom validation: Check if type already exist, invalidate if it exist
   checkForSameType(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       console.log("Checking...")
@@ -108,17 +94,20 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  setUnit() {
+  setUnitAndIcon() {
     console.log("setUnit() called")
     console.log("setUnit() type: ", this.inputForm.value.type)
     if (this.inputForm.value.type == "bloodSugar") {
       this.inputForm.value.unit = "mmol/L";
+      this.inputForm.value.icon = "thermometer";
     }
     else if (this.inputForm.value.type == "bloodPressure") {
       this.inputForm.value.unit = "mmHg";
+      // this.inputForm.value.icon = "";
     }
     else if (this.inputForm.value.type == "temperature") {
       this.inputForm.value.unit = "degreeCelcius";
+      // this.inputForm.value.icon = "";
     }
 
     console.log(this.inputForm.value.unit)
@@ -134,6 +123,7 @@ export class SymptomsModalPage implements OnInit {
     this.symptom.action = this.inputForm.value.action;
     this.symptom.color = this.inputForm.value.color;
     this.symptom.level = this.inputForm.value.level;
+    this.symptom.icon = this.inputForm.value.icon;
 
     console.log("Symptom model object: ", this.symptom);
 

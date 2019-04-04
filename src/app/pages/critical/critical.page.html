@@ -1,9 +1,48 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button slot="start">PDF</ion-button>
     <ion-title>critical</ion-title>
+    <ion-button routerLink="/important" slot="end">Next</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
+  <ion-note color="primary">Step 2: Ctitical - Get Help Now</ion-note>
+  <ion-progress-bar value="0.5"></ion-progress-bar>
+
+  <p class="symptoms">Symptoms</p>
+  <hr>
+
+  <!-- Critical list -->
+  <ion-list>
+
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
+      <ion-label>
+        {{ critical.type }} ({{ critical.unit }})
+      </ion-label>
+
+      <div>{{ critical.value }}</div>
+      <div>{{ critical.description }}</div>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Add input button -->
+  <ion-fab horizontal="center" vertical="center">
+    <ion-fab-button class="ion-float-left" (click)="addInput()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <!-- Add spaces  -->
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <h2 class="ion-float-right">Add input</h2>
+  </ion-fab>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title id="action1">What to Do</ion-title>
+    <ion-title id="action2">Call 995</ion-title>
+  </ion-toolbar>
+</ion-footer>

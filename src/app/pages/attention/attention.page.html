@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start">PDF</ion-button>
+    <ion-title>attention</ion-title>
+    <ion-button routerLink="/plan" slot="end">Next</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-note color="primary">Step 3: Attention - See Family Doctor/Go Polyclinic</ion-note>
+  <ion-progress-bar value="0.75"></ion-progress-bar>
+
+  <p class="symptoms">Symptoms</p>
+  <hr>
+
+  <!-- Important list -->
+  <ion-list>
+
+    <ion-item *ngFor="let attention of attentions" color="primary-contrast">
+      <ion-label>
+        {{ attention.type }} ({{ attention.unit }})
+      </ion-label>
+
+      <div>{{ attention.value }}</div>
+      <div>{{ attention.description }}</div>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Add input button -->
+  <ion-fab horizontal="center" vertical="center">
+    <ion-fab-button class="ion-float-left" (click)="addInput()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <!-- Add spaces  -->
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <h2 class="ion-float-right">Add input</h2>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title id="action1">What to Do</ion-title>
+    <ion-title id="action2">See Family Doctor/Go Polyclinic</ion-title>
+  </ion-toolbar>
+</ion-footer>

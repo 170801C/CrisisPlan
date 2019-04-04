@@ -2,23 +2,39 @@
   <ion-toolbar>
     <ion-button slot="start">PDF</ion-button>
     <ion-title>contact</ion-title>
-    <ion-button routerLink="/critical" slot="end">Next</ion-button>
+    <ion-button routerLink="/critical" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
+      Next</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  
+  <ion-note color="primary">Step 1: Enter TCS Contact</ion-note>
+  <ion-progress-bar value="0.25"></ion-progress-bar>
 
-  <form [formGroup]="inputForm" (ngSubmit)="saveContact()">
+  <form (ngSubmit)="saveContact()" #contactForm="ngForm">
 
     <ion-item>
       <ion-label position="stacked">TCS Name</ion-label>
-      <ion-input formControlName="value" type="number"></ion-input>
+      <ion-input name="name" #name="ngModel" [(ngModel)]="contact.name" required></ion-input>
     </ion-item>
+
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
+      <div *ngIf="name.errors.required">
+        Name is required
+      </div>
+    </div>
 
     <ion-item>
       <ion-label position="stacked">TCS Contact No.</ion-label>
-      <ion-input formControlName="value" type="number"></ion-input>
+      <ion-input name="number" #number="ngModel" [(ngModel)]="contact.number" type="number" required></ion-input>
     </ion-item>
+
+    <div *ngIf="number.invalid && (number.dirty || number.touched)" class="error">
+      <div *ngIf="number.errors.required">
+        Number is required
+      </div>
+    </div>
 
   </form>
 
