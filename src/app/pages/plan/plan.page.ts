@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan',
@@ -17,8 +18,9 @@ export class PlanPage implements OnInit {
   importants = [];
   attentions = [];
   normals = [];
+  planExists = false;
 
-  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController) { }
+  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController, private router: Router) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -70,14 +72,21 @@ export class PlanPage implements OnInit {
         console.log("getPlan() result: ", result)
         this.symptoms = result;
 
+        // Check if there is an existing plan. If yes, set planExists to true, which hides Create Plan button and shows Edit Button
+        if (!(this.symptoms == [])) {
+          this.planExists = true;
+        }
+
         this.emptyArrays();
 
-        this.sortInputs(this.symptoms);
+        this.sortInputs(this.symptoms); 
 
         console.log('normal: ', this.normals);
         console.log('attention: ', this.attentions);
         console.log('important: ', this.importants);
         console.log('critical: ', this.criticals);
+
+
       })
   }
 
@@ -97,5 +106,9 @@ export class PlanPage implements OnInit {
         }
       })
     })
+  }
+
+  goToContact() {
+    this.router.navigateByUrl('/contact')
   }
 }
