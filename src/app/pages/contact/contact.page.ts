@@ -19,14 +19,22 @@ export class ContactPage implements OnInit {
   constructor(private formBuilder: FormBuilder, private contactService: ContactService) { }
 
   ngOnInit() {
+    this.contactService.getContact()
+      .then((result) => this.contact = result)
   }
 
-   // Getters for form validation
-   get name() { return this.contactForm.get('name'); }
-   get number() { return this.contactForm.get('number'); }
+  // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
+  ionViewWillEnter() {
+    this.contactService.getContact()
+      .then((result) => this.contact = result)
+  }
+
+  // Getters for form validation
+  get name() { return this.contactForm.get('name'); }
+  get number() { return this.contactForm.get('number'); }
 
   saveContact() {
     this.contactService.addContact(this.contact)
-      .then(() => {this.contactService.getContact();})  // Remove this 
+      .then(() => { this.contactService.getContact(); })  // Remove this 
   }
 }

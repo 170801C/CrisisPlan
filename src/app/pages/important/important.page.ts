@@ -20,6 +20,10 @@ export class ImportantPage implements OnInit {
     this.loadPlan();
   }
 
+  ionViewWillEnter() {
+    this.loadPlan();
+  }
+
   emptyArray() {
     for (let item = 0; item < this.importants.length; item++) {
       this.importants.pop();

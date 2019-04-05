@@ -19,6 +19,10 @@ export class AttentionPage implements OnInit {
   ngOnInit() {
     this.loadPlan();
   }
+  
+  ionViewWillEnter() {
+    this.loadPlan();
+  }
 
   emptyArray() {
     for (let item = 0; item < this.attentions.length; item++) {

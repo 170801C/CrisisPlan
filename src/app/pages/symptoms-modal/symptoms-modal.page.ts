@@ -38,7 +38,7 @@ export class SymptomsModalPage implements OnInit {
 
   ngOnInit() {
     this.inputForm = this.formBuilder.group({
-      id: [null],
+      id: Date.now(),
       icon: [null],
       value: [null, Validators.required],
       unit: [null, Validators.required],

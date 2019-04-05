@@ -31,6 +31,10 @@ export class PlanPage implements OnInit {
       })
   }
 
+  ionViewWillEnter() {
+    this.loadPlan();
+  }
+
   // Clear the colored arrays
   emptyArrays() {
     for (let item = 0; item < this.criticals.length; item++) {
@@ -79,14 +83,12 @@ export class PlanPage implements OnInit {
 
         this.emptyArrays();
 
-        this.sortInputs(this.symptoms); 
+        this.sortInputs(this.symptoms);
 
         console.log('normal: ', this.normals);
         console.log('attention: ', this.attentions);
         console.log('important: ', this.importants);
         console.log('critical: ', this.criticals);
-
-
       })
   }
 
@@ -94,8 +96,8 @@ export class PlanPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: {symptoms: this.symptoms} 
-    }).then(modal => {  
+      componentProps: { symptoms: this.symptoms }
+    }).then(modal => {
       modal.present();
 
       // Get the data passed when the modal is dismissed 

@@ -20,6 +20,10 @@ export class NormalPage implements OnInit {
   ngOnInit() {
     this.loadPlan();
   }
+  
+  ionViewWillEnter() {
+    this.loadPlan();
+  }
 
   emptyArray() {
     for (let item = 0; item < this.normals.length; item++) {

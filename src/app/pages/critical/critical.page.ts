@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-critical',
@@ -14,9 +15,13 @@ export class CriticalPage implements OnInit {
   symptoms = [];
   criticals = [];
 
-  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService) { }
+  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService, private router: Router) { }
 
   ngOnInit() {
+    this.loadPlan();
+  }
+
+  ionViewWillEnter() {
     this.loadPlan();
   }
 
@@ -65,5 +70,26 @@ export class CriticalPage implements OnInit {
         }
       })
     })
+  }
+
+  // openInput(id) {
+  //   this.modalController.create({
+  //     component: SymptomsModalPage,
+  //     componentProps: { symptoms: this.symptoms, mySymptom:  }
+  //   }).then(modal => {
+  //     modal.present();
+
+  //     // Get the data passed when the modal is dismissed 
+  //     modal.onWillDismiss().then(data => {
+  //       if (data.data && data.data['reload']) {
+  //         console.log("Reload critical page");
+  //         this.loadPlan();
+  //       }
+  //     })
+  //   })
+  // }
+
+  openInput(id) {
+    this.router.navigateByUrl(`/critical/${id}`);
   }
 }

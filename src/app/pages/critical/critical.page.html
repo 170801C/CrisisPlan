@@ -17,7 +17,7 @@
   <!-- Critical list -->
   <ion-list>
 
-    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)">
       <ion-label>
         {{ critical.type }} ({{ critical.unit }})
       </ion-label>
