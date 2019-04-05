@@ -58,8 +58,8 @@ export class CriticalPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms }
-    }).then(modal => {
+      componentProps: { symptoms: this.symptoms }    
+    }).then(modal => {  
       modal.present();
 
       // Get the data passed when the modal is dismissed 
@@ -72,24 +72,20 @@ export class CriticalPage implements OnInit {
     })
   }
 
-  // openInput(id) {
-  //   this.modalController.create({
-  //     component: SymptomsModalPage,
-  //     componentProps: { symptoms: this.symptoms, mySymptom:  }
-  //   }).then(modal => {
-  //     modal.present();
-
-  //     // Get the data passed when the modal is dismissed 
-  //     modal.onWillDismiss().then(data => {
-  //       if (data.data && data.data['reload']) {
-  //         console.log("Reload critical page");
-  //         this.loadPlan();
-  //       }
-  //     })
-  //   })
-  // }
-
   openInput(id) {
-    this.router.navigateByUrl(`/critical/${id}`);
+    this.modalController.create({
+      component: SymptomsModalPage,
+      componentProps: { symptoms: this.symptoms, id: id}
+    }).then(modal => {
+      modal.present();
+
+      // Get the data passed when the modal is dismissed 
+      modal.onWillDismiss().then(data => {
+        if (data.data && data.data['reload']) {
+          console.log("Reload critical page");
+          this.loadPlan();
+        }
+      })
+    })
   }
 }

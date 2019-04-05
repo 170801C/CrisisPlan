@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, Valid
 import { symptomModel } from '../../models/symptomModel'
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController, NavParams } from '@ionic/angular';
-import { controlNameBinding } from '@angular/forms/src/directives/reactive_directives/form_control_name';
 
 
 @Component({
@@ -33,8 +32,10 @@ export class SymptomsModalPage implements OnInit {
     color: null
   };
   symptomsStorage = this.navParams.get('symptoms');
+  id = null;
 
-  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController, private navParams: NavParams) { }
+  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController, 
+    private navParams: NavParams) { }
 
   ngOnInit() {
     this.inputForm = this.formBuilder.group({
@@ -48,6 +49,20 @@ export class SymptomsModalPage implements OnInit {
       action: [null, Validators.required],
       color: [null],
     })
+
+    if (this.navParams.get('id') != null) {
+
+      this.id = this.navParams.get('id')
+      console.log("Symptom id exists: ", this.id)
+
+      // If an existing symptom is tapped, open up its form with its value for editing/deleting
+      this.symptomsService.getSymptomById(this.id)
+        .then((symptom) => {
+          console.log("Symptom get by id: ", symptom)
+
+          this.inputForm.value.unit = symptom.unit;
+        })
+    }
   }
 
   // Getters for form validation
@@ -126,6 +141,9 @@ export class SymptomsModalPage implements OnInit {
     this.symptom.icon = this.inputForm.value.icon;
 
     console.log("Symptom model object: ", this.symptom);
+
+
+    // If else here to update
 
     // Add the symptom to Ionic storage
     this.symptomsService.addSymptom(this.symptom)

@@ -29,6 +29,13 @@ export class SymptomsService {
     })
   }
 
+  getSymptomById(id) {
+    return this.storage.get(PLAN_KEY).then(result => {
+      console.log("SS")
+      return result.filter(item => item.id == id)
+    })
+  }
+
   getPlan() {
     return this.storage.get(PLAN_KEY).then(result => {
       // If no value in key, return an empty array.  
