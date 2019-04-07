@@ -26,9 +26,7 @@ export class CriticalPage implements OnInit {
   }
 
   emptyArray() {
-    for (let item = 0; item < this.criticals.length; item++) {
-      this.criticals.pop();
-    }
+    this.criticals.length = 0;
   }
 
   sortInputs(symptoms) {
@@ -47,6 +45,7 @@ export class CriticalPage implements OnInit {
         this.symptoms = result;
 
         this.emptyArray();
+        console.log('critical array bef sort: ', this.criticals);
 
         this.sortInputs(this.symptoms);
 

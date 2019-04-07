@@ -20,22 +20,20 @@ export class NormalPage implements OnInit {
   ngOnInit() {
     this.loadPlan();
   }
-  
+
   ionViewWillEnter() {
     this.loadPlan();
   }
 
   emptyArray() {
-    for (let item = 0; item < this.normals.length; item++) {
-      this.normals.pop();
-    }
+    this.normals.length = 0;
   }
 
   sortInputs(symptoms) {
     console.log("Sorting inputs: ", symptoms)
     for (let symptom of symptoms) {
       if (symptom.level == "normal") {
-        this.normals.push(symptom); 
+        this.normals.push(symptom);
       }
     }
   }
@@ -58,7 +56,24 @@ export class NormalPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms }
+      componentProps: { symptoms: this.symptoms, level: "normal" }
+    }).then(modal => {
+      modal.present();
+
+      // Get the data passed when the modal is dismissed 
+      modal.onWillDismiss().then(data => {
+        if (data.data && data.data['reload']) {
+          console.log("Reload normal page");
+          this.loadPlan();
+        }
+      })
+    })
+  }
+
+  openInput(id) {
+    this.modalController.create({
+      component: SymptomsModalPage,
+      componentProps: { symptoms: this.symptoms, id: id }
     }).then(modal => {
       modal.present();
 

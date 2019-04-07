@@ -41,18 +41,23 @@ export class PlanPage implements OnInit {
 
   // Clear the colored arrays
   emptyArrays() {
-    for (let item = 0; item < this.criticals.length; item++) {
-      this.criticals.pop();
-    }
-    for (let item = 0; item < this.importants.length; item++) {
-      this.importants.pop();
-    }
-    for (let item = 0; item < this.attentions.length; item++) {
-      this.attentions.pop();
-    }
-    for (let item = 0; item < this.normals.length; item++) {
-      this.normals.pop();
-    }
+    this.criticals.length = 0;
+    this.importants.length = 0;
+    this.attentions.length = 0;
+    this.normals.length = 0;
+    // for (let item = 0; item < this.criticals.length; item++) {
+    //   this.criticals.pop();
+    //   console.log("popppping")
+    // }
+    // for (let item = 0; item < this.importants.length; item++) {
+    //   this.importants.pop();
+    // }
+    // for (let item = 0; item < this.attentions.length; item++) {
+    //   this.attentions.pop();
+    // }
+    // for (let item = 0; item < this.normals.length; item++) {
+    //   this.normals.pop();
+    // }
   }
 
   // Sort the plans array into their level categories 
@@ -94,6 +99,7 @@ export class PlanPage implements OnInit {
         }
 
         this.emptyArrays();
+        console.log("Whats in crit arr:", this.criticals);
 
         this.sortInputs(this.symptoms);
 
@@ -124,5 +130,28 @@ export class PlanPage implements OnInit {
 
   goToContact() {
     this.router.navigateByUrl('/contact')
+  }
+
+  openInput(id) {
+    this.modalController.create({
+      component: SymptomsModalPage,
+      componentProps: { symptoms: this.symptoms, id: id }
+    }).then(modal => {
+      modal.present();
+
+      // Get the data passed when the modal is dismissed 
+      modal.onWillDismiss().then(data => {
+        if (data.data && data.data['reload']) {
+          console.log("Reload normal page");
+          this.loadPlan();
+        }
+      })
+    })
+  }
+
+  addNewPlan() {
+    // Create alert to warn whether to discard plan
+    // Delete storage values 
+    // Go to contact page 
   }
 }

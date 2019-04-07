@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-no-padding">
 
   <ion-note color="primary">Step 2: Ctitical - Get Help Now</ion-note>
   <ion-progress-bar value="0.5"></ion-progress-bar>
@@ -15,28 +15,59 @@
   <hr>
 
   <!-- Critical list -->
-  <ion-list>
+  <ion-list class="ion-no-padding">
 
-    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)">
-      <ion-label>
-        {{ critical.type }} ({{ critical.unit }})
-      </ion-label>
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable
+      (click)="openInput(critical.id)">
 
-      <div>{{ critical.value }}</div>
-      <div>{{ critical.description }}</div>
+      <ion-grid>
+
+        <ion-row>
+          <ion-col>
+            {{ critical.type }}
+            <br>
+            {{ critical.value }} ({{ critical.unit }})
+          </ion-col>
+
+          <ion-col>
+            {{ critical.typeDescription }}
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="action">
+          <ion-col>
+            <ion-button color="danger">
+              {{ critical.action }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="actionDescription">
+          <ion-col>
+            {{ critical.actionDescription }}
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+      
     </ion-item>
 
   </ion-list>
 
   <!-- Add input button -->
-  <ion-fab horizontal="center" vertical="center">
-    <ion-fab-button class="ion-float-left" (click)="addInput()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <!-- Add spaces  -->
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <h2 class="ion-float-right">Add input</h2>
-  </ion-fab>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="auto" offset="4">
+        <ion-fab-button (click)="addInput()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-col>
+
+      <ion-col size="auto">
+        <h2>Add input</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 

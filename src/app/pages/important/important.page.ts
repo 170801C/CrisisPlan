@@ -25,9 +25,7 @@ export class ImportantPage implements OnInit {
   }
 
   emptyArray() {
-    for (let item = 0; item < this.importants.length; item++) {
-      this.importants.pop();
-    }
+    this.importants.length = 0;
   }
 
   sortInputs(symptoms) {
@@ -57,7 +55,24 @@ export class ImportantPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms }
+      componentProps: { symptoms: this.symptoms, level: "important" }
+    }).then(modal => {
+      modal.present();
+
+      // Get the data passed when the modal is dismissed 
+      modal.onWillDismiss().then(data => {
+        if (data.data && data.data['reload']) {
+          console.log("Reload important page");
+          this.loadPlan();
+        }
+      })
+    })
+  }
+
+  openInput(id) {
+    this.modalController.create({
+      component: SymptomsModalPage,
+      componentProps: { symptoms: this.symptoms, id: id }
     }).then(modal => {
       modal.present();
 
