@@ -10,15 +10,24 @@
 
     <p>Enter your symptom:</p>
 
+    <!-- Type input -->
     <ion-item>
       <ion-label position="stacked">Type</ion-label>
-      <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()">
+      <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()" [(value)]="inputForm.value.type">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
+        <!-- To rectify: Other text input -->
+        <ion-select-option value="other">
+          <div>
+            <ion-input type="textarea">Other</ion-input>
+          </div>
+        </ion-select-option>
+
       </ion-select>
     </ion-item>
 
+    <!-- Type validation -->
     <div *ngIf="type.invalid && (type.dirty || type.touched)" class="error">
       <div *ngIf="type.errors.required">
         Type is required
@@ -29,28 +38,33 @@
       </div>
     </div>
 
+    <!-- Value input -->
     <ion-item>
       <ion-label position="stacked">Value</ion-label>
-      <ion-input formControlName="value" type="number"></ion-input>
+      <ion-input formControlName="value" type="number" [(value)]="inputForm.value.value"></ion-input>
     </ion-item>
 
+    <!-- Value validation -->
     <div *ngIf="value.invalid && (value.dirty || value.touched)" class="error">
       <div *ngIf="value.errors.required">
         Value is required
       </div>
     </div>
 
+    <!-- Unit input -->
     <ion-item>
       <ion-label position="stacked">Unit</ion-label>
       <ion-input formControlName="unit" [(value)]="inputForm.value.unit"></ion-input>
     </ion-item>
 
+    <!-- Unit validation -->
     <div *ngIf="unit.invalid && (unit.dirty || unit.touched)" class="error">
       <div *ngIf="unit.errors.required">
         Unit is required
       </div>
     </div>
 
+    <!-- Level, Color input -->
     <ion-item>
       <ion-label position="stacked">Level</ion-label>
       <ion-row class="color-row">
@@ -62,16 +76,19 @@
       </ion-row>
     </ion-item>
 
+    <!-- Description input -->
     <ion-item>
       <ion-label position="stacked">Description</ion-label>
-      <ion-textarea formControlName="description" rows="6"></ion-textarea>
+      <ion-textarea formControlName="description" rows="6" [(value)]="inputForm.value.description"></ion-textarea>
     </ion-item>
 
+    <!-- Action input -->
     <ion-item>
       <ion-label position="stacked">Action</ion-label>
-      <ion-input formControlName="action"></ion-input>
+      <ion-input formControlName="action" [(value)]="inputForm.value.action"></ion-input>
     </ion-item>
 
+    <!-- Action validation -->
     <div *ngIf="action.invalid && (action.dirty || action.touched)" class="error">
       <div *ngIf="action.errors.required">
         Action is required

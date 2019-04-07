@@ -34,7 +34,7 @@ export class SymptomsModalPage implements OnInit {
   symptomsStorage = this.navParams.get('symptoms');
   id = null;
 
-  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController, 
+  constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
 
   ngOnInit() {
@@ -50,17 +50,27 @@ export class SymptomsModalPage implements OnInit {
       color: [null],
     })
 
+    // If existing input is tapped, retrieve its form values by id, to be displayed in modal and edited/deleted
     if (this.navParams.get('id') != null) {
 
       this.id = this.navParams.get('id')
       console.log("Symptom id exists: ", this.id)
 
-      // If an existing symptom is tapped, open up its form with its value for editing/deleting
       this.symptomsService.getSymptomById(this.id)
         .then((symptom) => {
-          console.log("Symptom get by id: ", symptom)
+          console.log("Symptom get by id: ", symptom[0])
 
-          this.inputForm.value.unit = symptom.unit;
+          this.inputForm.get('id').setValue(symptom[0].id);
+          this.inputForm.get('type').setValue(symptom[0].type);
+          this.inputForm.get('value').setValue(symptom[0].value);
+          this.inputForm.get('unit').setValue(symptom[0].unit);
+          this.inputForm.get('description').setValue(symptom[0].description);
+          this.inputForm.get('action').setValue(symptom[0].action);
+          this.inputForm.get('color').setValue(symptom[0].color);
+          this.inputForm.get('level').setValue(symptom[0].level);
+          this.inputForm.get('icon').setValue(symptom[0].icon);
+
+          console.log("Whats in id: ", this.inputForm.value.id)
         })
     }
   }
@@ -90,7 +100,7 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  // Custom validation: Check if type already exist, invalidate if it exist
+  // Custom validation: Check if type exists, invalidate if it exist
   checkForSameType(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       console.log("Checking...")
@@ -142,15 +152,23 @@ export class SymptomsModalPage implements OnInit {
 
     console.log("Symptom model object: ", this.symptom);
 
-
-    // If else here to update
-
-    // Add the symptom to Ionic storage
-    this.symptomsService.addSymptom(this.symptom)
-      .then(res => {
-        // Close the modal and return data --> reload key: true value  
-        this.modalController.dismiss({ reload: true });
-      })
+    // Update existing symptom & plan or add new symptom to plan
+    if (this.id != null) {
+      this.symptomsService.updateSymptom(this.symptom)
+        .then(res => {
+          console.log("Is storage updated: ", res)
+          // Close the modal and return data --> reload key: true value  
+          this.modalController.dismiss({ reload: true });
+        })
+    }
+    else {
+      // Add the symptom to Ionic storage
+      this.symptomsService.addSymptom(this.symptom)
+        .then(res => {
+          // Close the modal and return data --> reload key: true value  
+          this.modalController.dismiss({ reload: true });
+        })
+    }
   }
 }
 

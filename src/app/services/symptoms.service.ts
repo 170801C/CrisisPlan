@@ -31,8 +31,28 @@ export class SymptomsService {
 
   getSymptomById(id) {
     return this.storage.get(PLAN_KEY).then(result => {
-      console.log("SS")
       return result.filter(item => item.id == id)
+    })
+  }
+
+  updateSymptom(mySymptom) {
+    return this.storage.get(PLAN_KEY).then(result => {
+      console.log("update mySymptom id: ", mySymptom)
+      console.log("Updating.....")
+
+      let updatedPlan = [];
+
+      for (let symptom of result) {
+        if (symptom.id == mySymptom.id) {
+          console.log("Equals here")
+          updatedPlan.push(mySymptom);
+        }
+        else {
+          updatedPlan.push(symptom);
+        }
+      }
+
+      return this.storage.set(PLAN_KEY, updatedPlan);
     })
   }
 
