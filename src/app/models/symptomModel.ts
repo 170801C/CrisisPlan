@@ -4,8 +4,9 @@ export interface symptomModel {
     value: number, 
     unit: string,
     type: string,
+    typeDescription: string,
     level: number,
-    description: string,
+    actionDescription: string,
     action: string,
     color: string
 }

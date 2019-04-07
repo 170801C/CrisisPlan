@@ -14,26 +14,22 @@ import { ModalController, NavParams } from '@ionic/angular';
 export class SymptomsModalPage implements OnInit {
 
   inputForm: FormGroup;
-  color_levels = {
-    critical: '#FF0000',    // Red
-    important: '#FFA500',   // Orange
-    attention: '#FFFF00',   // Yellow
-    normal: '#008000'       // Green
-  };
   symptom: symptomModel = {
     id: null,
     icon: null,
     value: null,
     unit: null,
     type: null,
+    typeDescription: null,
     level: null,
-    description: null,
+    actionDescription: null,
     action: null,
     color: null
   };
   symptomsStorage = this.navParams.get('symptoms');
   // Get existing input id, if tapped
   id = this.navParams.get('id');
+  level = this.navParams.get('level');
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
@@ -45,11 +41,31 @@ export class SymptomsModalPage implements OnInit {
       value: [null, Validators.required],
       unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
+      typeDescription: [null], 
       level: [null],
-      description: [null],
+      actionDescription: [null],
       action: [null, Validators.required],
       color: [null],
     })
+
+    // Set level and color, based on level page 
+    console.log("What is the level: ", this.level)
+    if (this.level == "critical") {
+      this.inputForm.get('level').setValue("critical");
+      this.inputForm.get('color').setValue("#FF0000");
+    }
+    else if (this.level == "important") {
+      this.inputForm.get('level').setValue("important");
+      this.inputForm.get('color').setValue("#FFA500");
+    }
+    else if (this.level == "attention") {
+      this.inputForm.get('level').setValue("attention");
+      this.inputForm.get('color').setValue("#FFFF00");
+    }
+    else if (this.level == "normal") {
+      this.inputForm.get('level').setValue("normal");
+      this.inputForm.get('color').setValue("#008000");
+    }
 
     // If existing input is tapped, retrieve its form values by id, to be displayed in modal and edited/deleted
     if (this.id != null) {
@@ -64,7 +80,8 @@ export class SymptomsModalPage implements OnInit {
           this.inputForm.get('type').setValue(symptom[0].type);
           this.inputForm.get('value').setValue(symptom[0].value);
           this.inputForm.get('unit').setValue(symptom[0].unit);
-          this.inputForm.get('description').setValue(symptom[0].description);
+          this.inputForm.get('actionDescription').setValue(symptom[0].actionDescription);
+          this.inputForm.get('typeDescription').setValue(symptom[0].typeDescription);
           this.inputForm.get('action').setValue(symptom[0].action);
           this.inputForm.get('color').setValue(symptom[0].color);
           this.inputForm.get('level').setValue(symptom[0].level);
@@ -80,25 +97,6 @@ export class SymptomsModalPage implements OnInit {
   get type() { return this.inputForm.get('type'); }
   get value() { return this.inputForm.get('value'); }
   get unit() { return this.inputForm.get('unit'); }
-
-  // Set the color property of inputForm 
-  setColorAndLevel(color) {
-    this.inputForm.patchValue({ color: color });
-
-    // Set the level property of inputForm
-    if (color == '#FF0000') {
-      this.inputForm.patchValue({ level: 'critical' });
-    }
-    else if (color == '#FFA500') {
-      this.inputForm.patchValue({ level: 'important' });
-    }
-    else if (color == '#FFFF00') {
-      this.inputForm.patchValue({ level: 'attention' });
-    }
-    else if (color == '#008000') {
-      this.inputForm.patchValue({ level: 'normal' });
-    }
-  }
 
   // Custom validation: For new input: If type exists, invalidate. For existing input: if type is not the same as the previous value, invalidate.
   checkForSameType(): ValidatorFn {
@@ -175,7 +173,8 @@ export class SymptomsModalPage implements OnInit {
     this.symptom.value = this.inputForm.value.value;
     this.symptom.unit = this.inputForm.value.unit;
     this.symptom.type = this.inputForm.value.type;
-    this.symptom.description = this.inputForm.value.description;
+    this.symptom.actionDescription = this.inputForm.value.actionDescription;
+    this.symptom.typeDescription = this.inputForm.value.typeDescription;
     this.symptom.action = this.inputForm.value.action;
     this.symptom.color = this.inputForm.value.color;
     this.symptom.level = this.inputForm.value.level;

@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
+import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class PlanPage implements OnInit {
 
   // Declare an array to hold all plans from storage, to be used in template
+  contact = null;
   symptoms = [];
   criticals = [];
   importants = [];
@@ -20,18 +22,20 @@ export class PlanPage implements OnInit {
   normals = [];
   planExists = false;
 
-  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController, private router: Router) { }
+  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController, private router: Router, private contactService: ContactService) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
 
     this.platform.ready()
       .then(() => {
+        this.loadContact();
         this.loadPlan();
       })
   }
 
   ionViewWillEnter() {
+    this.loadContact();
     this.loadPlan();
   }
 
@@ -68,6 +72,14 @@ export class PlanPage implements OnInit {
         this.normals.push(symptom);
       }
     }
+  }
+
+  loadContact() {
+    this.contactService.getContact()
+      .then(result => {
+        console.log("getContact() called: ", result)
+        this.contact = result;
+      })
   }
 
   loadPlan() {

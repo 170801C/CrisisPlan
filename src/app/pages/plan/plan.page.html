@@ -4,11 +4,25 @@
     <ion-title class="title">Plan</ion-title>
     <!-- Discard, Add buttons -->
     <ion-button routerLink="/symptoms" slot="end">Add</ion-button>
-    <ion-button routerLink="/symptoms" slot="end" [hidden]="planExists">Edit</ion-button>
+    <ion-button routerLink="/symptoms" slot="end" [hidden]="!planExists">Edit</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+
+  <ion-item *ngIf="contact">
+    <ion-label>
+      TCS Name:
+      <br>
+      {{ contact.name }}
+    </ion-label>
+
+    <ion-label>
+      TCS Contact Number:
+      <br>
+      {{ contact.number }}
+    </ion-label>
+  </ion-item>
 
   <ion-list>
 

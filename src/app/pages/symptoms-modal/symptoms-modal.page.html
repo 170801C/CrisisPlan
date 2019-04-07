@@ -18,7 +18,7 @@
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
-        
+
         <!-- To fix: Other text input -->
         <ion-select-option value="other">
           <div>
@@ -70,22 +70,11 @@
       </div>
     </div>
 
-    <!-- Level, Color input -->
+    <!-- Type Description input -->
     <ion-item>
-      <ion-label position="stacked">Level</ion-label>
-      <ion-row class="color-row">
-        <ion-col size="3" class="color-col" *ngFor="let color_level of color_levels | keyvalue"
-          [style.background]="color_level.value" [class.selected]="color_level.value == inputForm.get('color').value"
-          tappable (click)="setColorAndLevel(color_level.value)">
-          {{ color_level.key }}
-        </ion-col>
-      </ion-row>
-    </ion-item>
-
-    <!-- Description input -->
-    <ion-item>
-      <ion-label position="stacked">Description</ion-label>
-      <ion-textarea formControlName="description" rows="6" [(value)]="inputForm.value.description"></ion-textarea>
+      <ion-label position="stacked">Type Description</ion-label>
+      <ion-textarea formControlName="typeDescription" rows="6" [(value)]="inputForm.value.typeDescription">
+      </ion-textarea>
     </ion-item>
 
     <!-- Action input -->
@@ -100,6 +89,13 @@
         Action is required
       </div>
     </div>
+
+    <!-- Action Description input -->
+    <ion-item>
+      <ion-label position="stacked">Action Description</ion-label>
+      <ion-textarea formControlName="actionDescription" rows="6" [(value)]="inputForm.value.actionDescription">
+      </ion-textarea>
+    </ion-item>
 
     <!-- Submit form button -->
     <ion-button expand="full" type="submit" [disabled]="!inputForm.valid">
