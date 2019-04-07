@@ -13,11 +13,13 @@
     <!-- Type input -->
     <ion-item>
       <ion-label position="stacked">Type</ion-label>
-      <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()" [(value)]="inputForm.value.type">
+      <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()"
+        [(value)]="inputForm.value.type">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
-        <!-- To rectify: Other text input -->
+        
+        <!-- To fix: Other text input -->
         <ion-select-option value="other">
           <div>
             <ion-input type="textarea">Other</ion-input>
@@ -33,8 +35,12 @@
         Type is required
       </div>
 
-      <div *ngIf="type.errors.existingType">
+      <div *ngIf="type.errors.newInput">
         Type already exist. Please edit existing type instead.
+      </div>
+
+      <div *ngIf="type.errors.existingInput">
+        Type cannot be different.
       </div>
     </div>
 
@@ -99,6 +105,12 @@
     <ion-button expand="full" type="submit" [disabled]="!inputForm.valid">
       <ion-icon name="checkmark" slot="start"></ion-icon>
       Add input
+    </ion-button>
+
+    <!-- Delete input button -->
+    <ion-button color="danger" expand="full" [hidden]="id == null" (click)="deleteInput(inputForm.value.id)">
+      <ion-icon name="trash" slot="start"></ion-icon>
+      Delete input
     </ion-button>
 
   </form>

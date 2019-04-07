@@ -56,6 +56,25 @@ export class SymptomsService {
     })
   }
 
+  deleteSymptomById(id) {
+    return this.storage.get(PLAN_KEY)
+      .then(result => {
+        let toKeep = [];
+        let toDelete = null;
+
+        for (let symptom of result) {
+          if (symptom.id != id) {
+            toKeep.push(symptom);
+          }
+          else {
+            toDelete = symptom;
+          }
+        }
+
+        return this.storage.set(PLAN_KEY, toKeep);
+      })
+  }
+
   getPlan() {
     return this.storage.get(PLAN_KEY).then(result => {
       // If no value in key, return an empty array.  

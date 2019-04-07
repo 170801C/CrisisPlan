@@ -32,7 +32,8 @@ export class SymptomsModalPage implements OnInit {
     color: null
   };
   symptomsStorage = this.navParams.get('symptoms');
-  id = null;
+  // Get existing input id, if tapped
+  id = this.navParams.get('id');
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
@@ -51,9 +52,8 @@ export class SymptomsModalPage implements OnInit {
     })
 
     // If existing input is tapped, retrieve its form values by id, to be displayed in modal and edited/deleted
-    if (this.navParams.get('id') != null) {
+    if (this.id != null) {
 
-      this.id = this.navParams.get('id')
       console.log("Symptom id exists: ", this.id)
 
       this.symptomsService.getSymptomById(this.id)
@@ -100,22 +100,44 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  // Custom validation: Check if type exists, invalidate if it exist
+  // Custom validation: For new input: If type exists, invalidate. For existing input: if type is not the same as the previous value, invalidate.
   checkForSameType(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
+      console.log("anything in id? ", this.id)
       console.log("Checking...")
-      for (let symptom in this.symptomsStorage) {
-        console.log("symptomSyorate?: ", this.symptomsStorage[symptom]['type'])
-        console.log("typeFormControl.value before: ", control.value)
 
-        if (this.symptomsStorage[symptom]['type'] == control.value) {
-          console.log("typeFormControl.value exissts: ", control.value)
-          return { 'existingType': true }
+      // New input
+      if (this.id == null) {
+        for (let symptom in this.symptomsStorage) {
+          console.log("symptomSyorate?: ", this.symptomsStorage[symptom]['type'])
+          console.log("typeFormControl.value before: ", control.value)
+
+          if (this.symptomsStorage[symptom]['type'] == control.value) {
+            console.log("typeFormControl.value exissts: ", control.value)
+            return { 'newInput': true }
+          }
         }
-      }
 
-      // Validation passed
-      return null;
+        // Validation passed
+        return null;
+      }
+      // Existing input
+      else {
+        this.symptomsService.getSymptomById(this.id)
+          .then((symptom) => {
+            if (control.value != symptom[0].type) {
+              console.log("value changed. Invalidate")
+              console.log("control value: ", control.value)
+              console.log("mySymptom type: ", symptom[0].type)
+
+              return { 'existingInput': true }
+            }
+            else {
+              // Validation passed
+              return null;
+            }
+          })
+      }
     }
   }
 
@@ -136,6 +158,15 @@ export class SymptomsModalPage implements OnInit {
     }
 
     console.log(this.inputForm.value.unit)
+  }
+
+  deleteInput(id) {
+    this.symptomsService.deleteSymptomById(id)
+      .then(res => {
+        console.log("Is symptom deleted: ", res)
+        // Close the modal and return data --> reload key: true value  
+        this.modalController.dismiss({ reload: true });
+      })
   }
 
   saveInput() {
