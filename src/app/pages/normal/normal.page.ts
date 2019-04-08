@@ -56,7 +56,7 @@ export class NormalPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, level: "normal" }
+      componentProps: { symptoms: this.symptoms, level: "normal", normals: this.normals }
     }).then(modal => {
       modal.present();
 
@@ -73,7 +73,7 @@ export class NormalPage implements OnInit {
   openInput(id) {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, id: id }
+      componentProps: { symptoms: this.symptoms, id: id, normals: this.normals }
     }).then(modal => {
       modal.present();
 

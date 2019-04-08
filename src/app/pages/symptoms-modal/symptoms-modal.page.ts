@@ -30,22 +30,27 @@ export class SymptomsModalPage implements OnInit {
   // Get existing input id, if tapped
   id = this.navParams.get('id');
   level = this.navParams.get('level');
+  criticals = this.navParams.get('criticals');
+  importants = this.navParams.get('importants');
+  normals = this.navParams.get('normals');
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
 
   ngOnInit() {
+    console.log("Any id here: ", this.id)
+
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
       icon: [null],
       value: [null, Validators.required],
       unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
-      typeDescription: [null], 
+      typeDescription: [null],
       level: [null],
       actionDescription: [null],
       action: [null, Validators.required],
-      color: [null],
+      color: [null]
     })
 
     // Set level and color, based on level page 
@@ -76,6 +81,8 @@ export class SymptomsModalPage implements OnInit {
         .then((symptom) => {
           console.log("Symptom get by id: ", symptom[0])
 
+          // this.inputForm.get('value').reset()
+
           this.inputForm.get('id').setValue(symptom[0].id);
           this.inputForm.get('type').setValue(symptom[0].type);
           this.inputForm.get('value').setValue(symptom[0].value);
@@ -88,7 +95,14 @@ export class SymptomsModalPage implements OnInit {
           this.inputForm.get('icon').setValue(symptom[0].icon);
 
           console.log("Whats in id: ", this.inputForm.value.id)
+
+          // console.log("Resetting validators")
+          // this.inputForm.get('value').clearValidators();
+          // this.inputForm.get('value').setValidators([Validators.required]);
+          // this.inputForm.get('value').updateValueAndValidity();
         })
+
+
     }
   }
 
@@ -106,13 +120,31 @@ export class SymptomsModalPage implements OnInit {
 
       // New input
       if (this.id == null) {
-        for (let symptom in this.symptomsStorage) {
-          console.log("symptomSyorate?: ", this.symptomsStorage[symptom]['type'])
-          console.log("typeFormControl.value before: ", control.value)
-
-          if (this.symptomsStorage[symptom]['type'] == control.value) {
-            console.log("typeFormControl.value exissts: ", control.value)
-            return { 'newInput': true }
+        // If entered from Criticals page
+        if (this.criticals != null) {
+          for (let symptom in this.criticals) {
+            if (this.criticals[symptom]['type'] == control.value) {
+              console.log("typeFormControl.value exissts on this page: ", control.value)
+              return { 'newInput': true }
+            }
+          }
+        }
+        // If entered from Importants page
+        else if (this.importants != null) {
+          for (let symptom in this.importants) {
+            if (this.importants[symptom]['type'] == control.value) {
+              console.log("typeFormControl.value exissts on this page: ", control.value)
+              return { 'newInput': true }
+            }
+          }
+        }
+        // If entered from Normals page
+        else if (this.normals != null) {
+          for (let symptom in this.normals) {
+            if (this.normals[symptom]['type'] == control.value) {
+              console.log("typeFormControl.value exissts on this page: ", control.value)
+              return { 'newInput': true }
+            }
           }
         }
 
@@ -192,7 +224,7 @@ export class SymptomsModalPage implements OnInit {
         })
     }
     else {
-      // Add the symptom to Ionic storage
+      // Add the new symptom to Ionic storage
       this.symptomsService.addSymptom(this.symptom)
         .then(res => {
           // Close the modal and return data --> reload key: true value  
