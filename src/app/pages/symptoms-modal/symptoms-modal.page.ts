@@ -81,7 +81,7 @@ export class SymptomsModalPage implements OnInit {
         .then((symptom) => {
           console.log("Symptom get by id: ", symptom[0])
 
-          // this.inputForm.get('value').reset()
+          // this.inputForm.get('action').reset()
 
           this.inputForm.get('id').setValue(symptom[0].id);
           this.inputForm.get('type').setValue(symptom[0].type);
@@ -97,12 +97,15 @@ export class SymptomsModalPage implements OnInit {
           console.log("Whats in id: ", this.inputForm.value.id)
 
           // console.log("Resetting validators")
-          // this.inputForm.get('value').clearValidators();
-          // this.inputForm.get('value').setValidators([Validators.required]);
-          // this.inputForm.get('value').updateValueAndValidity();
+          // this.inputForm.get('action').clearValidators();
+          // this.inputForm.get('action').setValidators([Validators.required]);
+          // this.inputForm.get('action').updateValueAndValidity();
         })
 
-
+      // console.log("Resetting validators")
+      // this.inputForm.get('action').clearValidators();
+      // this.inputForm.get('action').setValidators([Validators.required]);
+      // this.inputForm.get('action').updateValueAndValidity();
     }
   }
 
@@ -151,22 +154,25 @@ export class SymptomsModalPage implements OnInit {
         // Validation passed
         return null;
       }
+
       // Existing input
       else {
-        this.symptomsService.getSymptomById(this.id)
-          .then((symptom) => {
-            if (control.value != symptom[0].type) {
-              console.log("value changed. Invalidate")
-              console.log("control value: ", control.value)
-              console.log("mySymptom type: ", symptom[0].type)
+        if (this.criticals)
+          return { 'existingInput': true };
+        // this.symptomsService.getSymptomById(this.id)
+        //   .then((symptom) => {
+        //     if (control.value != symptom[0].type) {
+        //       console.log("value changed. Invalidate")
+        //       console.log("control value: ", control.value)
+        //       console.log("mySymptom type: ", symptom[0].type)
 
-              return { 'existingInput': true }
-            }
-            else {
-              // Validation passed
-              return null;
-            }
-          })
+        //       return { 'existingInput': true }
+        //     }
+        //     else {
+        //       // Validation passed
+        //       return null;
+        //     }
+        //   })
       }
     }
   }
