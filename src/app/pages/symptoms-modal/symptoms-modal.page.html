@@ -14,16 +14,16 @@
     <ion-item>
       <ion-label position="stacked">Type</ion-label>
       <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()"
-        [(value)]="inputForm.value.type" placeholder="Select One11">
+        [(value)]="inputForm.value.type">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
         <ion-select-option value="bloodPressure">Blood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
 
         <!-- To fix: Other text input -->
         <ion-select-option value="other">
-          <ion-item>
-            <ion-input type="textarea" placeholder="dfh">Other:</ion-input>
-          </ion-item>
+          <div>
+            <ion-input type="textarea">Other</ion-input>
+          </div>
         </ion-select-option>
 
       </ion-select>
