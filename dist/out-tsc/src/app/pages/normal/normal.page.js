@@ -46,7 +46,7 @@ var NormalPage = /** @class */ (function () {
         var _this = this;
         this.modalController.create({
             component: SymptomsModalPage,
-            componentProps: { symptoms: this.symptoms, level: "normal" }
+            componentProps: { symptoms: this.symptoms, level: "normal", normals: this.normals }
         }).then(function (modal) {
             modal.present();
             // Get the data passed when the modal is dismissed 
@@ -62,7 +62,7 @@ var NormalPage = /** @class */ (function () {
         var _this = this;
         this.modalController.create({
             component: SymptomsModalPage,
-            componentProps: { symptoms: this.symptoms, id: id }
+            componentProps: { symptoms: this.symptoms, id: id, normals: this.normals }
         }).then(function (modal) {
             modal.present();
             // Get the data passed when the modal is dismissed 

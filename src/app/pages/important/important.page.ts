@@ -55,7 +55,7 @@ export class ImportantPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, level: "important" }
+      componentProps: { symptoms: this.symptoms, level: "important", importants: this.importants }
     }).then(modal => {
       modal.present();
 
@@ -72,7 +72,7 @@ export class ImportantPage implements OnInit {
   openInput(id) {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, id: id }
+      componentProps: { symptoms: this.symptoms, id: id, importants: this.importants }
     }).then(modal => {
       modal.present();
 

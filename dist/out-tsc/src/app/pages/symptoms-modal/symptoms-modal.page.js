@@ -25,9 +25,13 @@ var SymptomsModalPage = /** @class */ (function () {
         // Get existing input id, if tapped
         this.id = this.navParams.get('id');
         this.level = this.navParams.get('level');
+        this.criticals = this.navParams.get('criticals');
+        this.importants = this.navParams.get('importants');
+        this.normals = this.navParams.get('normals');
     }
     SymptomsModalPage.prototype.ngOnInit = function () {
         var _this = this;
+        console.log("Any id here: ", this.id);
         this.inputForm = this.formBuilder.group({
             id: Date.now(),
             icon: [null],
@@ -38,9 +42,9 @@ var SymptomsModalPage = /** @class */ (function () {
             level: [null],
             actionDescription: [null],
             action: [null, Validators.required],
-            color: [null],
+            color: [null]
         });
-        // Set level and color, based on level page 
+        // For new input: Set level and color, based on level page 
         console.log("What is the level: ", this.level);
         if (this.level == "critical") {
             this.inputForm.get('level').setValue("critical");
@@ -64,6 +68,7 @@ var SymptomsModalPage = /** @class */ (function () {
             this.symptomsService.getSymptomById(this.id)
                 .then(function (symptom) {
                 console.log("Symptom get by id: ", symptom[0]);
+                // this.inputForm.get('action').reset()
                 _this.inputForm.get('id').setValue(symptom[0].id);
                 _this.inputForm.get('type').setValue(symptom[0].type);
                 _this.inputForm.get('value').setValue(symptom[0].value);
@@ -75,7 +80,16 @@ var SymptomsModalPage = /** @class */ (function () {
                 _this.inputForm.get('level').setValue(symptom[0].level);
                 _this.inputForm.get('icon').setValue(symptom[0].icon);
                 console.log("Whats in id: ", _this.inputForm.value.id);
+                // console.log("Removing validators")
+                // this.inputForm.get('type').clearValidators();
+                // console.log("setting validators")
+                // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
+                // this.inputForm.get('type').updateValueAndValidity();
             });
+            // console.log("Resetting validators")
+            // this.inputForm.get('type').clearValidators();
+            // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
+            // this.inputForm.get('type').updateValueAndValidity();
         }
     };
     Object.defineProperty(SymptomsModalPage.prototype, "action", {
@@ -107,12 +121,29 @@ var SymptomsModalPage = /** @class */ (function () {
             console.log("Checking...");
             // New input
             if (_this.id == null) {
-                for (var symptom in _this.symptomsStorage) {
-                    console.log("symptomSyorate?: ", _this.symptomsStorage[symptom]['type']);
-                    console.log("typeFormControl.value before: ", control.value);
-                    if (_this.symptomsStorage[symptom]['type'] == control.value) {
-                        console.log("typeFormControl.value exissts: ", control.value);
-                        return { 'newInput': true };
+                // If there are existing inputs in Criticals page, check with them, else pass validation.
+                if (_this.criticals != null) {
+                    for (var symptom in _this.criticals) {
+                        if (_this.criticals[symptom]['type'] == control.value) {
+                            console.log("typeFormControl.value exissts on this page: ", control.value);
+                            return { 'newInput': true };
+                        }
+                    }
+                }
+                else if (_this.importants != null) {
+                    for (var symptom in _this.importants) {
+                        if (_this.importants[symptom]['type'] == control.value) {
+                            console.log("typeFormControl.value exissts on this page: ", control.value);
+                            return { 'newInput': true };
+                        }
+                    }
+                }
+                else if (_this.normals != null) {
+                    for (var symptom in _this.normals) {
+                        if (_this.normals[symptom]['type'] == control.value) {
+                            console.log("typeFormControl.value exissts on this page: ", control.value);
+                            return { 'newInput': true };
+                        }
                     }
                 }
                 // Validation passed
@@ -120,19 +151,41 @@ var SymptomsModalPage = /** @class */ (function () {
             }
             // Existing input
             else {
-                _this.symptomsService.getSymptomById(_this.id)
-                    .then(function (symptom) {
-                    if (control.value != symptom[0].type) {
-                        console.log("value changed. Invalidate");
-                        console.log("control value: ", control.value);
-                        console.log("mySymptom type: ", symptom[0].type);
-                        return { 'existingInput': true };
+                if (_this.criticals != null) {
+                    for (var symptom in _this.criticals) {
+                        if ((_this.criticals[symptom]['type'] == control.value) && (_this.criticals[symptom]['id'] != _this.id)) {
+                            console.log("same type but diff item");
+                            console.log("type: ", _this.criticals[symptom]['type']);
+                            console.log("control type: ", control.value);
+                            console.log("id: ", _this.criticals[symptom]['id']);
+                            console.log("control id: ", _this.id);
+                            return { 'newInput': true };
+                        }
+                        else {
+                            console.log("diff type, diff item, ");
+                            console.log("type: ", _this.criticals[symptom]['type']);
+                            console.log("control type: ", control.value);
+                            console.log("id: ", _this.criticals[symptom]['id']);
+                            console.log("control id: ", _this.id);
+                            return null;
+                        }
                     }
-                    else {
-                        // Validation passed
-                        return null;
-                    }
-                });
+                    // console.log("Try to get existing form type: ",   this.inputForm.get('type'))
+                }
+                // return { 'existingInput': true };
+                // this.symptomsService.getSymptomById(this.id)
+                //   .then((symptom) => {
+                //     if (control.value != symptom[0].type) {
+                //       console.log("value changed. Invalidate")
+                //       console.log("control value: ", control.value)
+                //       console.log("mySymptom type: ", symptom[0].type)
+                //       return { 'existingInput': true }
+                //     }
+                //     else {
+                //       // Validation passed
+                //       return null;
+                //     }
+                //   })
             }
         };
     };
@@ -186,7 +239,7 @@ var SymptomsModalPage = /** @class */ (function () {
             });
         }
         else {
-            // Add the symptom to Ionic storage
+            // Add the new symptom to Ionic storage
             this.symptomsService.addSymptom(this.symptom)
                 .then(function (res) {
                 // Close the modal and return data --> reload key: true value  

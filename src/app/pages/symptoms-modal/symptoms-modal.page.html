@@ -16,7 +16,7 @@
       <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()"
         [(value)]="inputForm.value.type">
         <ion-select-option value="bloodSugar">Blood Sugar</ion-select-option>
-        <ion-select-option value="bloodPressure">Bood Pressure</ion-select-option>
+        <ion-select-option value="bloodPressure">Blood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
 
         <!-- To fix: Other text input -->
@@ -35,12 +35,8 @@
         Type is required
       </div>
 
-      <div *ngIf="type.errors.newInput">
-        Type already exist. Please edit existing type instead.
-      </div>
-
-      <div *ngIf="type.errors.existingInput">
-        Type cannot be different.
+      <div *ngIf="type.errors.sameType">
+        Type already exist on this page. Please edit existing type instead.
       </div>
     </div>
 
@@ -53,6 +49,10 @@
     <!-- Value validation -->
     <div *ngIf="value.invalid && (value.dirty || value.touched)" class="error">
       <div *ngIf="value.errors.required">
+        Value is required
+      </div>
+
+      <div *ngIf="value.errors.isNaN">
         Value is required
       </div>
     </div>

@@ -57,7 +57,7 @@ export class CriticalPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, level: "critical" }    
+      componentProps: { symptoms: this.symptoms, level: "critical", criticals: this.criticals }    
     }).then(modal => {  
       modal.present();
 
@@ -74,7 +74,7 @@ export class CriticalPage implements OnInit {
   openInput(id) {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, id: id}
+      componentProps: { symptoms: this.symptoms, id: id, criticals: this.criticals }
     }).then(modal => {
       modal.present();
 

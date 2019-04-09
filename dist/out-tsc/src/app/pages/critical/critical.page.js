@@ -49,7 +49,7 @@ var CriticalPage = /** @class */ (function () {
         var _this = this;
         this.modalController.create({
             component: SymptomsModalPage,
-            componentProps: { symptoms: this.symptoms, level: "critical" }
+            componentProps: { symptoms: this.symptoms, level: "critical", criticals: this.criticals }
         }).then(function (modal) {
             modal.present();
             // Get the data passed when the modal is dismissed 
@@ -65,7 +65,7 @@ var CriticalPage = /** @class */ (function () {
         var _this = this;
         this.modalController.create({
             component: SymptomsModalPage,
-            componentProps: { symptoms: this.symptoms, id: id }
+            componentProps: { symptoms: this.symptoms, id: id, criticals: this.criticals }
         }).then(function (modal) {
             modal.present();
             // Get the data passed when the modal is dismissed 
