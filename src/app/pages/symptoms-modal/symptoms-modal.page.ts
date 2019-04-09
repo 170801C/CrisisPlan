@@ -43,7 +43,7 @@ export class SymptomsModalPage implements OnInit {
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
       icon: [null],
-      value: [null, Validators.required],
+      value: [null, Validators.compose([Validators.required, this.checkForNaN()])],
       unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
       typeDescription: [null],
@@ -53,7 +53,7 @@ export class SymptomsModalPage implements OnInit {
       color: [null]
     })
 
-    // Set level and color, based on level page 
+    // For new input: Set level and color, based on level page 
     console.log("What is the level: ", this.level)
     if (this.level == "critical") {
       this.inputForm.get('level').setValue("critical");
@@ -96,16 +96,17 @@ export class SymptomsModalPage implements OnInit {
 
           console.log("Whats in id: ", this.inputForm.value.id)
 
-          // console.log("Resetting validators")
-          // this.inputForm.get('action').clearValidators();
-          // this.inputForm.get('action').setValidators([Validators.required]);
-          // this.inputForm.get('action').updateValueAndValidity();
+          // console.log("Removing validators")
+          // this.inputForm.get('type').clearValidators();
+          // console.log("setting validators")
+          // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
+          // this.inputForm.get('type').updateValueAndValidity();
         })
 
       // console.log("Resetting validators")
-      // this.inputForm.get('action').clearValidators();
-      // this.inputForm.get('action').setValidators([Validators.required]);
-      // this.inputForm.get('action').updateValueAndValidity();
+      // this.inputForm.get('type').clearValidators();
+      // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
+      // this.inputForm.get('type').updateValueAndValidity();
     }
   }
 
@@ -123,30 +124,28 @@ export class SymptomsModalPage implements OnInit {
 
       // New input
       if (this.id == null) {
-        // If entered from Criticals page
+        // If there are existing inputs in Criticals page, check with them, else pass validation.
         if (this.criticals != null) {
           for (let symptom in this.criticals) {
             if (this.criticals[symptom]['type'] == control.value) {
               console.log("typeFormControl.value exissts on this page: ", control.value)
-              return { 'newInput': true }
+              return { 'sameType': true }
             }
           }
         }
-        // If entered from Importants page
         else if (this.importants != null) {
           for (let symptom in this.importants) {
             if (this.importants[symptom]['type'] == control.value) {
               console.log("typeFormControl.value exissts on this page: ", control.value)
-              return { 'newInput': true }
+              return { 'sameType': true }
             }
           }
         }
-        // If entered from Normals page
         else if (this.normals != null) {
           for (let symptom in this.normals) {
             if (this.normals[symptom]['type'] == control.value) {
               console.log("typeFormControl.value exissts on this page: ", control.value)
-              return { 'newInput': true }
+              return { 'sameType': true }
             }
           }
         }
@@ -157,23 +156,50 @@ export class SymptomsModalPage implements OnInit {
 
       // Existing input
       else {
-        if (this.criticals)
-          return { 'existingInput': true };
-        // this.symptomsService.getSymptomById(this.id)
-        //   .then((symptom) => {
-        //     if (control.value != symptom[0].type) {
-        //       console.log("value changed. Invalidate")
-        //       console.log("control value: ", control.value)
-        //       console.log("mySymptom type: ", symptom[0].type)
+        if (this.criticals != null) {
+          console.log("Whats in criticals: ", this.criticals)
+          for (let symptom in this.criticals) {
+            // Iterate through criticals array. If both types are the same, but not the same item, invalidate.
+            if ((this.criticals[symptom]['type'] == control.value) && (this.criticals[symptom]['id'] != this.id)) {
+              console.log("same type but diff item")
+              console.log("type: ", this.criticals[symptom]['type'])
+              console.log("control type: ", control.value)
+              console.log("id: ", this.criticals[symptom]['id'])
+              console.log("control id: ", this.id)
+              return { 'sameType': true };
+            }
+          }
+        }
+        else if (this.importants != null) {
+          for (let symptom in this.importants) {
+            if ((this.importants[symptom]['type'] == control.value) && (this.importants[symptom]['id'] != this.id)) {
+              return { 'sameType': true };
+            }
+          }
+        }
+        else if (this.normals != null) {
+          for (let symptom in this.normals) {
+            if ((this.normals[symptom]['type'] == control.value) && (this.normals[symptom]['id'] != this.id)) {
+              return { 'sameType': true };
+            }
+          }
+        }
 
-        //       return { 'existingInput': true }
-        //     }
-        //     else {
-        //       // Validation passed
-        //       return null;
-        //     }
-        //   })
+        return null;
       }
+    }
+  }
+
+  // Custom validation: Check value property of form. If NaN value, invalidate.
+  checkForNaN(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (isNaN(control.value)) {
+        console.log("Whats in value: ", isNaN(control.value))
+
+        return { 'isNaN': true };
+      }
+
+      return null;
     }
   }
 
