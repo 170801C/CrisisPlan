@@ -10,8 +10,17 @@
 
     <p>Enter your symptom:</p>
 
+    <input formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
+    <datalist id="type">
+      <option value="Blood Sugar">
+      <option value="Blood Pressure">
+      <option value="Temperature">
+    </datalist>
+
+    <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
+
     <!-- Type input -->
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">Type</ion-label>
       <ion-select formControlName="type" okText="Ok" cancelText="Cancel" (ionChange)="setUnitAndIcon()"
         [(value)]="inputForm.value.type">
@@ -19,15 +28,12 @@
         <ion-select-option value="bloodPressure">Blood Pressure</ion-select-option>
         <ion-select-option value="temperature">Temperature</ion-select-option>
 
-        <!-- To fix: Other text input -->
         <ion-select-option value="other">
-          <div>
-            <ion-input type="textarea">Other</ion-input>
-          </div>
+          <ion-input type="text">Other</ion-input>
         </ion-select-option>
 
       </ion-select>
-    </ion-item>
+    </ion-item> -->
 
     <!-- Type validation -->
     <div *ngIf="type.invalid && (type.dirty || type.touched)" class="error">

@@ -108,6 +108,11 @@ export class SymptomsModalPage implements OnInit {
       // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
       // this.inputForm.get('type').updateValueAndValidity();
     }
+
+    // On changes to form field type, call setUnitAndIcon()
+    this.inputForm.get('type').valueChanges.subscribe(val => {
+      this.setUnitAndIcon(val)
+    })
   }
 
   // Getters for form validation
@@ -203,19 +208,38 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  setUnitAndIcon() {
+  // setUnitAndIcon() {
+  //   console.log("setUnit() called")
+  //   console.log("setUnit() type: ", this.inputForm.value.type)
+  //   if (this.inputForm.value.type == "bloodSugar") {
+  //     this.inputForm.value.unit = "mmol/L";
+  //     this.inputForm.value.icon = "thermometer";
+  //   }
+  //   else if (this.inputForm.value.type == "bloodPressure") {
+  //     this.inputForm.value.unit = "mmHg";
+  //     // this.inputForm.value.icon = "";
+  //   }
+  //   else if (this.inputForm.value.type == "temperature") {
+  //     this.inputForm.value.unit = "degreeCelcius";
+  //     // this.inputForm.value.icon = "";
+  //   }
+
+  //   console.log(this.inputForm.value.unit)
+  // }
+
+  setUnitAndIcon(val) {
     console.log("setUnit() called")
-    console.log("setUnit() type: ", this.inputForm.value.type)
-    if (this.inputForm.value.type == "bloodSugar") {
-      this.inputForm.value.unit = "mmol/L";
-      this.inputForm.value.icon = "thermometer";
+    console.log("setUnit() type: ", this.inputForm.get('type'))
+    if (val == "Blood Sugar") {
+      this.inputForm.get('unit').setValue("mmol/L");
+      this.inputForm.get('icon').setValue("thermometer");
     }
-    else if (this.inputForm.value.type == "bloodPressure") {
-      this.inputForm.value.unit = "mmHg";
+    else if (val == "Blood Pressure") {
+      this.inputForm.get('unit').setValue("mmHg");
       // this.inputForm.value.icon = "";
     }
-    else if (this.inputForm.value.type == "temperature") {
-      this.inputForm.value.unit = "degreeCelcius";
+    else if (val == "Temperature") {
+      this.inputForm.get('unit').setValue("degreeCelcius");
       // this.inputForm.value.icon = "";
     }
 
