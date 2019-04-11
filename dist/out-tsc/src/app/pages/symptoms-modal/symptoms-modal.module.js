@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SymptomsModalPage } from './symptoms-modal.page';
+import { MzSelectModule } from 'ngx-materialize';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 var routes = [
     {
         path: '',
@@ -21,7 +23,8 @@ var SymptomsModalPageModule = /** @class */ (function () {
                 FormsModule,
                 IonicModule,
                 RouterModule.forChild(routes),
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                MzSelectModule,
             ],
             declarations: [SymptomsModalPage]
         })

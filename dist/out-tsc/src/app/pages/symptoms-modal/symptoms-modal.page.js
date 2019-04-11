@@ -31,11 +31,14 @@ var SymptomsModalPage = /** @class */ (function () {
     }
     SymptomsModalPage.prototype.ngOnInit = function () {
         var _this = this;
+        $(document).ready(function () {
+            console.log("jquery works, almost there");
+        });
         console.log("Any id here: ", this.id);
         this.inputForm = this.formBuilder.group({
             id: Date.now(),
             icon: [null],
-            value: [null, Validators.required],
+            value: [null, Validators.compose([Validators.required, this.checkForNaN()])],
             unit: [null, Validators.required],
             type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
             typeDescription: [null],
@@ -91,6 +94,10 @@ var SymptomsModalPage = /** @class */ (function () {
             // this.inputForm.get('type').setValidators([Validators.required, this.checkForSameType()]);
             // this.inputForm.get('type').updateValueAndValidity();
         }
+        // On changes to form field type, call setUnitAndIcon()
+        this.inputForm.get('type').valueChanges.subscribe(function (val) {
+            _this.setUnitAndIcon(val);
+        });
     };
     Object.defineProperty(SymptomsModalPage.prototype, "action", {
         // Getters for form validation
@@ -126,7 +133,7 @@ var SymptomsModalPage = /** @class */ (function () {
                     for (var symptom in _this.criticals) {
                         if (_this.criticals[symptom]['type'] == control.value) {
                             console.log("typeFormControl.value exissts on this page: ", control.value);
-                            return { 'newInput': true };
+                            return { 'sameType': true };
                         }
                     }
                 }
@@ -134,7 +141,7 @@ var SymptomsModalPage = /** @class */ (function () {
                     for (var symptom in _this.importants) {
                         if (_this.importants[symptom]['type'] == control.value) {
                             console.log("typeFormControl.value exissts on this page: ", control.value);
-                            return { 'newInput': true };
+                            return { 'sameType': true };
                         }
                     }
                 }
@@ -142,7 +149,7 @@ var SymptomsModalPage = /** @class */ (function () {
                     for (var symptom in _this.normals) {
                         if (_this.normals[symptom]['type'] == control.value) {
                             console.log("typeFormControl.value exissts on this page: ", control.value);
-                            return { 'newInput': true };
+                            return { 'sameType': true };
                         }
                     }
                 }
@@ -152,56 +159,77 @@ var SymptomsModalPage = /** @class */ (function () {
             // Existing input
             else {
                 if (_this.criticals != null) {
+                    console.log("Whats in criticals: ", _this.criticals);
                     for (var symptom in _this.criticals) {
+                        // Iterate through criticals array. If both types are the same, but not the same item, invalidate.
                         if ((_this.criticals[symptom]['type'] == control.value) && (_this.criticals[symptom]['id'] != _this.id)) {
                             console.log("same type but diff item");
                             console.log("type: ", _this.criticals[symptom]['type']);
                             console.log("control type: ", control.value);
                             console.log("id: ", _this.criticals[symptom]['id']);
                             console.log("control id: ", _this.id);
-                            return { 'newInput': true };
-                        }
-                        else {
-                            console.log("diff type, diff item, ");
-                            console.log("type: ", _this.criticals[symptom]['type']);
-                            console.log("control type: ", control.value);
-                            console.log("id: ", _this.criticals[symptom]['id']);
-                            console.log("control id: ", _this.id);
-                            return null;
+                            return { 'sameType': true };
                         }
                     }
-                    // console.log("Try to get existing form type: ",   this.inputForm.get('type'))
                 }
-                // return { 'existingInput': true };
-                // this.symptomsService.getSymptomById(this.id)
-                //   .then((symptom) => {
-                //     if (control.value != symptom[0].type) {
-                //       console.log("value changed. Invalidate")
-                //       console.log("control value: ", control.value)
-                //       console.log("mySymptom type: ", symptom[0].type)
-                //       return { 'existingInput': true }
-                //     }
-                //     else {
-                //       // Validation passed
-                //       return null;
-                //     }
-                //   })
+                else if (_this.importants != null) {
+                    for (var symptom in _this.importants) {
+                        if ((_this.importants[symptom]['type'] == control.value) && (_this.importants[symptom]['id'] != _this.id)) {
+                            return { 'sameType': true };
+                        }
+                    }
+                }
+                else if (_this.normals != null) {
+                    for (var symptom in _this.normals) {
+                        if ((_this.normals[symptom]['type'] == control.value) && (_this.normals[symptom]['id'] != _this.id)) {
+                            return { 'sameType': true };
+                        }
+                    }
+                }
+                return null;
             }
         };
     };
-    SymptomsModalPage.prototype.setUnitAndIcon = function () {
+    // Custom validation: Check value property of form. If NaN value, invalidate.
+    SymptomsModalPage.prototype.checkForNaN = function () {
+        return function (control) {
+            if (isNaN(control.value)) {
+                console.log("Whats in value: ", isNaN(control.value));
+                return { 'isNaN': true };
+            }
+            return null;
+        };
+    };
+    // setUnitAndIcon() {
+    //   console.log("setUnit() called")
+    //   console.log("setUnit() type: ", this.inputForm.value.type)
+    //   if (this.inputForm.value.type == "bloodSugar") {
+    //     this.inputForm.value.unit = "mmol/L";
+    //     this.inputForm.value.icon = "thermometer";
+    //   }
+    //   else if (this.inputForm.value.type == "bloodPressure") {
+    //     this.inputForm.value.unit = "mmHg";
+    //     // this.inputForm.value.icon = "";
+    //   }
+    //   else if (this.inputForm.value.type == "temperature") {
+    //     this.inputForm.value.unit = "degreeCelcius";
+    //     // this.inputForm.value.icon = "";
+    //   }
+    //   console.log(this.inputForm.value.unit)
+    // }
+    SymptomsModalPage.prototype.setUnitAndIcon = function (val) {
         console.log("setUnit() called");
-        console.log("setUnit() type: ", this.inputForm.value.type);
-        if (this.inputForm.value.type == "bloodSugar") {
-            this.inputForm.value.unit = "mmol/L";
-            this.inputForm.value.icon = "thermometer";
+        console.log("setUnit() type: ", this.inputForm.get('type'));
+        if (val == "Blood Sugar") {
+            this.inputForm.get('unit').setValue("mmol/L");
+            this.inputForm.get('icon').setValue("thermometer");
         }
-        else if (this.inputForm.value.type == "bloodPressure") {
-            this.inputForm.value.unit = "mmHg";
+        else if (val == "Blood Pressure") {
+            this.inputForm.get('unit').setValue("mmHg");
             // this.inputForm.value.icon = "";
         }
-        else if (this.inputForm.value.type == "temperature") {
-            this.inputForm.value.unit = "degreeCelcius";
+        else if (val == "Temperature") {
+            this.inputForm.get('unit').setValue("degreeCelcius");
             // this.inputForm.value.icon = "";
         }
         console.log(this.inputForm.value.unit);
@@ -251,7 +279,7 @@ var SymptomsModalPage = /** @class */ (function () {
         Component({
             selector: 'app-symptoms-modal',
             templateUrl: './symptoms-modal.page.html',
-            styleUrls: ['./symptoms-modal.page.scss'],
+            styleUrls: ['./symptoms-modal.page.scss', '../../../../node_modules/materialize-css/dist/css/materialize.min.css'],
         }),
         tslib_1.__metadata("design:paramtypes", [FormBuilder, SymptomsService, ModalController,
             NavParams])

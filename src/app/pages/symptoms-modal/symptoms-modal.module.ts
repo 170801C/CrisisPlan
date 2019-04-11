@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { SymptomsModalPage } from './symptoms-modal.page';
 
+import { MzSelectModule } from 'ngx-materialize';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 const routes: Routes = [
   {
     path: '',
@@ -20,7 +23,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MzSelectModule,
+    // BrowserAnimationsModule
   ],
   declarations: [SymptomsModalPage]
 })

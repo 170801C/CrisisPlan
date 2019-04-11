@@ -10,11 +10,27 @@
 
     <p>Enter your symptom:</p>
 
+    <mz-select-container>
+      <select mz-select
+        id="options-select"
+        [label]="'Label'"
+        [placeholder]="'Placeholder'"
+      >
+        <optgroup label="Group 1">
+          <option data-icon="/assets/blood-pressure-control-tool.svg" class="left circle">Option 1</option>
+          <option data-icon="/assets/blood-pressure-control-tool.svg" class="left circle">Option 2</option>
+        </optgroup>
+        <optgroup label="Group 2">
+          <option data-icon="/assets/blood-pressure-control-tool.svg" class="left circle">Option 3</option>
+        </optgroup>
+      </select>
+    </mz-select-container>
+
     <input formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
     <datalist id="type">
-      <option value="Blood Sugar">
-      <option value="Blood Pressure">
-      <option value="Temperature">
+      <option data-icon="/assets/blood-pressure-control-tool.svg" value="Blood Sugar">sdgdg</option>
+      <option value="Blood Pressure">sdg</option>
+      <option value="Temperature">weg</option>
     </datalist>
 
     <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>

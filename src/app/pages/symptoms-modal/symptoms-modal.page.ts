@@ -4,11 +4,12 @@ import { symptomModel } from '../../models/symptomModel'
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController, NavParams } from '@ionic/angular';
 
+declare var $: any;
 
 @Component({
   selector: 'app-symptoms-modal',
   templateUrl: './symptoms-modal.page.html',
-  styleUrls: ['./symptoms-modal.page.scss'],
+  styleUrls: ['./symptoms-modal.page.scss', '../../../../node_modules/materialize-css/dist/css/materialize.min.css'],
 })
 
 export class SymptomsModalPage implements OnInit {
@@ -38,6 +39,11 @@ export class SymptomsModalPage implements OnInit {
     private navParams: NavParams) { }
 
   ngOnInit() {
+    $(document).ready(function() {
+      console.log("jquery works, almost there")
+
+    })
+
     console.log("Any id here: ", this.id)
 
     this.inputForm = this.formBuilder.group({
