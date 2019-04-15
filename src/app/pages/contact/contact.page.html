@@ -2,8 +2,10 @@
   <ion-toolbar>
     <ion-button slot="start">PDF</ion-button>
     <ion-title>contact</ion-title>
-    <ion-button routerLink="/critical" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
-      Next</ion-button>
+    <!-- <ion-button routerLink="/tabs/plan/contact/critical" routerDirection="forward" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
+      Next</ion-button> -->
+      <ion-button [routerLink]="criticalPath" routerDirection="forward" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
+        Next</ion-button>
   </ion-toolbar>
 </ion-header>
 

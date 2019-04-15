@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
 import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-critical',
@@ -14,8 +14,16 @@ export class CriticalPage implements OnInit {
 
   symptoms = [];
   criticals = [];
+  importantPath: string;
 
-  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService, private router: Router) { }
+  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
+    private router: Router) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event && event instanceof NavigationEnd && event.url) {
+        this.importantPath = event.url + '/important';
+      }
+    });
+  }
 
   ngOnInit() {
     this.loadPlan();
@@ -57,8 +65,8 @@ export class CriticalPage implements OnInit {
   addInput() {
     this.modalController.create({
       component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, level: "critical", criticals: this.criticals }    
-    }).then(modal => {  
+      componentProps: { symptoms: this.symptoms, level: "critical", criticals: this.criticals }
+    }).then(modal => {
       modal.present();
 
       // Get the data passed when the modal is dismissed 

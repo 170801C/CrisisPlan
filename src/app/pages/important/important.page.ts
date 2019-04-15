@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
 import { Platform } from '@ionic/angular';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-important',
@@ -13,8 +14,16 @@ export class ImportantPage implements OnInit {
 
   symptoms = [];
   importants = [];
+  normalPath: string;
 
-  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService) { }
+  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
+    private router: Router) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event && event instanceof NavigationEnd && event.url) {
+        this.normalPath = event.url + '/normal';
+      }
+    });
+  }
 
   ngOnInit() {
     this.loadPlan();

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { contactModel } from '../../models/contactModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
@@ -15,8 +16,20 @@ export class ContactPage implements OnInit {
     name: null,
     number: null
   };
+  criticalPath: string;
+  // Back button 
+  // defaultBackLink: string;
 
-  constructor(private formBuilder: FormBuilder, private contactService: ContactService) { }
+  constructor(private formBuilder: FormBuilder, private contactService: ContactService, private router: Router) {
+    // For tabs navigation 
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event && event instanceof NavigationEnd && event.url) {
+        // Back button 
+        // this.defaultBackLink = event.url.replace('/contact', '');
+        this.criticalPath = event.url + '/critical';  // event.url : 'http://localhost:8100/tabs/plan/contact'
+      }
+    });
+  }
 
   ngOnInit() {
     this.contactService.getContact()

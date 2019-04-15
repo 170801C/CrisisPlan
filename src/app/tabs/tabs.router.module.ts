@@ -16,7 +16,38 @@ const routes: Routes = [
           {
             path: '',
             // Relative file path to this filename.module#module_name
-            loadChildren: '../pages/plan/plan.module#PlanPageModule'  
+            loadChildren: '../pages/plan/plan.module#PlanPageModule'
+          },
+          {
+            path: 'contact',
+            children: [
+              {
+                path: '',
+                loadChildren: '../pages/contact/contact.module#ContactPageModule',
+              },
+              {
+                path: 'critical',
+                children: [
+                  {
+                    path: '',
+                    loadChildren: '../pages/critical/critical.module#CriticalPageModule'
+                  },
+                  {
+                    path: 'important',
+                    children: [
+                      {
+                        path: '',
+                        loadChildren: '../pages/important/important.module#ImportantPageModule'
+                      },
+                      {
+                        path: 'normal',
+                        loadChildren: '../pages/normal/normal.module#NormalPageModule'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -25,7 +56,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../pages/appointments/appointments.module#AppointmentsPageModule'          
+            loadChildren: '../pages/appointments/appointments.module#AppointmentsPageModule'
           }
         ]
       },
@@ -40,7 +71,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/plan',
         pathMatch: 'full'
       }
     ]
@@ -56,4 +87,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }
