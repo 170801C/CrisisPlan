@@ -4,13 +4,21 @@ import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
 import { Platform } from '@ionic/angular';
+import { Router, NavigationEnd } from '@angular/router';
 var ImportantPage = /** @class */ (function () {
-    function ImportantPage(platform, modalController, symptomService) {
+    function ImportantPage(platform, modalController, symptomService, router) {
+        var _this = this;
         this.platform = platform;
         this.modalController = modalController;
         this.symptomService = symptomService;
+        this.router = router;
         this.symptoms = [];
         this.importants = [];
+        this.router.events.subscribe(function (event) {
+            if (event && event instanceof NavigationEnd && event.url) {
+                _this.normalPath = event.url + '/normal';
+            }
+        });
     }
     ImportantPage.prototype.ngOnInit = function () {
         this.loadPlan();
@@ -80,7 +88,8 @@ var ImportantPage = /** @class */ (function () {
             templateUrl: './important.page.html',
             styleUrls: ['./important.page.scss'],
         }),
-        tslib_1.__metadata("design:paramtypes", [Platform, ModalController, SymptomsService])
+        tslib_1.__metadata("design:paramtypes", [Platform, ModalController, SymptomsService,
+            Router])
     ], ImportantPage);
     return ImportantPage;
 }());

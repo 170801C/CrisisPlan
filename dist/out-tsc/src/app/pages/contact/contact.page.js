@@ -2,14 +2,27 @@ import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
+import { Router, NavigationEnd } from '@angular/router';
 var ContactPage = /** @class */ (function () {
-    function ContactPage(formBuilder, contactService) {
+    // Back button 
+    // defaultBackLink: string;
+    function ContactPage(formBuilder, contactService, router) {
+        var _this = this;
         this.formBuilder = formBuilder;
         this.contactService = contactService;
+        this.router = router;
         this.contact = {
             name: null,
             number: null
         };
+        // For tabs navigation 
+        this.router.events.subscribe(function (event) {
+            if (event && event instanceof NavigationEnd && event.url) {
+                // Back button 
+                // this.defaultBackLink = event.url.replace('/contact', '');
+                _this.criticalPath = event.url + '/critical'; // event.url : 'http://localhost:8100/tabs/plan/contact'
+            }
+        });
     }
     ContactPage.prototype.ngOnInit = function () {
         var _this = this;
@@ -44,7 +57,7 @@ var ContactPage = /** @class */ (function () {
             templateUrl: './contact.page.html',
             styleUrls: ['./contact.page.scss'],
         }),
-        tslib_1.__metadata("design:paramtypes", [FormBuilder, ContactService])
+        tslib_1.__metadata("design:paramtypes", [FormBuilder, ContactService, Router])
     ], ContactPage);
     return ContactPage;
 }());

@@ -1,18 +1,19 @@
 import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 var PlanPage = /** @class */ (function () {
-    function PlanPage(platform, symptomService, modalController, router, contactService) {
+    function PlanPage(platform, symptomService, modalController, router, contactService, alertController) {
         this.platform = platform;
         this.symptomService = symptomService;
         this.modalController = modalController;
         this.router = router;
         this.contactService = contactService;
+        this.alertController = alertController;
         // Declare an array to hold all plans from storage, to be used in template
         this.contact = null;
         this.symptoms = [];
@@ -23,8 +24,8 @@ var PlanPage = /** @class */ (function () {
         this.planExists = false;
     }
     PlanPage.prototype.ngOnInit = function () {
-        // this.symptomService.deleteAll();
         var _this = this;
+        this.symptomService.deleteAll();
         this.platform.ready()
             .then(function () {
             _this.loadContact();
@@ -80,6 +81,11 @@ var PlanPage = /** @class */ (function () {
             .then(function (result) {
             console.log("getContact() called: ", result);
             _this.contact = result;
+            console.log("this.contact: ", _this.contact);
+            console.log("typeof ", typeof _this.contact);
+            var x = [1, 2];
+            console.log("typeof x: ", typeof x);
+            console.log("contact != null ", _this.contact != null);
         });
     };
     PlanPage.prototype.loadPlan = function () {
@@ -88,10 +94,15 @@ var PlanPage = /** @class */ (function () {
             .then(function (result) {
             console.log("getPlan() result: ", result);
             _this.symptoms = result;
-            // Check if there is an existing plan. If yes, set planExists to true, which hides Create Plan button and shows Edit Button
-            if (!(_this.symptoms == [])) {
+            console.log("this.symptoms: ", _this.symptoms);
+            // Check if there is an existing plan. If yes, set planExists to true, otherwise set to false.
+            if (_this.symptoms.length > 0) {
                 _this.planExists = true;
             }
+            else {
+                _this.planExists = false;
+            }
+            console.log("plan exist: ", _this.planExists);
             _this.emptyArrays();
             console.log("Whats in crit arr:", _this.criticals);
             _this.sortInputs(_this.symptoms);
@@ -118,9 +129,6 @@ var PlanPage = /** @class */ (function () {
             });
         });
     };
-    PlanPage.prototype.goToContact = function () {
-        this.router.navigateByUrl('/contact');
-    };
     PlanPage.prototype.openInput = function (id) {
         var _this = this;
         this.modalController.create({
@@ -138,9 +146,38 @@ var PlanPage = /** @class */ (function () {
         });
     };
     PlanPage.prototype.addNewPlan = function () {
-        // Create alert to warn whether to discard plan
-        // Delete storage values 
-        // Go to contact page 
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var alert;
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.alertController.create({
+                            header: 'Add new plan',
+                            message: '<strong>Adding a new plan will delete the existing plan.<br><br>Proceed?</strong>',
+                            buttons: [
+                                {
+                                    text: 'Cancel',
+                                    role: 'cancel',
+                                }, {
+                                    text: 'Ok',
+                                    handler: function () {
+                                        console.log('Confirm Okay');
+                                        _this.symptomService.deleteAll();
+                                        _this.loadContact();
+                                        _this.loadPlan();
+                                    }
+                                }
+                            ]
+                        })];
+                    case 1:
+                        alert = _a.sent();
+                        return [4 /*yield*/, alert.present()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     PlanPage = tslib_1.__decorate([
         Component({
@@ -148,7 +185,8 @@ var PlanPage = /** @class */ (function () {
             templateUrl: './plan.page.html',
             styleUrls: ['./plan.page.scss'],
         }),
-        tslib_1.__metadata("design:paramtypes", [Platform, SymptomsService, ModalController, Router, ContactService])
+        tslib_1.__metadata("design:paramtypes", [Platform, SymptomsService, ModalController,
+            Router, ContactService, AlertController])
     ], PlanPage);
     return PlanPage;
 }());

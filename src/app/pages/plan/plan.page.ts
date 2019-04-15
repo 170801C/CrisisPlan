@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
@@ -14,15 +14,17 @@ import { Router } from '@angular/router';
 export class PlanPage implements OnInit {
 
   // Declare an array to hold all plans from storage, to be used in template
-  contact = null;
+  contact = [];
   symptoms = [];
   criticals = [];
   importants = [];
   attentions = [];
   normals = [];
-  planExists = false;
+  planExists: boolean;
+  contactExists: boolean;
 
-  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController, private router: Router, private contactService: ContactService) { }
+  constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
+    private router: Router, private contactService: ContactService, private alertController: AlertController) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -84,6 +86,20 @@ export class PlanPage implements OnInit {
       .then(result => {
         console.log("getContact() called: ", result)
         this.contact = result;
+        console.log("Whats in contact: ", this.contact)
+        console.log("contact length", this.contact.length)
+        // console.log("contact valueof", this.contact.valueOf())
+        // console.log("contact valueof", this.contact.valueOf() == null)
+
+        // Check if there is an existing plan. If yes, set planExists to true, otherwise set to false.
+        // ?? Something wonky with this control
+        if (this.contact.length === 0) {
+          this.contactExists = true;
+        }
+        else {
+          this.contactExists = false;
+        }
+        console.log("contact exist: ", this.contactExists)
       })
   }
 
@@ -92,11 +108,16 @@ export class PlanPage implements OnInit {
       .then(result => {
         console.log("getPlan() result: ", result)
         this.symptoms = result;
+        console.log("this.symptoms: ", this.symptoms)
 
-        // Check if there is an existing plan. If yes, set planExists to true, which hides Create Plan button and shows Edit Button
-        if (!(this.symptoms == [])) {
+        // Check if there is an existing plan. If yes, set planExists to true, otherwise set to false.
+        if (this.symptoms.length > 0) {
           this.planExists = true;
         }
+        else {
+          this.planExists = false;
+        }
+        console.log("plan exist: ", this.planExists)
 
         this.emptyArrays();
         console.log("Whats in crit arr:", this.criticals);
@@ -128,10 +149,6 @@ export class PlanPage implements OnInit {
     })
   }
 
-  goToContact() {
-    this.router.navigateByUrl('/contact')
-  }
-
   openInput(id) {
     this.modalController.create({
       component: SymptomsModalPage,
@@ -149,8 +166,33 @@ export class PlanPage implements OnInit {
     })
   }
 
-  addNewPlan() {
-    // Create alert to warn whether to discard plan
+  async addNewPlan() {
+    const alert = await this.alertController.create({
+      header: 'Add new plan',
+      message: '<strong>Adding a new plan will delete the existing plan.<br><br>Proceed?</strong>',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          // Optional properties
+          // cssClass: 'secondary',
+          // handler: (blah) => {
+          //   console.log('Confirm Cancel: blah');
+          // }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.symptomService.deleteAll();
+            this.loadContact();
+            this.loadPlan();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+
     // Delete storage values 
     // Go to contact page 
   }
