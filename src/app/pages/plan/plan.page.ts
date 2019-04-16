@@ -5,6 +5,8 @@ import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { Router } from '@angular/router';
 export class PlanPage implements OnInit {
 
   // Declare an array to hold all plans from storage, to be used in template
-  contact = [];
+  contact = {};
   symptoms = [];
   criticals = [];
   importants = [];
@@ -23,23 +25,57 @@ export class PlanPage implements OnInit {
   normals = [];
   planExists: boolean;
   contactExists: boolean;
+  customBackActionSubscription: Subscription;
+  lastBackPressTime = 0;
+  timePeriodToExitApp = 2000;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
-    private router: Router, private contactService: ContactService, private alertController: AlertController) { }
+    private router: Router, private contactService: ContactService, private alertController: AlertController, public toastController: ToastController) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
 
     this.platform.ready()
       .then(() => {
+        // Display a toast to inform user to press the back button again to exit the app
+        this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+          if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+            // this.platform.exitApp(); 
+            navigator['app'].exitApp();
+
+          } else {
+            // Display toast
+            this.exitAppToast()
+            this.lastBackPressTime = new Date().getTime();
+          }
+        });
+
         this.loadContact();
         this.loadPlan();
       })
   }
 
   ionViewWillEnter() {
+    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+      if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+        // this.platform.exitApp(); 
+        navigator['app'].exitApp();
+
+      } else {
+        // Show toast upon exiting app
+        this.exitAppToast()
+        this.lastBackPressTime = new Date().getTime();
+      }
+    });
+
     this.loadContact();
     this.loadPlan();
+  }
+
+  ionViewDidLeave() {
+    if (this.customBackActionSubscription) {
+      this.customBackActionSubscription.unsubscribe();
+    }
   }
 
   // Clear the colored arrays
@@ -85,17 +121,15 @@ export class PlanPage implements OnInit {
   loadContact() {
     this.contactService.getContact()
       .then(result => {
-        this.contact = result;
-        console.log("getContact() called: ", result)
-        console.log("Whats in contact: ", this.contact)
-        console.log("contact length", this.contact.length)
-
-        if (this.contact.length > 0) {
+        if ('name' in result) {
+          this.contact = result;
           this.contactExists = true;
         }
         else {
           this.contactExists = false;
         }
+        console.log("getContact() called: ", result)
+        console.log("Whats in contact: ", this.contact)
         console.log("contact exist: ", this.contactExists)
       })
   }
@@ -119,7 +153,6 @@ export class PlanPage implements OnInit {
         console.log("Whats in crit arr:", this.criticals);
 
         this.sortInputs(this.symptoms);
-
         console.log('normal: ', this.normals);
         console.log('attention: ', this.attentions);
         console.log('important: ', this.importants);
@@ -162,7 +195,7 @@ export class PlanPage implements OnInit {
     })
   }
 
-  async addNewPlan() {
+  async addNewPlanAlert() {
     const alert = await this.alertController.create({
       header: 'Add new plan',
       message: '<strong>Adding a new plan will delete the existing plan.<br><br>Proceed?</strong>',
@@ -189,7 +222,16 @@ export class PlanPage implements OnInit {
 
     await alert.present();
 
-    // Delete storage values 
-    // Go to contact page 
+    // Go to contact page?
+  }
+
+  async exitAppToast() {
+    const toast = await this.toastController.create({
+      message: 'Press the back button again to exit the app',
+      duration: 2000,
+      position: 'middle',
+    });
+    toast.present();
   }
 }
+

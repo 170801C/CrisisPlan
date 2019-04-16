@@ -3,6 +3,9 @@ import { contactModel } from '../../models/contactModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-contact',
@@ -24,8 +27,10 @@ export class ContactPage implements OnInit {
   criticalPath: string;
   // Back button 
   // defaultBackLink: string;
+  customBackActionSubscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private contactService: ContactService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private contactService: ContactService, private router: Router,
+    private platform: Platform) {
     // For tabs navigation 
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
@@ -37,14 +42,29 @@ export class ContactPage implements OnInit {
   }
 
   ngOnInit() {
+    // Upon pressing back button, prompt user if changes are to be discarded. Ok: Discard changes and return to Plan page. Cancel: Stay on Contact page
+    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+      // To do
+    });
+
     this.contactService.getContact()
-      .then((result) => this.contact = result[0])
+      .then((result) => this.contact = result)
   }
 
   // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
   ionViewWillEnter() {
+    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+      // To do
+    });
+
     this.contactService.getContact()
-      .then((result) => this.contact = result[0])
+      .then((result) => this.contact = result)
+  }
+
+  ionViewDidLeave() {
+    if (this.customBackActionSubscription) {
+      this.customBackActionSubscription.unsubscribe();
+    }
   }
 
   // Getters for form validation
