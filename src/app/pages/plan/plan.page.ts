@@ -100,6 +100,7 @@ export class PlanPage implements OnInit {
           this.contactExists = false;
         }
         console.log("contact exist: ", this.contactExists)
+        $("#edit").hide()
       })
   }
 

@@ -4,7 +4,7 @@
     <ion-title class="title">Plan</ion-title>
     <!-- Discard, Add buttons -->
     <ion-button slot="end" (click)="addNewPlan()" [hidden]="planExists == false">Add</ion-button>
-    <ion-button routerLink="/tabs/plan/contact" routerDirection="forward" slot="end" [hidden]="planExists == false">Edit</ion-button>
+    <ion-button id="edit" routerLink="/tabs/plan/contact" routerDirection="forward" slot="end">Edit</ion-button>
   </ion-toolbar>
 </ion-header>
 
