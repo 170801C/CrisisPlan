@@ -16,6 +16,11 @@ export class ContactPage implements OnInit {
     name: null,
     number: null
   };
+  // Convert [] to {}
+  contactObject: contactModel = {
+    name: null,
+    number: null
+  }
   criticalPath: string;
   // Back button 
   // defaultBackLink: string;
@@ -33,13 +38,13 @@ export class ContactPage implements OnInit {
 
   ngOnInit() {
     this.contactService.getContact()
-      .then((result) => this.contact = result)
+      .then((result) => this.contact = result[0])
   }
 
   // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
   ionViewWillEnter() {
     this.contactService.getContact()
-      .then((result) => this.contact = result)
+      .then((result) => this.contact = result[0])
   }
 
   // Getters for form validation
@@ -47,7 +52,13 @@ export class ContactPage implements OnInit {
   get number() { return this.contactForm.get('number'); }
 
   saveContact() {
-    this.contactService.addContact(this.contact)
+    console.log("Saving contact: ", this.contact)
+    // Convert [] to {}
+    this.contactObject.name = this.contact.name
+    this.contactObject.number = this.contact.number
+    console.log("contactObject: ", this.contactObject)
+
+    this.contactService.addContact(this.contactObject)
       .then(() => { this.contactService.getContact(); })  // Remove this 
   }
 }

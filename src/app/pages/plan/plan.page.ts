@@ -6,6 +6,7 @@ import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.page.html',
@@ -84,34 +85,28 @@ export class PlanPage implements OnInit {
   loadContact() {
     this.contactService.getContact()
       .then(result => {
-        console.log("getContact() called: ", result)
         this.contact = result;
+        console.log("getContact() called: ", result)
         console.log("Whats in contact: ", this.contact)
         console.log("contact length", this.contact.length)
-        // console.log("contact valueof", this.contact.valueOf())
-        // console.log("contact valueof", this.contact.valueOf() == null)
 
-        // Check if there is an existing plan. If yes, set planExists to true, otherwise set to false.
-        // ?? Something wonky with this control
-        if (this.contact.length === 0) {
+        if (this.contact.length > 0) {
           this.contactExists = true;
         }
         else {
           this.contactExists = false;
         }
         console.log("contact exist: ", this.contactExists)
-        $("#edit").hide()
       })
   }
 
   loadPlan() {
     this.symptomService.getPlan()
       .then(result => {
-        console.log("getPlan() result: ", result)
         this.symptoms = result;
+        console.log("getPlan() result: ", result)
         console.log("this.symptoms: ", this.symptoms)
 
-        // Check if there is an existing plan. If yes, set planExists to true, otherwise set to false.
         if (this.symptoms.length > 0) {
           this.planExists = true;
         }

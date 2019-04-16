@@ -15,14 +15,14 @@ export class ContactService {
       // If no value in key, create new with myContact
       if (!contact) {
         console.log("No existing contact, add contact")
-        return this.storage.set(CONTACT_KEY, myContact);
+        return this.storage.set(CONTACT_KEY, [myContact]);
       }
       else {
-        // if there is existing value in key, push new myContact to contact array
+        // If there is existing value in key, push new myContact to contact array
         console.log("Existing contact: ", contact)
         console.log("Replacing contact with: ", myContact)
 
-        return this.storage.set(CONTACT_KEY, myContact);
+        return this.storage.set(CONTACT_KEY, [myContact]);
       }
     })
   }
