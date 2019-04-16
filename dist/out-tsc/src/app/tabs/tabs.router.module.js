@@ -17,6 +17,37 @@ var routes = [
                         path: '',
                         // Relative file path to this filename.module#module_name
                         loadChildren: '../pages/plan/plan.module#PlanPageModule'
+                    },
+                    {
+                        path: 'contact',
+                        children: [
+                            {
+                                path: '',
+                                loadChildren: '../pages/contact/contact.module#ContactPageModule',
+                            },
+                            {
+                                path: 'critical',
+                                children: [
+                                    {
+                                        path: '',
+                                        loadChildren: '../pages/critical/critical.module#CriticalPageModule'
+                                    },
+                                    {
+                                        path: 'important',
+                                        children: [
+                                            {
+                                                path: '',
+                                                loadChildren: '../pages/important/important.module#ImportantPageModule'
+                                            },
+                                            {
+                                                path: 'normal',
+                                                loadChildren: '../pages/normal/normal.module#NormalPageModule'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
@@ -40,7 +71,7 @@ var routes = [
             },
             {
                 path: '',
-                redirectTo: '/tabs/tab1',
+                redirectTo: '/tabs/plan',
                 pathMatch: 'full'
             }
         ]

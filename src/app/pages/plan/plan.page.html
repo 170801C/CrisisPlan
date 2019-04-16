@@ -3,15 +3,15 @@
     <ion-button slot="start">PDF</ion-button>
     <ion-title class="title">Plan</ion-title>
     <!-- Discard, Add buttons -->
-    <!-- <ion-button slot="end" (click)="addNewPlan()">Add</ion-button> -->
-    <ion-button routerLink="/tabs/plan/contact" routerDirection="forward" slot="end" [hidden]="!planExists">Edit</ion-button>
+    <ion-button slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</ion-button>
+    <ion-button id="edit" routerLink="/tabs/plan/contact" routerDirection="forward" slot="end" [hidden]="!planExists && !contactExists">Edit</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-no-padding">
 
-  <ion-grid class="ion-no-padding">
-    <ion-row *ngIf="contact">
+  <ion-grid class="ion-no-padding" *ngIf="contactExists">
+    <ion-row >
       <ion-col>
         TCS Name:
         <br>
@@ -147,10 +147,10 @@
   </ion-list>
 
   <!-- Add input button -->
-  <ion-grid [hidden]="!planExists">
+  <ion-grid [hidden]="planExists || contactExists">
     <ion-row>
       <ion-col size="auto">
-        <ion-fab-button (click)="goToContact()">
+        <ion-fab-button routerLink="/tabs/plan/contact" routerDirection="forward">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>

@@ -18,7 +18,7 @@ export class ContactService {
         return this.storage.set(CONTACT_KEY, myContact);
       }
       else {
-        // if there is existing value in key, push new myContact to contact array
+        // If there is existing value in key, push new myContact to contact array
         console.log("Existing contact: ", contact)
         console.log("Replacing contact with: ", myContact)
 
@@ -31,7 +31,7 @@ export class ContactService {
     return this.storage.get(CONTACT_KEY).then(result => {
       // If no value in key, return an empty array.  
       if (!result) {
-        return [];
+        return {};
       }
       else {
         console.log("Contact storage: ", result);
