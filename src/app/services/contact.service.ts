@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 const CONTACT_KEY = "myContact";
+const TEMP_CONTACT_KEY = "myTempContact";
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +12,18 @@ export class ContactService {
   constructor(private storage: Storage) { }
 
   addContact(myContact) {
-    return this.storage.get(CONTACT_KEY).then(contact => {
+    return this.storage.get(TEMP_CONTACT_KEY).then(contact => {
       // If no value in key, create new with myContact
       if (!contact) {
         console.log("No existing contact, add contact")
-        return this.storage.set(CONTACT_KEY, myContact);
+        return this.storage.set(TEMP_CONTACT_KEY, myContact);
       }
       else {
         // If there is existing value in key, push new myContact to contact array
         console.log("Existing contact: ", contact)
         console.log("Replacing contact with: ", myContact)
 
-        return this.storage.set(CONTACT_KEY, myContact);
+        return this.storage.set(TEMP_CONTACT_KEY, myContact);
       }
     })
   }
@@ -40,9 +41,9 @@ export class ContactService {
     })
   }
 
-   // Delete all value for the key
+   // Delete all value in TEMP_CONTACT_KEY
    deleteContact() {
-    this.storage.remove(CONTACT_KEY);
+    this.storage.remove(TEMP_CONTACT_KEY);
   }
 
   // Return Promise<LocalForage> type!

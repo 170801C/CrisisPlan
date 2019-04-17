@@ -213,16 +213,16 @@ export class PlanPage implements OnInit {
           handler: () => {
             console.log('Confirm Okay');
             this.symptomService.deleteAll();
-            this.loadContact();
-            this.loadPlan();
+            // Go to Contact page
+            this.router.navigateByUrl('/tabs/plan/contact');
+            // this.loadContact();
+            // this.loadPlan();
           }
         }
       ]
     });
 
     await alert.present();
-
-    // Go to contact page?
   }
 
   async exitAppToast() {
