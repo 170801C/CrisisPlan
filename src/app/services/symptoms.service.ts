@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 const PLAN_KEY = "myPlan";
+const TEMP_PLAN_KEY = "myTempPlan";
 
 @Injectable({
   providedIn: 'root'
