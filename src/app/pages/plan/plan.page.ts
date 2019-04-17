@@ -118,10 +118,15 @@ export class PlanPage implements OnInit {
     }
   }
 
-  loadContact() {
+  async loadContact() {
+    console.log("setAllTempContact")
+    await this.contactService.setTempContact();
+    await this.contactService.deleteTempContact();
+
     this.contactService.getContact()
       .then(result => {
         if ('name' in result) {
+          console.log()
           this.contact = result;
           this.contactExists = true;
         }
@@ -212,6 +217,7 @@ export class PlanPage implements OnInit {
           text: 'Ok',
           handler: () => {
             console.log('Confirm Okay');
+            // Empty storage
             this.symptomService.deleteAll();
             // Go to Contact page
             this.router.navigateByUrl('/tabs/plan/contact');

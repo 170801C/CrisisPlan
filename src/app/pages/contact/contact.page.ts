@@ -28,6 +28,7 @@ export class ContactPage implements OnInit {
   // Back button 
   // defaultBackLink: string;
   customBackActionSubscription: Subscription;
+  contactChanged = false;
 
   constructor(private formBuilder: FormBuilder, private contactService: ContactService, private router: Router,
     private platform: Platform) {
@@ -47,8 +48,7 @@ export class ContactPage implements OnInit {
       // To do
     });
 
-    this.contactService.getContact()
-      .then((result) => this.contact = result)
+    this.loadContact();
   }
 
   // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
@@ -57,8 +57,7 @@ export class ContactPage implements OnInit {
       // To do
     });
 
-    this.contactService.getContact()
-      .then((result) => this.contact = result)
+    this.loadContact();
   }
 
   ionViewDidLeave() {
@@ -71,14 +70,36 @@ export class ContactPage implements OnInit {
   get name() { return this.contactForm.get('name'); }
   get number() { return this.contactForm.get('number'); }
 
-  saveContact() {
+  loadContact() {
+    console.log("Is contact changed?: ", this.contactChanged)
+
+    if (this.contactChanged) {
+      this.contactService.getTempContact()
+        .then((result) => {
+          this.contact = result;
+          console.log("From temp contact: ")
+        })
+    }
+    else {
+      this.contactService.getContact()
+      .then((result) => {
+        this.contact = result;
+        console.log("From contact: ")
+      })
+    }
+  }
+
+  saveTempContact() {
+    // contactChanged = true whenever Next button is pressed, except when key in storage is emptied 
+    this.contactChanged = true;
+
     console.log("Saving contact: ", this.contact)
     // Convert [] to {}
     this.contactObject.name = this.contact.name
     this.contactObject.number = this.contact.number
     console.log("contactObject: ", this.contactObject)
 
-    this.contactService.addContact(this.contactObject)
-      .then(() => { this.contactService.getContact(); })  // Remove this 
+    // Add contact inputs to temp contact 
+    this.contactService.addTempContact(this.contactObject)
   }
 }

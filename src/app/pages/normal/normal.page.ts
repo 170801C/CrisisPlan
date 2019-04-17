@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
+import { ContactService } from '../../services/contact.service';
 import { Platform } from '@ionic/angular';
 
 
@@ -15,7 +16,8 @@ export class NormalPage implements OnInit {
   symptoms = [];
   normals = [];
 
-  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService) { }
+  constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
+    private contactService: ContactService) { }
 
   ngOnInit() {
     this.loadPlan();

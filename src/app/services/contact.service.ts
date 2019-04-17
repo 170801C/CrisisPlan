@@ -11,19 +11,25 @@ export class ContactService {
 
   constructor(private storage: Storage) { }
 
-  addContact(myContact) {
-    return this.storage.get(TEMP_CONTACT_KEY).then(contact => {
+  addTempContact(myContact) {
+    return this.storage.get(TEMP_CONTACT_KEY).then(result => {
       // If no value in key, create new with myContact
-      if (!contact) {
-        console.log("No existing contact, add contact")
-        return this.storage.set(TEMP_CONTACT_KEY, myContact);
+      console.log("Existing temp contact: ", result)
+      console.log("Replacing temp contact with: ", myContact)
+
+      return this.storage.set(TEMP_CONTACT_KEY, myContact);
+    })
+  }
+
+  getTempContact() {
+    return this.storage.get(TEMP_CONTACT_KEY).then(result => {
+      // If no value in key, return an empty array.  
+      if (!result) {
+        return {};
       }
       else {
-        // If there is existing value in key, push new myContact to contact array
-        console.log("Existing contact: ", contact)
-        console.log("Replacing contact with: ", myContact)
-
-        return this.storage.set(TEMP_CONTACT_KEY, myContact);
+        console.log("Temp Contact storage: ", result);
+        return result;
       }
     })
   }
@@ -41,8 +47,15 @@ export class ContactService {
     })
   }
 
-   // Delete all value in TEMP_CONTACT_KEY
-   deleteContact() {
+  // Set temp contact to contact 
+  setTempContact() {
+    return this.storage.get(TEMP_CONTACT_KEY).then(tempResult => {
+      return this.storage.set(CONTACT_KEY, tempResult);
+    })
+  }
+
+  // Delete value in TEMP_CONTACT_KEY
+  deleteTempContact() {
     this.storage.remove(TEMP_CONTACT_KEY);
   }
 
