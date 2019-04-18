@@ -11,12 +11,20 @@ export class SymptomsService {
 
   constructor(private storage: Storage) { }
 
-  addSymptom(mySymptom) {
-    return this.storage.get(PLAN_KEY).then(symptoms => {
+  actualToTemp() {
+    this.getPlan()
+      .then((result) => {
+        console.log("Result to be stored in temp: ", result)
+        return this.storage.set(TEMP_PLAN_KEY, result);
+      })
+  }
+
+  addTempSymptom(mySymptom) {
+    return this.storage.get(TEMP_PLAN_KEY).then(symptoms => {
       // If no value in key, create new with mySymptom
       if (!symptoms) {
         console.log("No existing symptoms")
-        return this.storage.set(PLAN_KEY, [mySymptom]);
+        return this.storage.set(TEMP_PLAN_KEY, [mySymptom]);
       }
       else {
         // if there is existing value in key, push new mySymptom to symptoms array
@@ -25,19 +33,19 @@ export class SymptomsService {
 
         symptoms.push(mySymptom);
 
-        return this.storage.set(PLAN_KEY, symptoms);
+        return this.storage.set(TEMP_PLAN_KEY, symptoms);
       }
     })
   }
 
-  getSymptomById(id) {
-    return this.storage.get(PLAN_KEY).then(result => {
+  getTempSymptomById(id) {
+    return this.storage.get(TEMP_PLAN_KEY).then(result => {
       return result.filter(item => item.id == id)
     })
   }
 
-  updateSymptom(mySymptom) {
-    return this.storage.get(PLAN_KEY).then(result => {
+  updateTempSymptom(mySymptom) {
+    return this.storage.get(TEMP_PLAN_KEY).then(result => {
       console.log("update mySymptom id: ", mySymptom)
       console.log("Updating.....")
 
@@ -53,12 +61,12 @@ export class SymptomsService {
         }
       }
 
-      return this.storage.set(PLAN_KEY, updatedPlan);
+      return this.storage.set(TEMP_PLAN_KEY, updatedPlan);
     })
   }
 
-  deleteSymptomById(id) {
-    return this.storage.get(PLAN_KEY)
+  deleteTempSymptomById(id) {
+    return this.storage.get(TEMP_PLAN_KEY)
       .then(result => {
         let toKeep = [];
         let toDelete = null;
@@ -72,8 +80,21 @@ export class SymptomsService {
           }
         }
 
-        return this.storage.set(PLAN_KEY, toKeep);
+        return this.storage.set(TEMP_PLAN_KEY, toKeep);
       })
+  }
+
+  getTempPlan() {
+    return this.storage.get(TEMP_PLAN_KEY).then(result => {
+      // If no value in key, return an empty array.  
+      if (!result) {
+        return [];
+      }
+      else {
+        console.log("Value from temp plan: ", result);
+        return result;
+      }
+    })
   }
 
   getPlan() {
@@ -83,15 +104,22 @@ export class SymptomsService {
         return [];
       }
       else {
-        console.log("Value from storage: ", result);
+        // console.log("Value from actual plan: ", result);
         return result;
       }
     })
   }
 
+  // Set temp contact to actual contact 
+  tempToActual() {
+    return this.storage.get(TEMP_PLAN_KEY).then(tempResult => {
+      return this.storage.set(PLAN_KEY, tempResult);
+    })
+  }
+
   // Delete all value for the key
-  deletePlan() {
-    this.storage.remove(PLAN_KEY);
+  deleteTempPlan() {  
+    this.storage.remove(TEMP_PLAN_KEY);
   }
 
   // Delete everything in storage

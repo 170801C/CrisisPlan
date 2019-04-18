@@ -15,16 +15,35 @@ export class NormalPage implements OnInit {
 
   symptoms = [];
   normals = [];
+  planChanged = false;
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
-    private contactService: ContactService) { }
+    private contactService: ContactService) {
+  }
 
   ngOnInit() {
-    this.loadPlan();
+    console.log("Initial plan changed? ", this.planChanged)
+
+    if (this.planChanged) {
+      // Load from temp
+      this.loadTempPlan();
+    }
+    else {
+      // Load from actual
+      this.loadPlan();
+      this.actualToTemp();
+    }
   }
 
   ionViewWillEnter() {
-    this.loadPlan();
+    console.log("Initial plan changed? ", this.planChanged)
+
+    if (this.planChanged) {
+      this.loadTempPlan();
+    }
+    else {
+      this.loadPlan();
+    }
   }
 
   emptyArray() {
@@ -40,10 +59,32 @@ export class NormalPage implements OnInit {
     }
   }
 
+  actualToTemp() {
+    // Copy actual plan to temp plan
+    this.symptomService.actualToTemp()
+
+    this.planChanged = true;
+    console.log("Is planChanged? ", this.planChanged)
+  }
+
+  loadTempPlan() {
+    this.symptomService.getTempPlan()
+      .then(result => {
+        console.log("temp getPlan() result: ", result)
+        this.symptoms = result;
+
+        this.emptyArray();
+
+        this.sortInputs(this.symptoms);
+
+        console.log('normal array: ', this.normals);
+      })
+  }
+
   loadPlan() {
     this.symptomService.getPlan()
       .then(result => {
-        console.log("getPlan() result: ", result)
+        console.log("actual getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
@@ -66,7 +107,7 @@ export class NormalPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload normal page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })
@@ -83,7 +124,7 @@ export class NormalPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload normal page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })

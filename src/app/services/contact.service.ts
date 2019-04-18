@@ -47,8 +47,8 @@ export class ContactService {
     })
   }
 
-  // Set temp contact to contact 
-  setTempContact() {
+  // Set temp contact to actual contact 
+  tempToActual() {
     return this.storage.get(TEMP_CONTACT_KEY).then(tempResult => {
       return this.storage.set(CONTACT_KEY, tempResult);
     })

@@ -119,8 +119,8 @@ export class PlanPage implements OnInit {
   }
 
   async loadContact() {
-    console.log("setAllTempContact")
-    await this.contactService.setTempContact();
+    console.log("setAllTempContact then delete temp contact")
+    await this.contactService.tempToActual();
     await this.contactService.deleteTempContact();
 
     this.contactService.getContact()
@@ -139,7 +139,11 @@ export class PlanPage implements OnInit {
       })
   }
 
-  loadPlan() {
+  async loadPlan() {
+    console.log("setAllTempPlan then delete temp plan ")
+    await this.symptomService.tempToActual();
+    await this.symptomService.deleteTempPlan();
+
     this.symptomService.getPlan()
       .then(result => {
         this.symptoms = result;

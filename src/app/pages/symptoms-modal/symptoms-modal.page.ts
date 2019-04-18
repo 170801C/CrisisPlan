@@ -77,7 +77,7 @@ export class SymptomsModalPage implements OnInit {
 
       console.log("Symptom id exists: ", this.id)
 
-      this.symptomsService.getSymptomById(this.id)
+      this.symptomsService.getTempSymptomById(this.id)
         .then((symptom) => {
           console.log("Symptom get by id: ", symptom[0])
 
@@ -247,7 +247,7 @@ export class SymptomsModalPage implements OnInit {
   }
 
   deleteInput(id) {
-    this.symptomsService.deleteSymptomById(id)
+    this.symptomsService.deleteTempSymptomById(id)
       .then(res => {
         console.log("Is symptom deleted: ", res)
         // Close the modal and return data --> reload key: true value  
@@ -272,7 +272,7 @@ export class SymptomsModalPage implements OnInit {
 
     // Update existing symptom & plan or add new symptom to plan
     if (this.id != null) {
-      this.symptomsService.updateSymptom(this.symptom)
+      this.symptomsService.updateTempSymptom(this.symptom)
         .then(res => {
           console.log("Is storage updated: ", res)
           // Close the modal and return data --> reload key: true value  
@@ -281,7 +281,7 @@ export class SymptomsModalPage implements OnInit {
     }
     else {
       // Add the new symptom to Ionic storage
-      this.symptomsService.addSymptom(this.symptom)
+      this.symptomsService.addTempSymptom(this.symptom)
         .then(res => {
           // Close the modal and return data --> reload key: true value  
           this.modalController.dismiss({ reload: true });
