@@ -24,6 +24,7 @@ export class NormalPage implements OnInit {
   ngOnInit() {
     console.log("Initial plan changed? ", this.planChanged)
 
+    // If plan has changed, get contact from temp. Else, get from actual, set actual to temp (for array manipulation) and set this.planChanged = true  
     if (this.planChanged) {
       // Load from temp
       this.loadTempPlan();
@@ -129,4 +130,16 @@ export class NormalPage implements OnInit {
       })
     })
   }
+
+  // Set temp to actual, then delete temp, for all data 
+  async allTempToActual() {
+    console.log("Contact: tempToActual then delete temp contact")
+    await this.contactService.tempToActual();
+    await this.contactService.deleteTempContact();
+    
+    console.log("Plan: tempToActual then delete temp contact")
+    this.symptomService.tempToActual();
+    this.symptomService.deleteTempPlan();
+  }
 }
+

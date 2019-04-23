@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
+import { SymptomsService } from 'src/app/services/symptoms.service';
 
 
 @Component({
@@ -30,8 +31,8 @@ export class ContactPage implements OnInit {
   customBackActionSubscription: Subscription;
   contactChanged = false;
 
-  constructor(private formBuilder: FormBuilder, private contactService: ContactService, private router: Router,
-    private platform: Platform) {
+  constructor(private formBuilder: FormBuilder, private contactService: ContactService, private symptomService: SymptomsService,
+    private router: Router, private platform: Platform, private alertController: AlertController) {
     // For tabs navigation 
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
@@ -45,7 +46,10 @@ export class ContactPage implements OnInit {
   ngOnInit() {
     // Upon pressing back button, prompt user if changes are to be discarded. Ok: Discard changes and return to Plan page. Cancel: Stay on Contact page
     this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      // To do
+      console.log("Discard changes alert")
+      this.discardTempAlert();
+
+      // Will it auto return to Plan page?
     });
 
     this.loadContact();
@@ -73,6 +77,7 @@ export class ContactPage implements OnInit {
   loadContact() {
     console.log("Is contact changed?: ", this.contactChanged)
 
+    // If contact has changed (Next button pressed), get contact from temp. Else, get from actual. 
     if (this.contactChanged) {
       this.contactService.getTempContact()
         .then((result) => {
@@ -82,10 +87,10 @@ export class ContactPage implements OnInit {
     }
     else {
       this.contactService.getContact()
-      .then((result) => {
-        this.contact = result;
-        console.log("From contact: ")
-      })
+        .then((result) => {
+          this.contact = result;
+          console.log("From contact: ")
+        })
     }
   }
 
@@ -101,5 +106,35 @@ export class ContactPage implements OnInit {
 
     // Add contact inputs to temp contact 
     this.contactService.addTempContact(this.contactObject)
+  }
+
+  async discardTempAlert() {
+    const alert = await this.alertController.create({
+      header: 'Add new plan',
+      message: '<strong>Discard current changes?</strong>',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          // Optional properties
+          // cssClass: 'secondary',
+          // handler: (blah) => {
+          //   console.log('Confirm Cancel: blah');
+          // }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Okay');
+            // Delete temp contact
+            this.contactService.deleteTempContact();
+            // Delete temp plan
+            this.symptomService.deleteTempPlan();
+
+            // Go to Plan page
+            // this.router.navigateByUrl('/tabs/plan/contact');
+          }
+        }
+      ]
+    });
   }
 }

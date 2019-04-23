@@ -41,6 +41,7 @@ export class PlanPage implements OnInit {
         this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
           if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
             // this.platform.exitApp(); 
+            console.log("Exiting app")
             navigator['app'].exitApp();
 
           } else {
@@ -72,8 +73,9 @@ export class PlanPage implements OnInit {
     this.loadPlan();
   }
 
-  ionViewDidLeave() {
+  ionViewWillLeave() {
     if (this.customBackActionSubscription) {
+      console.log("Unsubscribe???")
       this.customBackActionSubscription.unsubscribe();
     }
   }
@@ -119,10 +121,6 @@ export class PlanPage implements OnInit {
   }
 
   async loadContact() {
-    console.log("setAllTempContact then delete temp contact")
-    await this.contactService.tempToActual();
-    await this.contactService.deleteTempContact();
-
     this.contactService.getContact()
       .then(result => {
         if ('name' in result) {
