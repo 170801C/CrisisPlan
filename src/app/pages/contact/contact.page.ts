@@ -95,7 +95,7 @@ export class ContactPage implements OnInit {
   }
 
   saveTempContact() {
-    // contactChanged = true whenever Next button is pressed, except when key in storage is emptied 
+    // contactChanged = true whenever Next button is pressed
     this.contactChanged = true;
 
     console.log("Saving contact: ", this.contact)

@@ -127,7 +127,8 @@ export class SymptomsService {
     this.storage.clear();
   }
 
-  // Return Promise<LocalForage> type!
+  // Return Promise<LocalForage> type! 
+  // Does not ensure that all (async) storage operations are done. Just that storage is ready for use.
   storageReady() {
     return this.storage.ready();
   }

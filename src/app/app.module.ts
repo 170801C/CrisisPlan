@@ -13,6 +13,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.module';
 
+import { NormalPage } from './pages/normal/normal.page';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -20,7 +22,8 @@ import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.m
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    NormalPage
   ],
   bootstrap: [AppComponent]
 })

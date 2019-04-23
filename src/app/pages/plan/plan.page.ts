@@ -7,6 +7,7 @@ import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
+import { NormalPage } from '../normal/normal.page';
 
 
 @Component({
@@ -28,12 +29,23 @@ export class PlanPage implements OnInit {
   customBackActionSubscription: Subscription;
   lastBackPressTime = 0;
   timePeriodToExitApp = 2000;
+  storageUpdated: boolean;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
-    private router: Router, private contactService: ContactService, private alertController: AlertController, public toastController: ToastController) { }
+    private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController, 
+    private normal: NormalPage) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     // this.symptomService.deleteAll();
+
+    // Does not work
+    this.normal.messageEvent.subscribe({
+      next: ($event: boolean) => {
+        console.log("What is event: ", $event);
+        // console.log(`Received message #${event.eventId}: ${event.message}`);
+        // }
+      }
+    })
 
     this.platform.ready()
       .then(() => {
@@ -51,8 +63,11 @@ export class PlanPage implements OnInit {
           }
         });
 
-        this.loadContact();
-        this.loadPlan();
+        console.log("Is storage updated: ", this.storageUpdated)
+        if (this.storageUpdated) {
+          this.loadContact();
+          this.loadPlan();
+        }
       })
   }
 
@@ -69,8 +84,11 @@ export class PlanPage implements OnInit {
       }
     });
 
-    this.loadContact();
-    this.loadPlan();
+    console.log("Is storage updated: ", this.storageUpdated)
+    if (this.storageUpdated) {
+      this.loadContact();
+      this.loadPlan();
+    }
   }
 
   ionViewWillLeave() {
@@ -78,6 +96,11 @@ export class PlanPage implements OnInit {
       console.log("Unsubscribe???")
       this.customBackActionSubscription.unsubscribe();
     }
+  }
+
+  receiveMessage($event) {
+    console.log("RECEIVE MESSAGE")
+    this.storageUpdated = true;
   }
 
   // Clear the colored arrays
