@@ -4,6 +4,7 @@ import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ContactService } from '../../services/contact.service';
 import { Platform } from '@ionic/angular';
+import { GeneralService } from '../../services/general.service';
 
 
 @Component({
@@ -17,14 +18,12 @@ export class NormalPage implements OnInit {
   normals = [];
   planChanged = false;
 
-  // In progress
-  public messageEvent = new EventEmitter<boolean>();
 
-  // In progress
+  // public messageEvent = new EventEmitter<boolean>();
   // @Output() messageEvent = new EventEmitter<boolean>();
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
-    private contactService: ContactService) {
+    private contactService: ContactService, private generalService: GeneralService) {
   }
 
   ngOnInit() {
@@ -138,17 +137,17 @@ export class NormalPage implements OnInit {
   }
 
   // Set temp to actual, then delete temp, for all data 
-  public async allTempToActual() {
+  async allTempToActual() {
     console.log("Contact: tempToActual then delete temp contact")
     await this.contactService.tempToActual();
     await this.contactService.deleteTempContact();
 
-    console.log("Plan: tempToActual then delete temp contact")
+    console.log("Plan: tempToActual then delete temp plan")
     await this.symptomService.tempToActual();
     await this.symptomService.deleteTempPlan();
 
-    // This is to ensure that Plan page only loads data from storage when it is updated.
-    this.messageEvent.emit(true);
+    // Send value to observable to emit to Plan page to get latest storage values 
+    this.generalService.changeMessage(true)
   }
 }
 

@@ -18,12 +18,12 @@ export class AppComponent {
     this.initializeApp();
   }
 
-initializeApp() {
-  this.platform.ready().then(() => {
-    this.statusBar.styleDefault();
-    this.splashScreen.hide();
-  });
-}
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    });
+  }
 }
 
 // import { Component, ViewChildren, QueryList } from '@angular/core';

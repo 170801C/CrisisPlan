@@ -7,7 +7,8 @@ import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-import { NormalPage } from '../normal/normal.page';
+import { GeneralService } from '../../services/general.service';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -29,23 +30,14 @@ export class PlanPage implements OnInit {
   customBackActionSubscription: Subscription;
   lastBackPressTime = 0;
   timePeriodToExitApp = 2000;
-  storageUpdated: boolean;
+  contactAndPlanSubscription: Subscription;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
-    private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController, 
-    private normal: NormalPage) { }
+    private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
+    private generalService: GeneralService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     // this.symptomService.deleteAll();
-
-    // Does not work
-    this.normal.messageEvent.subscribe({
-      next: ($event: boolean) => {
-        console.log("What is event: ", $event);
-        // console.log(`Received message #${event.eventId}: ${event.message}`);
-        // }
-      }
-    })
 
     this.platform.ready()
       .then(() => {
@@ -55,7 +47,6 @@ export class PlanPage implements OnInit {
             // this.platform.exitApp(); 
             console.log("Exiting app")
             navigator['app'].exitApp();
-
           } else {
             // Display toast
             this.exitAppToast()
@@ -63,11 +54,11 @@ export class PlanPage implements OnInit {
           }
         });
 
-        console.log("Is storage updated: ", this.storageUpdated)
-        if (this.storageUpdated) {
+        // Get the latest updated storage values 
+        this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
           this.loadContact();
           this.loadPlan();
-        }
+        })
       })
   }
 
@@ -76,7 +67,6 @@ export class PlanPage implements OnInit {
       if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
         // this.platform.exitApp(); 
         navigator['app'].exitApp();
-
       } else {
         // Show toast upon exiting app
         this.exitAppToast()
@@ -84,23 +74,22 @@ export class PlanPage implements OnInit {
       }
     });
 
-    console.log("Is storage updated: ", this.storageUpdated)
-    if (this.storageUpdated) {
+    this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
       this.loadContact();
       this.loadPlan();
-    }
+    })
   }
 
-  ionViewWillLeave() {
+  // Unsubscribe for garbage colleciton, prevent memory leaks
+  ionViewDidLeave() {
     if (this.customBackActionSubscription) {
-      console.log("Unsubscribe???")
+      console.log("customBackActionSubscription unsubscribe")
       this.customBackActionSubscription.unsubscribe();
     }
-  }
-
-  receiveMessage($event) {
-    console.log("RECEIVE MESSAGE")
-    this.storageUpdated = true;
+    if (this.contactAndPlanSubscription) {
+      console.log("contactAndPlanSubscription unsubscribe")
+      this.contactAndPlanSubscription.unsubscribe();
+    }
   }
 
   // Clear the colored arrays
@@ -109,19 +98,6 @@ export class PlanPage implements OnInit {
     this.importants.length = 0;
     this.attentions.length = 0;
     this.normals.length = 0;
-    // for (let item = 0; item < this.criticals.length; item++) {
-    //   this.criticals.pop();
-    //   console.log("popppping")
-    // }
-    // for (let item = 0; item < this.importants.length; item++) {
-    //   this.importants.pop();
-    // }
-    // for (let item = 0; item < this.attentions.length; item++) {
-    //   this.attentions.pop();
-    // }
-    // for (let item = 0; item < this.normals.length; item++) {
-    //   this.normals.pop();
-    // }
   }
 
   // Sort the plans array into their level categories 
@@ -161,10 +137,6 @@ export class PlanPage implements OnInit {
   }
 
   async loadPlan() {
-    console.log("setAllTempPlan then delete temp plan ")
-    await this.symptomService.tempToActual();
-    await this.symptomService.deleteTempPlan();
-
     this.symptomService.getPlan()
       .then(result => {
         this.symptoms = result;
@@ -244,10 +216,9 @@ export class PlanPage implements OnInit {
             console.log('Confirm Okay');
             // Empty storage
             this.symptomService.deleteAll();
+
             // Go to Contact page
             this.router.navigateByUrl('/tabs/plan/contact');
-            // this.loadContact();
-            // this.loadPlan();
           }
         }
       ]
