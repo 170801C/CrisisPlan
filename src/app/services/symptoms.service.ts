@@ -118,7 +118,7 @@ export class SymptomsService {
   }
 
   // Delete all value for the key
-  deleteTempPlan() {  
+  deleteTempPlan() {
     this.storage.remove(TEMP_PLAN_KEY);
   }
 

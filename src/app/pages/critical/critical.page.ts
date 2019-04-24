@@ -26,11 +26,11 @@ export class CriticalPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadPlan();
+    this.loadTempPlan();
   }
 
   ionViewWillEnter() {
-    this.loadPlan();
+    this.loadTempPlan();
   }
 
   emptyArray() {
@@ -46,18 +46,17 @@ export class CriticalPage implements OnInit {
     }
   }
 
-  loadPlan() {
-    this.symptomService.getPlan()
+  loadTempPlan() {
+    this.symptomService.getTempPlan()
       .then(result => {
-        console.log("getPlan() result: ", result)
+        console.log("temp getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
-        console.log('critical array bef sort: ', this.criticals);
 
         this.sortInputs(this.symptoms);
 
-        console.log('critical array: ', this.criticals);
+        console.log('criticals array: ', this.criticals);
       })
   }
 
@@ -73,7 +72,7 @@ export class CriticalPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload critical page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })
@@ -90,7 +89,7 @@ export class CriticalPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload critical page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { SymptomsService } from '../../services/symptoms.service';
@@ -16,40 +16,38 @@ export class NormalPage implements OnInit {
 
   symptoms = [];
   normals = [];
-  planChanged = false;
-
-
-  // public messageEvent = new EventEmitter<boolean>();
-  // @Output() messageEvent = new EventEmitter<boolean>();
+  // planChanged = false;
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
     private contactService: ContactService, private generalService: GeneralService) {
   }
 
   ngOnInit() {
-    console.log("Initial plan changed? ", this.planChanged)
+    // console.log("Normal Initial plan changed? ", this.planChanged)
 
-    // If plan has changed, get contact from temp. Else, get from actual, set actual to temp (for array manipulation) and set this.planChanged = true  
-    if (this.planChanged) {
-      // Load from temp
-      this.loadTempPlan();
-    }
-    else {
-      // Load from actual
-      this.loadPlan();
-      this.actualToTemp();
-    }
+    // // If plan has changed, get contact from temp. Else, get from actual, set actual to temp (for array manipulation) and set this.planChanged = true  
+    // if (this.planChanged) {
+    //   // Load from temp
+    //   this.loadTempPlan();
+    // }
+    // else {
+    //   // Load from actual
+    //   this.loadPlan();
+    //   this.actualToTemp();
+    // }
+    this.loadTempPlan();
   }
 
   ionViewWillEnter() {
-    console.log("Initial plan changed? ", this.planChanged)
+    // console.log("Normal Initial plan changed? ", this.planChanged)
 
-    if (this.planChanged) {
-      this.loadTempPlan();
-    }
-    else {
-      this.loadPlan();
-    }
+    // if (this.planChanged) {
+    //   this.loadTempPlan();
+    // }
+    // else {
+    //   this.loadPlan();
+    // }
+    this.loadTempPlan();
   }
 
   emptyArray() {
@@ -65,13 +63,13 @@ export class NormalPage implements OnInit {
     }
   }
 
-  actualToTemp() {
-    // Copy actual plan to temp plan
-    this.symptomService.actualToTemp()
+  // actualToTemp() {
+  //   // Copy actual plan to temp plan
+  //   this.symptomService.actualToTemp()
 
-    this.planChanged = true;
-    console.log("Is planChanged? ", this.planChanged)
-  }
+  //   this.planChanged = true;
+  //   console.log("Is planChanged? ", this.planChanged)
+  // }
 
   loadTempPlan() {
     this.symptomService.getTempPlan()
@@ -87,19 +85,19 @@ export class NormalPage implements OnInit {
       })
   }
 
-  loadPlan() {
-    this.symptomService.getPlan()
-      .then(result => {
-        console.log("actual getPlan() result: ", result)
-        this.symptoms = result;
+  // loadPlan() {
+  //   this.symptomService.getPlan()
+  //     .then(result => {
+  //       console.log("actual getPlan() result: ", result)
+  //       this.symptoms = result;
 
-        this.emptyArray();
+  //       this.emptyArray();
 
-        this.sortInputs(this.symptoms);
+  //       this.sortInputs(this.symptoms);
 
-        console.log('normal array: ', this.normals);
-      })
-  }
+  //       console.log('normal array: ', this.normals);
+  //     })
+  // }
 
   // Create a modal to add a new symptom input
   addInput() {

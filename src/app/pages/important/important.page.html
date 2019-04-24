@@ -20,35 +20,35 @@
     <ion-item *ngFor="let important of importants" class="important" color="primary-contrast" tappable
       (click)="openInput(important.id)">
 
-    <ion-grid>
+      <ion-grid>
 
-      <ion-row>
-        <ion-col>
-          {{ important.type }}
-          <br>
-          {{ important.value }} ({{ important.unit }})
-        </ion-col>
+        <ion-row>
+          <ion-col>
+            {{ important.type }}
+            <br>
+            {{ important.value }} ({{ important.unit }})
+          </ion-col>
 
-        <ion-col>
-          {{ important.typeDescription }}
-        </ion-col>
-      </ion-row>
+          <ion-col>
+            {{ important.typeDescription }}
+          </ion-col>
+        </ion-row>
 
-      <ion-row class="action">
-        <ion-col>
-          <ion-button color="danger">
-            {{ important.action }}
-          </ion-button>
-        </ion-col>
-      </ion-row>
+        <ion-row class="action">
+          <ion-col>
+            <ion-button color="danger">
+              {{ important.action }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
 
-      <ion-row class="actionDescription">
-        <ion-col>
-          {{ important.actionDescription }}
-        </ion-col>
-      </ion-row>
+        <ion-row class="actionDescription">
+          <ion-col>
+            {{ important.actionDescription }}
+          </ion-col>
+        </ion-row>
 
-    </ion-grid>
+      </ion-grid>
 
     </ion-item>
 

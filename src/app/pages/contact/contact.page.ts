@@ -20,23 +20,23 @@ export class ContactPage implements OnInit {
     name: null,
     number: null
   };
-  // Convert [] to {}
+  // To convert [] to {}
   contactObject: contactModel = {
     name: null,
     number: null
   }
   criticalPath: string;
-  // Back button 
+  // Visible back button 
   // defaultBackLink: string;
   customBackActionSubscription: Subscription;
-  contactChanged = false;
+  // contactChanged = false;
 
   constructor(private formBuilder: FormBuilder, private contactService: ContactService, private symptomService: SymptomsService,
     private router: Router, private platform: Platform, private alertController: AlertController) {
     // For tabs navigation 
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
-        // Back button 
+        // Visible back button 
         // this.defaultBackLink = event.url.replace('/contact', '');
         this.criticalPath = event.url + '/critical';  // event.url : 'http://localhost:8100/tabs/plan/contact'
       }
@@ -52,16 +52,17 @@ export class ContactPage implements OnInit {
       // Will it auto return to Plan page?
     });
 
-    this.loadContact();
+    this.loadTempContact();
   }
 
   // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
   ionViewWillEnter() {
     this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      // To do
+      console.log("Discard changes alert")
+      this.discardTempAlert();
     });
 
-    this.loadContact();
+    this.loadTempContact();
   }
 
   ionViewDidLeave() {
@@ -74,31 +75,39 @@ export class ContactPage implements OnInit {
   get name() { return this.contactForm.get('name'); }
   get number() { return this.contactForm.get('number'); }
 
-  loadContact() {
-    console.log("Is contact changed?: ", this.contactChanged)
-
-    // If contact has changed (Next button pressed), get contact from temp. Else, get from actual. 
-    if (this.contactChanged) {
-      this.contactService.getTempContact()
-        .then((result) => {
-          this.contact = result;
-          console.log("From temp contact: ")
-        })
-    }
-    else {
-      this.contactService.getContact()
-        .then((result) => {
-          this.contact = result;
-          console.log("From contact: ")
-        })
-    }
+  loadTempContact() {
+    this.contactService.getTempContact()
+      .then((result) => {
+        this.contact = result;
+        console.log("From temp contact: ", this.contact)
+      })
   }
+
+  // loadContact() {
+  //   console.log("Is contact changed?: ", this.contactChanged)
+
+  //   // If contact has changed (Next button pressed), get contact from temp. Else, get from actual. 
+  //   if (this.contactChanged) {
+  //     this.contactService.getTempContact()
+  //       .then((result) => {
+  //         this.contact = result;
+  //         console.log("From temp contact: ")
+  //       })
+  //   }
+  //   else {
+  //     this.contactService.getContact()
+  //       .then((result) => {
+  //         this.contact = result;
+  //         console.log("From contact: ")
+  //       })
+  //   }
+  // }
 
   saveTempContact() {
     // contactChanged = true whenever Next button is pressed
-    this.contactChanged = true;
+    // this.contactChanged = true;
 
-    console.log("Saving contact: ", this.contact)
+    console.log("Saving temp contact: ", this.contact)
     // Convert [] to {}
     this.contactObject.name = this.contact.name
     this.contactObject.number = this.contact.number

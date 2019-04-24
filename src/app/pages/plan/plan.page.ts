@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { GeneralService } from '../../services/general.service';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -81,7 +80,7 @@ export class PlanPage implements OnInit {
   }
 
   // Unsubscribe for garbage colleciton, prevent memory leaks
-  ionViewDidLeave() {
+  ionViewWillLeave() {
     if (this.customBackActionSubscription) {
       console.log("customBackActionSubscription unsubscribe")
       this.customBackActionSubscription.unsubscribe();
@@ -217,6 +216,10 @@ export class PlanPage implements OnInit {
             // Empty storage
             this.symptomService.deleteAll();
 
+            // For plan and contact: Copy actual to temp
+            this.symptomService.actualToTemp();
+            this.contactService.actualToTemp();
+
             // Go to Contact page
             this.router.navigateByUrl('/tabs/plan/contact');
           }
@@ -234,6 +237,11 @@ export class PlanPage implements OnInit {
       position: 'middle',
     });
     toast.present();
+  }
+  
+  planActualToTemp() {
+    this.symptomService.actualToTemp();
+    this.contactService.actualToTemp();
   }
 }
 

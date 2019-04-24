@@ -2,15 +2,13 @@
   <ion-toolbar>
     <ion-button slot="start">PDF</ion-button>
     <ion-title>contact</ion-title>
-    <!-- <ion-button routerLink="/tabs/plan/contact/critical" routerDirection="forward" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
-      Next</ion-button> -->
-      <ion-button [routerLink]="criticalPath" routerDirection="forward" slot="end" (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">
-        Next</ion-button>
+    <ion-button [routerLink]="criticalPath" routerDirection="forward" slot="end" (click)="contactForm.ngSubmit.emit()"
+      [disabled]="!contactForm.valid">Next</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  
+
   <ion-note color="primary">Step 1: Enter TCS Contact</ion-note>
   <ion-progress-bar value="0.25"></ion-progress-bar>
 

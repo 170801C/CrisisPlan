@@ -5,6 +5,7 @@ import { SymptomsService } from '../../services/symptoms.service';
 import { Platform } from '@ionic/angular';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 
+
 @Component({
   selector: 'app-important',
   templateUrl: './important.page.html',
@@ -26,11 +27,11 @@ export class ImportantPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadPlan();
+    this.loadTempPlan();
   }
 
   ionViewWillEnter() {
-    this.loadPlan();
+    this.loadTempPlan();
   }
 
   emptyArray() {
@@ -46,10 +47,10 @@ export class ImportantPage implements OnInit {
     }
   }
 
-  loadPlan() {
-    this.symptomService.getPlan()
+  loadTempPlan() {
+    this.symptomService.getTempPlan()
       .then(result => {
-        console.log("getPlan() result: ", result)
+        console.log("temp getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
@@ -72,7 +73,7 @@ export class ImportantPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload important page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })
@@ -89,7 +90,7 @@ export class ImportantPage implements OnInit {
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
           console.log("Reload important page");
-          this.loadPlan();
+          this.loadTempPlan();
         }
       })
     })

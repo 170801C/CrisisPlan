@@ -10,6 +10,15 @@ const TEMP_CONTACT_KEY = "myTempContact";
 export class ContactService {
 
   constructor(private storage: Storage) { }
+  
+  actualToTemp() {
+    this.getContact()
+      .then((result) => {
+        console.log("Setting contact actual to temp")
+        console.log("Result to be stored in temp: ", result)
+        return this.storage.set(TEMP_CONTACT_KEY, result);
+      })
+  }
 
   addTempContact(myContact) {
     return this.storage.get(TEMP_CONTACT_KEY).then(result => {
@@ -50,6 +59,7 @@ export class ContactService {
   // Set temp contact to actual contact 
   tempToActual() {
     return this.storage.get(TEMP_CONTACT_KEY).then(tempResult => {
+      console.log("Setting contact temp to actual")
       return this.storage.set(CONTACT_KEY, tempResult);
     })
   }
