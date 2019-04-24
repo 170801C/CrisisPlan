@@ -52,12 +52,20 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'appointment',
+        path: 'appointments',
         children: [
           {
             path: '',
             loadChildren: '../pages/appointments/appointments.module#AppointmentsPageModule'
-          }
+          },
+          {
+            path: 'add-appointment',
+            loadChildren: '../pages/add-appointment/add-appointment.module#AddAppointmentPageModule'
+          },
+          {
+            path: 'edit-appointment',
+            loadChildren: '../pages/edit-appointment/edit-appointment.module#EditAppointmentPageModule'
+          },
         ]
       },
       {

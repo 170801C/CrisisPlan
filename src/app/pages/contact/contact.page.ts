@@ -85,7 +85,6 @@ export class ContactPage implements OnInit {
 
   // loadContact() {
   //   console.log("Is contact changed?: ", this.contactChanged)
-
   //   // If contact has changed (Next button pressed), get contact from temp. Else, get from actual. 
   //   if (this.contactChanged) {
   //     this.contactService.getTempContact()

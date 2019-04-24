@@ -2,9 +2,8 @@
   <ion-toolbar>
     <ion-button slot="start">PDF</ion-button>
     <ion-title class="title">Plan</ion-title>
-    <!-- Discard, Add buttons -->
     <ion-button slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</ion-button>
-    <ion-button id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward" slot="end" [hidden]="!planExists && !contactExists">Edit</ion-button>
+    <ion-button slot="end" id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward" [hidden]="!planExists && !contactExists">Edit</ion-button>
   </ion-toolbar>
 </ion-header>
 
