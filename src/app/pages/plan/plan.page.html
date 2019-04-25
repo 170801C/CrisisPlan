@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding" (messageEvent)="receiveMessage($event)">
+<ion-content class="ion-no-padding">
 
   <ion-grid class="ion-no-padding" *ngIf="contactExists">
     <ion-row >
@@ -24,10 +24,10 @@
     </ion-row>
   </ion-grid>
 
-
   <ion-list class="ion-no-padding">
 
     <!-- Critical list -->
+    <!-- The color attribute is needed, else the custom CSS (class="critical") does not work -->
     <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)">
       <ion-grid>
 

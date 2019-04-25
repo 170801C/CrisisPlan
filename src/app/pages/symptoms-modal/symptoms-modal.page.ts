@@ -72,7 +72,7 @@ export class SymptomsModalPage implements OnInit {
       this.inputForm.get('color').setValue("#008000");
     }
 
-    // If existing input is tapped, retrieve its form values by id, to be displayed in modal and edited/deleted
+    // If existing input is tapped, retrieve its form values by id, to be displayed in modal for editing/deletion.
     if (this.id != null) {
 
       console.log("Symptom id exists: ", this.id)
@@ -109,7 +109,7 @@ export class SymptomsModalPage implements OnInit {
       // this.inputForm.get('type').updateValueAndValidity();
     }
 
-    // On changes to form field type, call setUnitAndIcon()
+    // On changes to Type form field, call setUnitAndIcon()
     this.inputForm.get('type').valueChanges.subscribe(val => {
       this.setUnitAndIcon(val)
     })
@@ -273,8 +273,8 @@ export class SymptomsModalPage implements OnInit {
     // Update existing symptom & plan or add new symptom to plan
     if (this.id != null) {
       this.symptomsService.updateTempSymptom(this.symptom)
-        .then(res => {
-          console.log("Is storage updated: ", res)
+        .then(result => {
+          console.log("Is storage updated: ", result)
           // Close the modal and return data --> reload key: true value  
           this.modalController.dismiss({ reload: true });
         })
@@ -282,7 +282,7 @@ export class SymptomsModalPage implements OnInit {
     else {
       // Add the new symptom to Ionic storage
       this.symptomsService.addTempSymptom(this.symptom)
-        .then(res => {
+        .then(result => {
           // Close the modal and return data --> reload key: true value  
           this.modalController.dismiss({ reload: true });
         })

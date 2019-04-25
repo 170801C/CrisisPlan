@@ -11,9 +11,9 @@ const routes: Routes = [
   { path: 'contact', loadChildren: './pages/contact/contact.module#ContactPageModule' },
   { path: 'important', loadChildren: './pages/important/important.module#ImportantPageModule' },
   { path: 'normal', loadChildren: './pages/normal/normal.module#NormalPageModule' },
-  { path: 'attention', loadChildren: './pages/attention/attention.module#AttentionPageModule' },  { path: 'add-appointment', loadChildren: './pages/add-appointment/add-appointment.module#AddAppointmentPageModule' },
-  { path: 'edit-appointment', loadChildren: './pages/edit-appointment/edit-appointment.module#EditAppointmentPageModule' },
-
+  { path: 'attention', loadChildren: './pages/attention/attention.module#AttentionPageModule' },
+  { path: 'appointment-detail', loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule' },
+  { path: 'tabs/appointments/appointment-detail/:id', loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule' },
 ];
 @NgModule({
   imports: [

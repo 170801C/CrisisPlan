@@ -1,5 +1,6 @@
 export interface appointmentModel {
-    apptDate: any,
-    apptTime: any,
+    id: number,
+    apptDate: string,
+    apptTime: string,
     clinicName: string
 }

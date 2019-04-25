@@ -59,13 +59,9 @@ const routes: Routes = [
             loadChildren: '../pages/appointments/appointments.module#AppointmentsPageModule'
           },
           {
-            path: 'add-appointment',
-            loadChildren: '../pages/add-appointment/add-appointment.module#AddAppointmentPageModule'
-          },
-          {
-            path: 'edit-appointment',
-            loadChildren: '../pages/edit-appointment/edit-appointment.module#EditAppointmentPageModule'
-          },
+            path: 'appointment-detail',
+            loadChildren: '../pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule'
+          }
         ]
       },
       {
