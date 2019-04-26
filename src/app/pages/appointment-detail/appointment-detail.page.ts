@@ -15,7 +15,7 @@ export class AppointmentDetailPage implements OnInit {
 
   inputForm: FormGroup;
   appointment: appointmentModel = {
-    id: null,
+    id: Date.now(),
     apptDate: null,
     apptTime: null,
     clinicName: null
@@ -29,13 +29,6 @@ export class AppointmentDetailPage implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    this.inputForm = this.formBuilder.group({
-      id: Date.now(),
-      apptDate: [null, Validators.required],
-      apptTime: [null, Validators.required],
-      clinicName: [null, Validators.required]
-    })
-
     // If existing input is tapped, retrieve its form values by id, to be displayed in page form for editing/deletion.
     if (this.id != null) {
 
@@ -44,27 +37,18 @@ export class AppointmentDetailPage implements OnInit {
       this.appointmentService.getAppointmentById(this.id)
         .then((appointment) => {
           console.log("Symptom get by id: ", appointment[0])
-
-          this.inputForm.get('id').setValue(appointment[0].id);
-          this.inputForm.get('apptDate').setValue(appointment[0].apptDate);
-          this.inputForm.get('apptTime').setValue(appointment[0].apptTime);
-          this.inputForm.get('clinicName').setValue(appointment[0].clinicName);
+          // Get appointment by id and insert its values into the form
+          this.appointment = appointment[0]
         })
     }
   }
 
   // Getters for form validation
-  get apptDate() { return this.inputForm.get('apptDate'); }
-  get apptTime() { return this.inputForm.get('apptTime'); }
-  get clinicName() { return this.inputForm.get('clinicName'); }
+  // get date() { return this.inputForm.get('date'); }
+  // get time() { return this.inputForm.get('time'); }
+  // get name() { return this.inputForm.get('name'); }
 
   saveInput() {
-    // Assign the form values to the appointment model object
-    this.appointment.id = this.inputForm.value.id;
-    this.appointment.apptDate = this.inputForm.value.apptDate;
-    this.appointment.apptTime = this.inputForm.value.apptTime;
-    this.appointment.clinicName = this.inputForm.value.clinicName;
-
     console.log("Appointment model object: ", this.appointment);
 
     // Update existing appointment or add new appointment to plan

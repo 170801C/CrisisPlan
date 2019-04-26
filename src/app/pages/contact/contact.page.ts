@@ -72,8 +72,8 @@ export class ContactPage implements OnInit {
   }
 
   // Getters for form validation
-  get name() { return this.contactForm.get('name'); }
-  get number() { return this.contactForm.get('number'); }
+  // get name() { return this.contactForm.get('name'); }
+  // get number() { return this.contactForm.get('number'); }
 
   loadTempContact() {
     this.contactService.getTempContact()
