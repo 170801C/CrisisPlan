@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppointmentService } from 'src/app/services/appointment.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-appointments',
@@ -11,7 +12,12 @@ export class AppointmentsPage implements OnInit {
 
   appointments = [];
 
-  constructor(private router: Router, private appointmentService: AppointmentService) { }
+  constructor(private router: Router, private appointmentService: AppointmentService, private events: Events) {
+    // Subscribe to the Reload event to reload the Appointments page on storage changes
+    this.events.subscribe('Reload', () => {
+      this.loadAppointments();
+    });
+  }
 
   ngOnInit() {
     this.loadAppointments();
@@ -23,17 +29,18 @@ export class AppointmentsPage implements OnInit {
 
   loadAppointments() {
     this.appointmentService.getAppointments()
-    .then(result => {
-      console.log("Appointments: ", result)
-      this.appointments = result;
-    })
+      .then(result => {
+        console.log("Appointments: ", result)
+        this.appointments = result;
+      })
   }
 
-  deleteInput(id) {
-    this.appointmentService.deleteAppointmentById(id);
+  async deleteInput(id) {
+    await this.appointmentService.deleteAppointmentById(id)
     console.log("Deleted appointment")
+    this.loadAppointments();
   }
-  
+
   openInput(id) {
     this.router.navigateByUrl(`/tabs/appointments/appointment-detail/${id}`);
   }

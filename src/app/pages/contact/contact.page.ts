@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { contactModel } from '../../models/contactModel';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';

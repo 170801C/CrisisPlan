@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { appointmentModel } from '../../models/appointmentModel';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppointmentService } from 'src/app/services/appointment.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Events } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-appointment-detail',
@@ -19,13 +21,13 @@ export class AppointmentDetailPage implements OnInit {
     clinicName: null
   }
   // Get existing input id, if tapped
-id = null;
+  id = null;
 
   constructor(private formBuilder: FormBuilder, private appointmentService: AppointmentService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private router: Router, private events: Events) { }
 
   ngOnInit() {
-    this.id =  this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
 
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
@@ -43,6 +45,7 @@ id = null;
         .then((appointment) => {
           console.log("Symptom get by id: ", appointment[0])
 
+          this.inputForm.get('id').setValue(appointment[0].id);
           this.inputForm.get('apptDate').setValue(appointment[0].apptDate);
           this.inputForm.get('apptTime').setValue(appointment[0].apptTime);
           this.inputForm.get('clinicName').setValue(appointment[0].clinicName);
@@ -54,17 +57,6 @@ id = null;
   get apptDate() { return this.inputForm.get('apptDate'); }
   get apptTime() { return this.inputForm.get('apptTime'); }
   get clinicName() { return this.inputForm.get('clinicName'); }
-
-  // deleteInput(id) {
-  //   this.appointmentService.deleteAppointmentById(id)
-  //     .then(result => {
-  //       console.log("Is storage deleted: ", result)
-  //     })
-  // }
-
-  // editInput(myAppointment) {
-  //   this.appointmentService.updateAppointment(myAppointment);
-  // }
 
   saveInput() {
     // Assign the form values to the appointment model object
@@ -79,15 +71,22 @@ id = null;
     if (this.id != null) {
       this.appointmentService.updateAppointment(this.appointment)
         .then(result => {
+          // Create a subscription event that reloads the Appointments page on storage changes
+          this.events.publish('Reload');
           console.log("Is storage updated: ", result)
+
+          // this.router.navigateByUrl('/tabs/appointments');
         })
     }
     else {
       this.appointmentService.addAppointment(this.appointment)
         .then(result => {
+          // Create a subscription event that reloads the Appointments page on storage changes
+          this.events.publish('Reload');
           console.log("Is storage added: ", result)
+
+          // this.router.navigateByUrl('/tabs/appointments');
         })
     }
   }
-
 }

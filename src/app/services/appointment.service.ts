@@ -37,18 +37,20 @@ export class AppointmentService {
     return this.storage.get(APPOINTMENT_KEY)
       .then(result => {
         console.log("updating appointment");
+        console.log("Get storage result: ", result)
 
         let updatedAppointments = [];
 
         for (let appointment of result) {
           if (appointment.id == myAppointment.id) {
+            console.log("Id match")
             updatedAppointments.push(myAppointment);
           }
           else {
             updatedAppointments.push(appointment);
           }
         }
-
+        
         return this.storage.set(APPOINTMENT_KEY, updatedAppointments);
       })
   }
