@@ -8,7 +8,12 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { GeneralService } from '../../services/general.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-plan',
@@ -18,7 +23,10 @@ import { GeneralService } from '../../services/general.service';
 export class PlanPage implements OnInit {
 
   // Declare an array to hold all plans from storage, to be used in template
-  contact = {};
+  contact = {
+    name: null,
+    number: null
+  };
   symptoms = [];
   criticals = [];
   importants = [];
@@ -30,10 +38,11 @@ export class PlanPage implements OnInit {
   lastBackPressTime = 0;
   timePeriodToExitApp = 2000;
   contactAndPlanSubscription: Subscription;
+  pdfObj = null;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private generalService: GeneralService) { }
+    private generalService: GeneralService, private file: File, private fileOpener: FileOpener) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -238,10 +247,115 @@ export class PlanPage implements OnInit {
     });
     toast.present();
   }
-  
+
   planActualToTemp() {
     this.symptomService.actualToTemp();
     this.contactService.actualToTemp();
   }
+
+  async createPDF() {
+    console.log("Anything in contact: ", this.contact)
+    let body = []
+    let crit = []
+    // let dummy = [];
+    // let counter = [0];
+
+    let type = {
+      text: null,
+      style: null
+    }
+
+    let value = {
+      text: null,
+      style: null
+    }
+
+    console.log("Whats in this.criticals: ", this.criticals)
+    for (let critical of this.criticals) {
+      console.log("Whats in 1 critical: ", critical)
+      type['text'] = critical['type'].concat()
+
+      // Check out references : https://stackoverflow.com/questions/9005778/javascript-push-array-onto-array-with-for-loop
+      type['text'].concat()
+      console.log("WHat is type: ", type)
+      // value['text'] = critical['value'];
+
+      // dummy.push(counter.concat())
+      // console.log("dummy: ", dummy)
+  
+      crit.push(type)
+      console.log("WHat is crit: ", crit) 
+
+      body.push(crit.concat())
+      console.log("Whats in body: ", body)
+
+      crit = [];
+      // counter[0] += 1
+    }
+    console.log("Whats in body: ", body)
+
+    // Create the document definition required by pdfmake,then create the pdf.
+    var docDefinition = {
+      content: [
+        {
+          alignment: 'justify',
+          columns: [
+            [
+              'TCS Name',
+              this.contact.name
+            ],
+            [
+              'TCS Number',
+              this.contact.number
+            ]
+          ]
+        },
+
+        {
+          style: 'tableExample',
+          layout: 'noBorders',
+          table: {
+            headerRows: 0,
+            body:
+              // [{ text: 'Critical', style: 'tableHeader' }, ],
+              body
+            // [this.criticals],
+            // ['Sample value 1'],
+            // ['Sample value 1']
+
+          }
+        }
+      ],
+      styles: {
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
+        }
+      }
+    }
+
+    this.pdfObj = pdfMake.createPdf(docDefinition);
+
+    if (this.platform.is('cordova')) {
+      this.pdfObj.getBuffer((buffer) => {
+        var blob = new Blob([buffer], { type: 'application/pdf' });
+
+        // Save the PDF to the data directory of our app
+        this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
+          // Open the PDf with the correct OS tools
+          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+        })
+      });
+    }
+    else {
+      // On a browser simply use download. Remove this.
+      this.pdfObj.download();
+    }
+  }
 }
+
 

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start">PDF</ion-button>
+    <ion-button slot="start" (click)="createPDF()">PDF</ion-button>
     <ion-title class="title">Plan</ion-title>
     <ion-button slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</ion-button>
     <ion-button slot="end" id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward" [hidden]="!planExists && !contactExists">Edit</ion-button>
@@ -159,5 +159,5 @@
       </ion-col>
     </ion-row>
   </ion-grid> 
-
+  
 </ion-content>
