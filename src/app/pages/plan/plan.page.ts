@@ -8,7 +8,12 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { GeneralService } from '../../services/general.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-plan',
@@ -18,9 +23,23 @@ import { GeneralService } from '../../services/general.service';
 export class PlanPage implements OnInit {
 
   // Declare an array to hold all plans from storage, to be used in template
-  contact = {};
+  contact = {
+    name: null,
+    number: null
+  };
   symptoms = [];
-  criticals = [];
+  criticals = [{
+    id: null,
+    icon: null,
+    value: null,
+    unit: null,
+    type: null,
+    typeDescription: null,
+    level: null,
+    actionDescription: null,
+    action: null,
+    color: null
+  }];
   importants = [];
   attentions = [];
   normals = [];
@@ -30,10 +49,11 @@ export class PlanPage implements OnInit {
   lastBackPressTime = 0;
   timePeriodToExitApp = 2000;
   contactAndPlanSubscription: Subscription;
+  pdfObj = null;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private generalService: GeneralService) { }
+    private generalService: GeneralService, private file: File, private fileOpener: FileOpener) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -121,8 +141,8 @@ export class PlanPage implements OnInit {
   async loadContact() {
     this.contactService.getContact()
       .then(result => {
-        if ('name' in result) {
-          console.log()
+        // if ('name' in result) {
+        if (result) {
           this.contact = result;
           this.contactExists = true;
         }
@@ -214,7 +234,8 @@ export class PlanPage implements OnInit {
           handler: () => {
             console.log('Confirm Okay');
             // Empty storage
-            this.symptomService.deleteAll();
+            this.contactService.deleteContact();
+            this.symptomService.deletePlan();
 
             // For plan and contact: Copy actual to temp
             this.symptomService.actualToTemp();
@@ -238,10 +259,82 @@ export class PlanPage implements OnInit {
     });
     toast.present();
   }
-  
+
   planActualToTemp() {
     this.symptomService.actualToTemp();
     this.contactService.actualToTemp();
   }
-}
 
+  async createPDF() {
+    // Create the document definition required by pdfmake,then create the pdf.
+    var docDefinition = {
+      content: [
+        {
+          alignment: 'justify',
+          columns: [
+            {
+              columns: [
+                { text: 'TCS Name' },
+                { text: this.contact.name }
+              ]
+            },
+            {
+              columns: [
+                { text: 'TCS Number' },
+                { text: this.contact.number }
+              ]
+            }
+          ]
+        },
+      ]
+      //     {
+      //       columns: [
+      //         {
+      //           ul: [
+      //             // Put this outside, in loadPlan() 
+      //             for(let critical of this.criticals) {
+      //           critical.type
+      //         },
+      //         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit',
+      //       ]
+      //     },
+      //     {
+      //       ul: [
+      //         'item 1',
+      //         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit',
+      //       ]
+      //     }
+      //   ]
+      // },
+
+      // Horizontal line (to be placed in list item)
+      //       { canvas: [{ type: 'line', x1: 10, y1: 10, x2: 595-10, y2: 10, lineWidth: 0.5
+      //       }]
+      // }
+
+      // styles: {
+      //   header: {
+      //     fontSize: 18,
+      //     bold: true,
+      //   }
+      // }
+    }
+    this.pdfObj = await pdfMake.createPdf(docDefinition);
+
+    if (this.platform.is('cordova')) {
+      this.pdfObj.getBuffer((buffer) => {
+        var blob = new Blob([buffer], { type: 'application/pdf' });
+
+        // Save the PDF to the data directory of our app
+        this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
+          // Open the PDf with the correct OS tools
+          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+        })
+      });
+    }
+    else {
+      // On a browser simply use download. Remove this.
+      this.pdfObj.download();
+    }
+  }
+} 

@@ -122,6 +122,10 @@ export class SymptomsService {
     this.storage.remove(TEMP_PLAN_KEY);
   }
 
+  deletePlan() {
+    this.storage.remove(PLAN_KEY);
+  }
+
   // Delete everything in storage
   deleteAll() {
     this.storage.clear();

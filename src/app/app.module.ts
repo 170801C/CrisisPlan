@@ -13,7 +13,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { SymptomsModalPageModule } from './pages/symptoms-modal/symptoms-modal.module';
 
-import { NormalPage } from './pages/normal/normal.page';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { NormalPage } from './pages/normal/normal.page';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    NormalPage
+    File,
+    FileOpener
   ],
   bootstrap: [AppComponent]
 })

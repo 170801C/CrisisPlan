@@ -68,6 +68,9 @@ export class ContactService {
   deleteTempContact() {
     this.storage.remove(TEMP_CONTACT_KEY);
   }
+  deleteContact() {
+    this.storage.remove(CONTACT_KEY);
+  }
 
   // Return Promise<LocalForage> type!
   storageReady() {
