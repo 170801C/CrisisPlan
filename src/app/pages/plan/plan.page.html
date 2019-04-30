@@ -3,8 +3,7 @@
     <p slot="start" (click)="createPDF()">PDF</p>
     <ion-title class="title">Plan</ion-title>
     <p slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
-    <p slot="end" id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward"
-      [hidden]="!planExists && !contactExists">Edit</p>
+    <p slot="end" id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
   </ion-toolbar>
 </ion-header>
 

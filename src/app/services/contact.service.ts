@@ -12,11 +12,13 @@ export class ContactService {
   constructor(private storage: Storage) { }
   
   actualToTemp() {
-    this.getContact()
+    // Always return, probably to handle promises correctly 
+    return this.getContact()
       .then((result) => {
         console.log("Setting contact actual to temp")
         console.log("Result to be stored in temp: ", result)
-        return this.storage.set(TEMP_CONTACT_KEY, result);
+         this.storage.set(TEMP_CONTACT_KEY, result)
+        return this.getContact()
       })
   }
 

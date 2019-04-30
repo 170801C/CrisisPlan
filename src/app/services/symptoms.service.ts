@@ -12,7 +12,7 @@ export class SymptomsService {
   constructor(private storage: Storage) { }
 
   actualToTemp() {
-    this.getPlan()
+    return this.getPlan()
       .then((result) => {
         console.log("Result to be stored in temp: ", result)
         return this.storage.set(TEMP_PLAN_KEY, result);

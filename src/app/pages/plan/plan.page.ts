@@ -12,7 +12,6 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { stringify } from '@angular/compiler/src/util';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -72,16 +71,16 @@ export class PlanPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
-        // this.platform.exitApp(); 
-        navigator['app'].exitApp();
-      } else {
-        // Show toast upon exiting app
-        this.exitAppToast()
-        this.lastBackPressTime = new Date().getTime();
-      }
-    });
+    // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+    //   if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+    //     // this.platform.exitApp(); 
+    //     navigator['app'].exitApp();
+    //   } else {
+    //     // Show toast upon exiting app
+    //     this.exitAppToast()
+    //     this.lastBackPressTime = new Date().getTime();
+    //   }
+    // });
 
     this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
       this.loadContact();
@@ -128,7 +127,7 @@ export class PlanPage implements OnInit {
     }
   }
 
-  async loadContact() {
+  loadContact() {
     this.contactService.getContact()
       .then(result => {
         if ('name' in result) {
@@ -145,7 +144,7 @@ export class PlanPage implements OnInit {
       })
   }
 
-  async loadPlan() {
+  loadPlan() {
     this.symptomService.getPlan()
       .then(result => {
         this.symptoms = result;
@@ -249,9 +248,13 @@ export class PlanPage implements OnInit {
     toast.present();
   }
 
-  planActualToTemp() {
-    this.symptomService.actualToTemp();
-    this.contactService.actualToTemp();
+  allActualToTemp() {
+    // Promise chaining to ensure getting the resolved result before the next operation
+    this.symptomService.actualToTemp().then(() => {
+      this.contactService.actualToTemp().then(() => {
+        this.router.navigateByUrl('/tabs/plan/contact');
+      })
+    })
   }
 
   async createPDF() {
@@ -354,13 +357,11 @@ export class PlanPage implements OnInit {
           layout: 'noBorders',
           table: {
             headerRows: 0,
-            body:
-              body
+            body: body
             // [{ text: 'Critical', style: 'tableHeader' }, ],
             // [this.criticals],
             // ['Sample value 1'],
             // ['Sample value 1']
-
           }
         }
       ],
@@ -390,7 +391,7 @@ export class PlanPage implements OnInit {
       });
     }
     else {
-      // On a browser simply use download. Remove this.
+      // On a browser simply use download. Remove this for production.
       this.pdfObj.download();
     }
   }

@@ -6,6 +6,7 @@ import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Platform, AlertController } from '@ionic/angular';
 import { SymptomsService } from 'src/app/services/symptoms.service';
+import { GeneralService } from 'src/app/services/general.service';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ContactPage implements OnInit {
   // contactChanged = false;
 
   constructor(private formBuilder: FormBuilder, private contactService: ContactService, private symptomService: SymptomsService,
-    private router: Router, private platform: Platform, private alertController: AlertController) {
+    private router: Router, private platform: Platform, private alertController: AlertController, private generalService: GeneralService) {
     // For tabs navigation 
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
@@ -44,13 +45,12 @@ export class ContactPage implements OnInit {
   }
 
   ngOnInit() {
-    // Upon pressing back button, prompt user if changes are to be discarded. Ok: Discard changes and return to Plan page. Cancel: Stay on Contact page
-    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      console.log("Discard changes alert")
-      this.discardTempAlert();
-
-      // Will it auto return to Plan page?
-    });
+    // // Upon pressing back button, prompt user if changes are to be discarded. Ok: Discard changes and return to Plan page. Cancel: Stay on Contact page
+    // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+    //   console.log("Discard changes alert")
+    //   this.discardTempAlert();
+    //   // Will it auto return to Plan page?
+    // });
 
     this.loadTempContact();
   }
@@ -65,8 +65,9 @@ export class ContactPage implements OnInit {
     this.loadTempContact();
   }
 
-  ionViewDidLeave() {
+  ionViewWillLeave() {
     if (this.customBackActionSubscription) {
+      console.log("customBackActionSubscription2 unsubscribe")
       this.customBackActionSubscription.unsubscribe();
     }
   }

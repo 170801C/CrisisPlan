@@ -135,14 +135,14 @@ export class NormalPage implements OnInit {
   }
 
   // Set temp to actual, then delete temp, for all data 
-  async allTempToActual() {
+  allTempToActual() {
     console.log("Contact: tempToActual then delete temp contact")
-    await this.contactService.tempToActual();
-    await this.contactService.deleteTempContact();
+    this.contactService.tempToActual();
+    this.contactService.deleteTempContact();
 
     console.log("Plan: tempToActual then delete temp plan")
-    await this.symptomService.tempToActual();
-    await this.symptomService.deleteTempPlan();
+    this.symptomService.tempToActual();
+    this.symptomService.deleteTempPlan();
 
     // Send value to observable to emit to Plan page to get latest storage values 
     this.generalService.changeMessage(true)
