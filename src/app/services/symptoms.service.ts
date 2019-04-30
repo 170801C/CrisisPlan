@@ -119,12 +119,12 @@ export class SymptomsService {
 
   // Delete all value for the key
   deleteTempPlan() {
-    this.storage.remove(TEMP_PLAN_KEY);
+    return this.storage.remove(TEMP_PLAN_KEY);
   }
 
   // Delete everything in storage
   deleteAll() {
-    this.storage.clear();
+    return this.storage.clear();
   }
 
   // Return Promise<LocalForage> type! 

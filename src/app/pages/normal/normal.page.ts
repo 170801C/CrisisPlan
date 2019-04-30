@@ -5,6 +5,7 @@ import { SymptomsService } from '../../services/symptoms.service';
 import { ContactService } from '../../services/contact.service';
 import { Platform } from '@ionic/angular';
 import { GeneralService } from '../../services/general.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class NormalPage implements OnInit {
   // planChanged = false;
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
-    private contactService: ContactService, private generalService: GeneralService) {
+    private contactService: ContactService, private generalService: GeneralService, private router: Router) {
   }
 
   ngOnInit() {
@@ -137,15 +138,22 @@ export class NormalPage implements OnInit {
   // Set temp to actual, then delete temp, for all data 
   allTempToActual() {
     console.log("Contact: tempToActual then delete temp contact")
-    this.contactService.tempToActual();
-    this.contactService.deleteTempContact();
+    this.contactService.tempToActual().then(() => {
+      this.symptomService.tempToActual().then(() => {
+        this.contactService.deleteTempContact().then(() => {
+          this.symptomService.deleteTempPlan().then(() => {
+            this.router.navigateByUrl('/tabs/plan');
+          })
+        })
+      })
+    })
 
-    console.log("Plan: tempToActual then delete temp plan")
-    this.symptomService.tempToActual();
-    this.symptomService.deleteTempPlan();
+    // Need not promise chain the deletion, becuase user is not allowed to press back to enter previous plan steps 
+    // this.contactService.deleteTempContact();
+    // this.symptomService.deleteTempPlan();
 
     // Send value to observable to emit to Plan page to get latest storage values 
-    this.generalService.changeMessage(true)
+    // this.generalService.changeMessage(true)
   }
 }
 

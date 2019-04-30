@@ -7,7 +7,6 @@ import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-import { GeneralService } from '../../services/general.service';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { File } from '@ionic-native/file/ngx';
@@ -42,7 +41,7 @@ export class PlanPage implements OnInit {
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private generalService: GeneralService, private file: File, private fileOpener: FileOpener) { }
+    private file: File, private fileOpener: FileOpener) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -62,11 +61,13 @@ export class PlanPage implements OnInit {
           }
         });
 
-        // Get the latest updated storage values 
-        this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
-          this.loadContact();
-          this.loadPlan();
-        })
+        // // Get the latest updated storage values 
+        // this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
+        //   this.loadContact();
+        //   this.loadPlan();
+        // })
+        this.loadContact();
+        this.loadPlan();
       })
   }
 
@@ -82,10 +83,12 @@ export class PlanPage implements OnInit {
     //   }
     // });
 
-    this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
-      this.loadContact();
-      this.loadPlan();
-    })
+    // this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
+    //   this.loadContact();
+    //   this.loadPlan();
+    // })
+    this.loadContact();
+    this.loadPlan();
   }
 
   // Unsubscribe for garbage colleciton, prevent memory leaks
