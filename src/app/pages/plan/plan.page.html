@@ -1,55 +1,60 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button slot="start" (click)="createPDF()">PDF</ion-button>
+  <ion-toolbar color="primary-contrast">
+    <p slot="start" (click)="createPDF()">PDF</p>
     <ion-title class="title">Plan</ion-title>
-    <ion-button slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</ion-button>
-    <ion-button slot="end" id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward" [hidden]="!planExists && !contactExists">Edit</ion-button>
+    <p slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
+    <p slot="end" id="edit" (click)="planActualToTemp()" routerLink="/tabs/plan/contact" routerDirection="forward"
+      [hidden]="!planExists && !contactExists">Edit</p>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content>
 
-  <ion-grid class="ion-no-padding" *ngIf="contactExists">
-    <ion-row >
+  <ion-grid class="contact" color="primary-contrast" *ngIf="contactExists">
+    <ion-row>
       <ion-col>
-        TCS Name:
+        <p>TCS Name:</p>
         <br>
-        <b>{{ contact.name }}</b>
+        <p><b>{{ contact.name }}</b></p>
       </ion-col>
       <ion-col>
-        TCS Contact Number:
+        <p>TCS Contact Number:</p>
         <br>
-        <b>{{ contact.number }}</b>
+        <p><b>{{ contact.number }}</b></p>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-list class="ion-no-padding">
+  <ion-list>
 
     <!-- Critical list -->
-    <!-- The color attribute is needed, else the custom CSS (class="critical") does not work -->
-    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)">
+    <!-- The color attribute is needed, else the custom CSS (class="criticalHeader") does not work -->
+    <!-- Section header line -->
+    <div class="criticalHeader" color="primary-contrast"></div>
+
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable
+      (click)="openInput(critical.id)">
       <ion-grid>
 
         <ion-row>
           <ion-col size="6">
-            {{ critical.type }}
+            <p>{{ critical.type }}</p>
             <br>
-            {{ critical.value }} ({{ critical.unit }})
+            <p>{{ critical.value }} ({{ critical.unit }})</p>
           </ion-col>
 
           <ion-col size="6">
-            {{ critical.action }}
+            <p>{{ critical.action }}</p>
           </ion-col>
         </ion-row>
 
         <ion-row>
           <ion-col size="6">
-            {{ critical.typeDescription }}
+            <p>{{ critical.typeDescription }}</p>
           </ion-col>
 
           <ion-col size="6">
-            {{ critical.actionDescription }}
+            <p>{{ critical.actionDescription }}</p>
           </ion-col>
         </ion-row>
 
@@ -57,18 +62,21 @@
     </ion-item>
 
     <!-- Important list -->
-    <ion-item *ngFor="let important of importants" class="important" color="primary-contrast" tappable (click)="openInput(important.id)">
+    <div class="importantHeader" color="primary-contrast"></div>
+
+    <ion-item *ngFor="let important of importants" class="important" color="primary-contrast" tappable
+      (click)="openInput(important.id)">
       <ion-grid>
 
         <ion-row>
           <ion-col size="6">
-            {{ important.type }}
+            <p>{{ important.type }}</p>
             <br>
-            {{ important.value }} ({{ important.unit }})
+            <p>{{ important.value }} ({{ important.unit }})</p>
           </ion-col>
 
           <ion-col size="6">
-            {{ important.action }}
+            <p>{{ important.action }}</p>
           </ion-col>
         </ion-row>
 
@@ -86,7 +94,8 @@
     </ion-item>
 
     <!-- Attention list -->
-    <ion-item *ngFor="let attention of attentions" class="attention" color="primary-contrast" tappable (click)="openInput(attention.id)">
+    <ion-item *ngFor="let attention of attentions" class="attention" color="primary-contrast" tappable
+      (click)="openInput(attention.id)">
       <ion-grid>
 
         <ion-row>
@@ -115,18 +124,21 @@
     </ion-item>
 
     <!-- Normal list -->
-    <ion-item *ngFor="let normal of normals" class="normal" color="primary-contrast" tappable (click)="openInput(normal.id)">
+    <div class="normalHeader" color="primary-contrast"></div>
+
+    <ion-item *ngFor="let normal of normals" class="normal" color="primary-contrast" tappable
+      (click)="openInput(normal.id)">
       <ion-grid>
 
         <ion-row>
           <ion-col size="6">
-            {{ normal.type }}
+            <p>{{ normal.type }}</p>
             <br>
-            {{ normal.value }} ({{ normal.unit }})
+            <p>{{ normal.value }} ({{ normal.unit }})</p>
           </ion-col>
 
           <ion-col size="6">
-            {{ normal.action }}
+            <p>{{ normal.action }}</p>
           </ion-col>
         </ion-row>
 
@@ -158,6 +170,6 @@
         <h2>Create crisis plan</h2>
       </ion-col>
     </ion-row>
-  </ion-grid> 
-  
+  </ion-grid>
+
 </ion-content>

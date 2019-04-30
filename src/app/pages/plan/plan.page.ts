@@ -12,6 +12,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { stringify } from '@angular/compiler/src/util';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -255,17 +256,29 @@ export class PlanPage implements OnInit {
 
   async createPDF() {
     console.log("Anything in contact: ", this.contact)
-    let body = []
-    let crit = []
-    // let dummy = [];
-    // let counter = [0];
-
+    let body = [];
+    let crit = [];
     let type = {
       text: null,
       style: null
     }
-
     let value = {
+      text: null,
+      style: null
+    }
+    let unit = {
+      text: null,
+      style: null
+    }
+    let action = {
+      text: null,
+      style: null
+    }
+    let typeDescription = {
+      text: null,
+      style: null
+    }
+    let actionDescription = {
       text: null,
       style: null
     }
@@ -273,24 +286,49 @@ export class PlanPage implements OnInit {
     console.log("Whats in this.criticals: ", this.criticals)
     for (let critical of this.criticals) {
       console.log("Whats in 1 critical: ", critical)
-      type['text'] = critical['type'].concat()
 
-      // Check out references : https://stackoverflow.com/questions/9005778/javascript-push-array-onto-array-with-for-loop
-      type['text'].concat()
-      console.log("WHat is type: ", type)
-      // value['text'] = critical['value'];
+      type['text'] = critical['type'];
+      value['text'] = critical['value'];
+      unit['text'] = critical['unit'];
+      action['text'] = critical['action'];
+      typeDescription['text'] = critical['typeDescription'];
+      actionDescription['text'] = critical['actionDescription'];
 
-      // dummy.push(counter.concat())
-      // console.log("dummy: ", dummy)
-  
-      crit.push(type)
-      console.log("WHat is crit: ", crit) 
+      console.log("actiondescription:  ", actionDescription['text'])
 
-      body.push(crit.concat())
-      console.log("Whats in body: ", body)
+      // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
+      crit[0] = {};
+      crit[1] = {};
+      crit[2] = {};
+      crit[3] = {};
+      crit[4] = {};
+      crit[5] = {};
 
+      for (let prop in type) {
+        crit[0][prop] = type[prop];
+      }
+      for (let prop in value) {
+        crit[1][prop] = value[prop];
+      }
+      for (let prop in unit) {
+        crit[2][prop] = unit[prop];
+      }
+      for (let prop in action) {
+        crit[3][prop] = action[prop];
+      }
+      for (let prop in typeDescription) {
+        crit[4][prop] = typeDescription[prop];
+      }
+      for (let prop in actionDescription) {
+        crit[5][prop] = actionDescription[prop];
+      }
+
+      console.log("WHat is crit: ", crit)
+
+      body.push(crit);
+
+      // Empty the crit array for the next critical symptom
       crit = [];
-      // counter[0] += 1
     }
     console.log("Whats in body: ", body)
 
@@ -317,8 +355,8 @@ export class PlanPage implements OnInit {
           table: {
             headerRows: 0,
             body:
-              // [{ text: 'Critical', style: 'tableHeader' }, ],
               body
+            // [{ text: 'Critical', style: 'tableHeader' }, ],
             // [this.criticals],
             // ['Sample value 1'],
             // ['Sample value 1']
