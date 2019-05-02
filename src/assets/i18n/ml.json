@@ -1,0 +1,11 @@
+{
+    "LANGUAGES": {
+        "title": "bahasa"
+    },
+    "SETTINGS": {
+        "title": "Tetapan",
+        "language": "bahasa",
+        "tutorial": "Tutorial",
+        "about": "Mengenai"
+    }
+}

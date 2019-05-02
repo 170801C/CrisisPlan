@@ -1,0 +1,11 @@
+{
+    "LANGUAGES": {
+        "title": "மொழிகளை"
+    },
+    "SETTINGS": {
+        "title": "தலைப்பு",
+        "language": "மொழிகளை",
+        "tutorial": "பயிற்சி",
+        "about": "பற்றி "
+    }
+}

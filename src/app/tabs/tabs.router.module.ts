@@ -70,6 +70,18 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../pages/settings/settings.module#SettingsPageModule'
+          },
+          {
+            path: 'languages',
+            loadChildren: '../pages/languages/languages.module#LanguagesPageModule'
+          },
+          {
+            path: 'about',
+            loadChildren: '../pages/about/about.module#AboutPageModule'
+          },
+          {
+            path: 'tutorial',
+            loadChildren: '../pages/tutorial/tutorial.module#TutorialPageModule'
           }
         ]
       },

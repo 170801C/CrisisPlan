@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { LanguagesService } from './services/languages.service';
+
 @Component({
   // CSS selector. Include this in .html as <app-root> to include everything from this component (.ts, .html, .module.ts etc.)
   selector: 'app-root',
@@ -13,7 +15,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private languageService: LanguagesService
   ) {
     this.initializeApp();
   }
@@ -22,6 +25,9 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      // Set the initial app language to be the previously used language
+      this.languageService.setInitialAppLanguage();
     });
   }
 }

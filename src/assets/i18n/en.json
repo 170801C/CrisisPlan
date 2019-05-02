@@ -1,0 +1,11 @@
+{
+    "LANGUAGES": {
+        "title": "Languages"
+    },
+    "SETTINGS": {
+        "title": "Settings",
+        "language": "Language",
+        "tutorial": "Tutorial",
+        "about": "About"
+    }
+}
