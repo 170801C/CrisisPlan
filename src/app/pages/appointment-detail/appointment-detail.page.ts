@@ -56,7 +56,7 @@ export class AppointmentDetailPage implements OnInit {
       this.appointmentService.updateAppointment(this.appointment)
         .then(result => {
           // Create a subscription event that reloads the Appointments page on storage changes
-          this.events.publish('Reload');
+          this.events.publish('Reload-appointment');
           console.log("Is storage updated: ", result)
 
           // this.router.navigateByUrl('/tabs/appointments');
@@ -66,7 +66,7 @@ export class AppointmentDetailPage implements OnInit {
       this.appointmentService.addAppointment(this.appointment)
         .then(result => {
           // Create a subscription event that reloads the Appointments page on storage changes
-          this.events.publish('Reload');
+          this.events.publish('Reload-appointment');
           console.log("Is storage added: ", result)
 
           // this.router.navigateByUrl('/tabs/appointments');

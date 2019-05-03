@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Platform, AlertController } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
@@ -20,6 +20,15 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./plan.page.scss'],
 })
 export class PlanPage implements OnInit {
+  @HostListener('document:ionBackButton', ['$event'])
+  private overrideHardwareBackAction($event: any) {
+    $event.detail.register(100, async () => {
+      if (this.customBackActionSubscription) {
+        console.log("customBackActionSubscription unsubscribe")
+        this.customBackActionSubscription.unsubscribe();
+      }
+    });
+  }
 
   // Declare an array to hold all plans from storage, to be used in template
   contact = {
@@ -72,16 +81,16 @@ export class PlanPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-    //   if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
-    //     // this.platform.exitApp(); 
-    //     navigator['app'].exitApp();
-    //   } else {
-    //     // Show toast upon exiting app
-    //     this.exitAppToast()
-    //     this.lastBackPressTime = new Date().getTime();
-    //   }
-    // });
+    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+      if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+        // this.platform.exitApp(); 
+        navigator['app'].exitApp();
+      } else {
+        // Show toast upon exiting app
+        this.exitAppToast()
+        this.lastBackPressTime = new Date().getTime();
+      }
+    });
 
     // this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
     //   this.loadContact();
@@ -101,6 +110,13 @@ export class PlanPage implements OnInit {
     //   console.log("contactAndPlanSubscription unsubscribe")
     //   this.contactAndPlanSubscription.unsubscribe();
     // }
+  }
+
+  ngOnDestroy() {
+    if (this.customBackActionSubscription) {
+      console.log("customBackActionSubscription unsubscribe")
+      this.customBackActionSubscription.unsubscribe();
+    }
   }
 
   // Clear the colored arrays
@@ -388,9 +404,9 @@ export class PlanPage implements OnInit {
         var blob = new Blob([buffer], { type: 'application/pdf' });
 
         // Save the PDF to the data directory of our app
-        this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
+        this.file.writeFile(this.file.dataDirectory, 'CrisisPlan.pdf', blob, { replace: true }).then(fileEntry => {
           // Open the PDf with the correct OS tools
-          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+          this.fileOpener.open(this.file.dataDirectory + 'CrisisPlan.pdf', 'application/pdf');
         })
       });
     }

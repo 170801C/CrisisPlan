@@ -14,7 +14,7 @@ export class AppointmentsPage implements OnInit {
 
   constructor(private router: Router, private appointmentService: AppointmentService, private events: Events) {
     // Subscribe to the Reload event to reload the Appointments page on storage changes
-    this.events.subscribe('Reload', () => {
+    this.events.subscribe('Reload-appointment', () => {
       this.loadAppointments();
     });
   }
