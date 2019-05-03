@@ -57,20 +57,20 @@ export class ContactPage implements OnInit {
 
   // Refresh/Update the state whenever user enters this page (solves problem: going back does not refresh)
   ionViewWillEnter() {
-    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      console.log("Discard changes alert")
-      this.discardTempAlert();
-    });
+    // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+    //   console.log("Discard changes alert")
+    //   this.discardTempAlert();
+    // });
 
     this.loadTempContact();
   }
 
-  ionViewWillLeave() {
-    if (this.customBackActionSubscription) {
-      console.log("customBackActionSubscription2 unsubscribe")
-      this.customBackActionSubscription.unsubscribe();
-    }
-  }
+  // ionViewWillLeave() {
+  //   if (this.customBackActionSubscription) {
+  //     console.log("customBackActionSubscription2 unsubscribe")
+  //     this.customBackActionSubscription.unsubscribe();
+  //   }
+  // }
 
   // Getters for form validation
   // get name() { return this.contactForm.get('name'); }

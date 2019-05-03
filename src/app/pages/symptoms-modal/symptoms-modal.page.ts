@@ -17,8 +17,8 @@ export class SymptomsModalPage implements OnInit {
   symptom: symptomModel = {
     id: null,
     icon: null,
-    value: null,
-    unit: null,
+    // value: null,
+    // unit: null,
     type: null,
     typeDescription: null,
     level: null,
@@ -43,8 +43,8 @@ export class SymptomsModalPage implements OnInit {
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
       icon: [null],
-      value: [null, Validators.compose([Validators.required, this.checkForNaN()])],
-      unit: [null, Validators.required],
+      // value: [null, Validators.compose([Validators.required, this.checkForNaN()])],
+      // unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
       typeDescription: [null],
       level: [null],
@@ -85,8 +85,8 @@ export class SymptomsModalPage implements OnInit {
 
           this.inputForm.get('id').setValue(symptom[0].id);
           this.inputForm.get('type').setValue(symptom[0].type);
-          this.inputForm.get('value').setValue(symptom[0].value);
-          this.inputForm.get('unit').setValue(symptom[0].unit);
+          // this.inputForm.get('value').setValue(symptom[0].value);
+          // this.inputForm.get('unit').setValue(symptom[0].unit);
           this.inputForm.get('actionDescription').setValue(symptom[0].actionDescription);
           this.inputForm.get('typeDescription').setValue(symptom[0].typeDescription);
           this.inputForm.get('action').setValue(symptom[0].action);
@@ -110,16 +110,16 @@ export class SymptomsModalPage implements OnInit {
     }
 
     // On changes to Type form field, call setUnitAndIcon()
-    this.inputForm.get('type').valueChanges.subscribe(val => {
-      this.setUnitAndIcon(val)
-    })
+    // this.inputForm.get('type').valueChanges.subscribe(val => {
+    //   this.setUnitAndIcon(val)
+    // })
   }
 
   // Getters for form validation
   get action() { return this.inputForm.get('action'); }
   get type() { return this.inputForm.get('type'); }
-  get value() { return this.inputForm.get('value'); }
-  get unit() { return this.inputForm.get('unit'); }
+  // get value() { return this.inputForm.get('value'); }
+  // get unit() { return this.inputForm.get('unit'); }
 
   // Custom validation: For new input: If type exists, invalidate. For existing input: if type is not the same as the previous value, invalidate.
   checkForSameType(): ValidatorFn {
@@ -227,24 +227,24 @@ export class SymptomsModalPage implements OnInit {
   //   console.log(this.inputForm.value.unit)
   // }
 
-  setUnitAndIcon(val) {
-    console.log("setUnit() called")
-    console.log("setUnit() type: ", this.inputForm.get('type'))
-    if (val == "Blood Sugar") {
-      this.inputForm.get('unit').setValue("mmol/L");
-      this.inputForm.get('icon').setValue("thermometer");
-    }
-    else if (val == "Blood Pressure") {
-      this.inputForm.get('unit').setValue("mmHg");
-      // this.inputForm.value.icon = "";
-    }
-    else if (val == "Temperature") {
-      this.inputForm.get('unit').setValue("degreeCelcius");
-      // this.inputForm.value.icon = "";
-    }
+  // setUnitAndIcon(val) {
+  //   console.log("setUnit() called")
+  //   console.log("setUnit() type: ", this.inputForm.get('type'))
+  //   if (val == "Blood Sugar") {
+  //     this.inputForm.get('unit').setValue("mmol/L");
+  //     this.inputForm.get('icon').setValue("thermometer");
+  //   }
+  //   else if (val == "Blood Pressure") {
+  //     this.inputForm.get('unit').setValue("mmHg");
+  //     // this.inputForm.value.icon = "";
+  //   }
+  //   else if (val == "Temperature") {
+  //     this.inputForm.get('unit').setValue("degreeCelcius");
+  //     // this.inputForm.value.icon = "";
+  //   }
 
-    console.log(this.inputForm.value.unit)
-  }
+  //   console.log(this.inputForm.value.unit)
+  // }
 
   deleteInput(id) {
     this.symptomsService.deleteTempSymptomById(id)
@@ -258,8 +258,8 @@ export class SymptomsModalPage implements OnInit {
   saveInput() {
     // Assign the form values to the symptom model object
     this.symptom.id = this.inputForm.value.id;
-    this.symptom.value = this.inputForm.value.value;
-    this.symptom.unit = this.inputForm.value.unit;
+    // this.symptom.value = this.inputForm.value.value;
+    // this.symptom.unit = this.inputForm.value.unit;
     this.symptom.type = this.inputForm.value.type;
     this.symptom.actionDescription = this.inputForm.value.actionDescription;
     this.symptom.typeDescription = this.inputForm.value.typeDescription;

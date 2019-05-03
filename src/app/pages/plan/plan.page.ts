@@ -97,10 +97,10 @@ export class PlanPage implements OnInit {
       console.log("customBackActionSubscription unsubscribe")
       this.customBackActionSubscription.unsubscribe();
     }
-    if (this.contactAndPlanSubscription) {
-      console.log("contactAndPlanSubscription unsubscribe")
-      this.contactAndPlanSubscription.unsubscribe();
-    }
+    // if (this.contactAndPlanSubscription) {
+    //   console.log("contactAndPlanSubscription unsubscribe")
+    //   this.contactAndPlanSubscription.unsubscribe();
+    // }
   }
 
   // Clear the colored arrays
@@ -191,22 +191,22 @@ export class PlanPage implements OnInit {
     })
   }
 
-  openInput(id) {
-    this.modalController.create({
-      component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms, id: id }
-    }).then(modal => {
-      modal.present();
+  // openInput(id) {
+  //   this.modalController.create({
+  //     component: SymptomsModalPage,
+  //     componentProps: { symptoms: this.symptoms, id: id }
+  //   }).then(modal => {
+  //     modal.present();
 
-      // Get the data passed when the modal is dismissed 
-      modal.onWillDismiss().then(data => {
-        if (data.data && data.data['reload']) {
-          console.log("Reload normal page");
-          this.loadPlan();
-        }
-      })
-    })
-  }
+  //     // Get the data passed when the modal is dismissed 
+  //     modal.onWillDismiss().then(data => {
+  //       if (data.data && data.data['reload']) {
+  //         console.log("Reload normal page");
+  //         this.loadPlan();
+  //       }
+  //     })
+  //   })
+  // }
 
   async addNewPlanAlert() {
     const alert = await this.alertController.create({
@@ -226,7 +226,8 @@ export class PlanPage implements OnInit {
           handler: () => {
             console.log('Confirm Okay');
             // Empty storage
-            this.symptomService.deleteAll();
+            this.contactService.deleteContact();
+            this.symptomService.deletePlan();
 
             // For plan and contact: Copy actual to temp
             this.symptomService.actualToTemp();
@@ -268,14 +269,14 @@ export class PlanPage implements OnInit {
       text: null,
       style: null
     }
-    let value = {
-      text: null,
-      style: null
-    }
-    let unit = {
-      text: null,
-      style: null
-    }
+    // let value = {
+    //   text: null,
+    //   style: null
+    // }
+    // let unit = {
+    //   text: null,
+    //   style: null
+    // }
     let action = {
       text: null,
       style: null
@@ -294,8 +295,8 @@ export class PlanPage implements OnInit {
       console.log("Whats in 1 critical: ", critical)
 
       type['text'] = critical['type'];
-      value['text'] = critical['value'];
-      unit['text'] = critical['unit'];
+      // value['text'] = critical['value'];
+      // unit['text'] = critical['unit'];
       action['text'] = critical['action'];
       typeDescription['text'] = critical['typeDescription'];
       actionDescription['text'] = critical['actionDescription'];
@@ -313,12 +314,12 @@ export class PlanPage implements OnInit {
       for (let prop in type) {
         crit[0][prop] = type[prop];
       }
-      for (let prop in value) {
-        crit[1][prop] = value[prop];
-      }
-      for (let prop in unit) {
-        crit[2][prop] = unit[prop];
-      }
+      // for (let prop in value) {
+      //   crit[1][prop] = value[prop];
+      // }
+      // for (let prop in unit) {
+      //   crit[2][prop] = unit[prop];
+      // }
       for (let prop in action) {
         crit[3][prop] = action[prop];
       }

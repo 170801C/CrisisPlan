@@ -48,13 +48,13 @@
     </div>
 
     <!-- Value input -->
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">Value</ion-label>
       <ion-input formControlName="value" type="number" [(value)]="inputForm.value.value"></ion-input>
-    </ion-item>
+    </ion-item> -->
 
     <!-- Value validation -->
-    <div *ngIf="value.invalid && (value.dirty || value.touched)" class="error">
+    <!-- <div *ngIf="value.invalid && (value.dirty || value.touched)" class="error">
       <div *ngIf="value.errors.required">
         Value is required
       </div>
@@ -62,20 +62,20 @@
       <div *ngIf="value.errors.isNaN">
         Value is required
       </div>
-    </div>
+    </div> -->
 
     <!-- Unit input -->
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">Unit</ion-label>
       <ion-input formControlName="unit" [(value)]="inputForm.value.unit"></ion-input>
-    </ion-item>
+    </ion-item> -->
 
     <!-- Unit validation -->
-    <div *ngIf="unit.invalid && (unit.dirty || unit.touched)" class="error">
+    <!-- <div *ngIf="unit.invalid && (unit.dirty || unit.touched)" class="error">
       <div *ngIf="unit.errors.required">
         Unit is required
       </div>
-    </div>
+    </div> -->
 
     <!-- Type Description input -->
     <ion-item>
