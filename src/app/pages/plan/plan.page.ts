@@ -332,10 +332,14 @@ export class PlanPage implements OnInit {
     })
   }
 
+  // async createPDF() {
   createPDF() {
     console.log("Anything in contact: ", this.contact)
+
     let body = [];
     let crit = [];
+    let impt = [];
+    let norm = [];
     let type = {
       text: null,
       style: null
@@ -362,52 +366,55 @@ export class PlanPage implements OnInit {
     }
 
     console.log("Whats in this.criticals: ", this.criticals)
-    for (let critical of this.criticals) {
-      console.log("Whats in 1 critical: ", critical)
+    if (this.criticals.length != 0) {
+      for (let critical of this.criticals) {
+        console.log("Whats in 1 critical: ", critical)
 
-      type['text'] = critical['type'];
-      // value['text'] = critical['value'];
-      // unit['text'] = critical['unit'];
-      action['text'] = critical['action'];
-      typeDescription['text'] = critical['typeDescription'];
-      actionDescription['text'] = critical['actionDescription'];
+        type['text'] = critical['type'];
+        // value['text'] = critical['value'];
+        // unit['text'] = critical['unit'];
+        action['text'] = critical['action'];
+        typeDescription['text'] = critical['typeDescription'];
+        actionDescription['text'] = critical['actionDescription'];
 
-      console.log("actiondescription:  ", actionDescription['text'])
+        console.log("actiondescription:  ", actionDescription['text'])
 
-      // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
-      crit[0] = {};
-      crit[1] = {};
-      crit[2] = {};
-      crit[3] = {};
-      crit[4] = {};
-      crit[5] = {};
+        // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
+        crit[0] = {};
+        crit[1] = {};
+        crit[2] = {};
+        crit[3] = {};
+        crit[4] = {};
+        crit[5] = {};
 
-      for (let prop in type) {
-        crit[0][prop] = type[prop];
+        for (let prop in type) {
+          crit[0][prop] = type[prop];
+        }
+        // for (let prop in value) {
+        //   crit[1][prop] = value[prop];
+        // }
+        // for (let prop in unit) {
+        //   crit[2][prop] = unit[prop];
+        // }
+        for (let prop in action) {
+          crit[3][prop] = action[prop];
+        }
+        for (let prop in typeDescription) {
+          crit[4][prop] = typeDescription[prop];
+        }
+        for (let prop in actionDescription) {
+          crit[5][prop] = actionDescription[prop];
+        }
+
+        console.log("WHat is crit: ", crit)
+
+        body.push(crit);
+
+        // Empty the crit array for the next critical symptom
+        crit = [];
       }
-      // for (let prop in value) {
-      //   crit[1][prop] = value[prop];
-      // }
-      // for (let prop in unit) {
-      //   crit[2][prop] = unit[prop];
-      // }
-      for (let prop in action) {
-        crit[3][prop] = action[prop];
-      }
-      for (let prop in typeDescription) {
-        crit[4][prop] = typeDescription[prop];
-      }
-      for (let prop in actionDescription) {
-        crit[5][prop] = actionDescription[prop];
-      }
-
-      console.log("WHat is crit: ", crit)
-
-      body.push(crit);
-
-      // Empty the crit array for the next critical symptom
-      crit = [];
     }
+
     console.log("Whats in body: ", body)
 
     // Create the document definition required by pdfmake,then create the pdf.
@@ -471,5 +478,3 @@ export class PlanPage implements OnInit {
     }
   }
 }
-
-
