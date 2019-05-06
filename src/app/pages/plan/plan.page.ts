@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Platform, AlertController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { Platform, AlertController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
@@ -20,16 +20,6 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./plan.page.scss'],
 })
 export class PlanPage implements OnInit {
-  @HostListener('document:ionBackButton', ['$event'])
-  private overrideHardwareBackAction($event: any) {
-    $event.detail.register(100, async () => {
-      if (this.customBackActionSubscription) {
-        console.log("customBackActionSubscription unsubscribe")
-        this.customBackActionSubscription.unsubscribe();
-      }
-    });
-  }
-
   // Declare an array to hold all plans from storage, to be used in template
   contact = {
     name: null,
@@ -50,7 +40,7 @@ export class PlanPage implements OnInit {
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private file: File, private fileOpener: FileOpener) { }
+    private file: File, private fileOpener: FileOpener, private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -58,17 +48,45 @@ export class PlanPage implements OnInit {
     this.platform.ready()
       .then(() => {
         // Display a toast to inform user to press the back button again to exit the app
-        this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-          if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
-            // this.platform.exitApp(); 
-            console.log("Exiting app")
-            navigator['app'].exitApp();
-          } else {
-            // Display toast
-            this.exitAppToast()
-            this.lastBackPressTime = new Date().getTime();
+        // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+        //   if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+        //     // this.platform.exitApp(); 
+        //     console.log("Exiting app")
+        //     navigator['app'].exitApp();
+        //   } else {
+        //     // Display toast
+        //     this.exitAppToast()
+        //     this.lastBackPressTime = new Date().getTime();
+        //   }
+        // })
+
+        console.log("Router url: ", this.router.url)
+
+        // Prevent back button propagation with subscribeWithPriority()
+        this.customBackActionSubscription = this.platform.backButton.subscribeWithPriority(1, () => {
+          // this.navigateToPreviousPage();
+
+          if ((this.router.url == '/tabs/plan') || (this.router.url == '/tabs') || (this.router.url == '/')) {
+            if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+              console.log("Route matches!! Exit")
+              navigator['app'].exitApp();
+            }
+            else {
+              console.log("Route matches!! Press back again")
+              this.exitAppToast()
+              this.lastBackPressTime = new Date().getTime();
+            }
           }
-        });
+          else if (this.router.url == '/tabs/plan/contact') {
+            this.discardChangesAlert();
+          }
+          else {
+            if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+              console.log("Route does not match!!")
+              this.routerOutlet.pop();
+            }
+          }
+        })
 
         // // Get the latest updated storage values 
         // this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
@@ -80,17 +98,29 @@ export class PlanPage implements OnInit {
       })
   }
 
+  // public navigateToPreviousPage() {
+  //   const url = this.router.url;
+  //   // if (url.match("(^\/[a-zA-Z0-9\-\.]*)$")) {
+  //     console.log("Route matches!!")
+  //     navigator['app'].exitApp();
+  //   }
+  //   else {
+  //     console.log("Route does not match!!")
+  //     this.navController.navigateBack(url.replace(new RegExp("(\/([a-zA-Z0-9\-\.])*)$"), ""));
+  //   }
+  // }
+
   ionViewWillEnter() {
-    this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
-      if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
-        // this.platform.exitApp(); 
-        navigator['app'].exitApp();
-      } else {
-        // Show toast upon exiting app
-        this.exitAppToast()
-        this.lastBackPressTime = new Date().getTime();
-      }
-    });
+    // this.customBackActionSubscription = this.platform.backButton.subscribe(() => {
+    //   if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
+    //     // this.platform.exitApp(); 
+    //     navigator['app'].exitApp();
+    //   } else {
+    //     // Show toast upon exiting app
+    //     this.exitAppToast()
+    //     this.lastBackPressTime = new Date().getTime();
+    //   }
+    // })
 
     // this.contactAndPlanSubscription = this.generalService.currentMessage.subscribe(() => {
     //   this.loadContact();
@@ -102,21 +132,15 @@ export class PlanPage implements OnInit {
 
   // Unsubscribe for garbage colleciton, prevent memory leaks
   ionViewWillLeave() {
-    if (this.customBackActionSubscription) {
-      console.log("customBackActionSubscription unsubscribe")
-      this.customBackActionSubscription.unsubscribe();
-    }
+    // if (this.customBackActionSubscription) {
+    //   console.log("customBackActionSubscription unsubscribe")
+    //   this.customBackActionSubscription.unsubscribe();
+    // }
+
     // if (this.contactAndPlanSubscription) {
     //   console.log("contactAndPlanSubscription unsubscribe")
     //   this.contactAndPlanSubscription.unsubscribe();
     // }
-  }
-
-  ngOnDestroy() {
-    if (this.customBackActionSubscription) {
-      console.log("customBackActionSubscription unsubscribe")
-      this.customBackActionSubscription.unsubscribe();
-    }
   }
 
   // Clear the colored arrays
@@ -259,6 +283,37 @@ export class PlanPage implements OnInit {
     await alert.present();
   }
 
+  async discardChangesAlert() {
+    const alert = await this.alertController.create({
+      header: 'Discard changes',
+      message: '<strong>Discard changes?</strong>',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          // Optional properties
+          // cssClass: 'secondary',
+          // handler: (blah) => {
+          //   console.log('Confirm Cancel: blah');
+          // }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Okay');
+            // Empty storage
+            this.contactService.deleteTempContact();
+            this.symptomService.deleteTempPlan();
+
+            // Go to Plan page
+            this.router.navigateByUrl('/tabs/plan');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async exitAppToast() {
     const toast = await this.toastController.create({
       message: 'Press the back button again to exit the app',
@@ -277,7 +332,7 @@ export class PlanPage implements OnInit {
     })
   }
 
-  async createPDF() {
+  createPDF() {
     console.log("Anything in contact: ", this.contact)
     let body = [];
     let crit = [];
