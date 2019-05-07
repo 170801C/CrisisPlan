@@ -366,7 +366,9 @@ export class PlanPage implements OnInit {
     }
 
     console.log("Whats in this.criticals: ", this.criticals)
-    if (this.criticals.length != 0) {
+    // Check this!!
+    if (this.criticals) {
+      console.log("Entering criticals")
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
@@ -380,12 +382,13 @@ export class PlanPage implements OnInit {
         console.log("actiondescription:  ", actionDescription['text'])
 
         // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
+        // 4 indexes are needed for type, action, actionDescription and typeDescription of each symptom
         crit[0] = {};
+        // crit[1] = {};
+        // crit[2] = {};
         crit[1] = {};
         crit[2] = {};
         crit[3] = {};
-        crit[4] = {};
-        crit[5] = {};
 
         for (let prop in type) {
           crit[0][prop] = type[prop];
@@ -397,13 +400,13 @@ export class PlanPage implements OnInit {
         //   crit[2][prop] = unit[prop];
         // }
         for (let prop in action) {
-          crit[3][prop] = action[prop];
+          crit[1][prop] = action[prop];
         }
         for (let prop in typeDescription) {
-          crit[4][prop] = typeDescription[prop];
+          crit[2][prop] = typeDescription[prop];
         }
         for (let prop in actionDescription) {
-          crit[5][prop] = actionDescription[prop];
+          crit[3][prop] = actionDescription[prop];
         }
 
         console.log("WHat is crit: ", crit)
