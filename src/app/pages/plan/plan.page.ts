@@ -366,7 +366,9 @@ export class PlanPage implements OnInit {
     }
 
     console.log("Whats in this.criticals: ", this.criticals)
+
     if (this.criticals.length != 0) {
+      console.log("Entering criticals")
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
@@ -384,8 +386,6 @@ export class PlanPage implements OnInit {
         crit[1] = {};
         crit[2] = {};
         crit[3] = {};
-        crit[4] = {};
-        crit[5] = {};
 
         for (let prop in type) {
           crit[0][prop] = type[prop];
@@ -397,13 +397,13 @@ export class PlanPage implements OnInit {
         //   crit[2][prop] = unit[prop];
         // }
         for (let prop in action) {
-          crit[3][prop] = action[prop];
+          crit[1][prop] = action[prop];
         }
         for (let prop in typeDescription) {
-          crit[4][prop] = typeDescription[prop];
+          crit[2][prop] = typeDescription[prop];
         }
         for (let prop in actionDescription) {
-          crit[5][prop] = actionDescription[prop];
+          crit[3][prop] = actionDescription[prop];
         }
 
         console.log("WHat is crit: ", crit)

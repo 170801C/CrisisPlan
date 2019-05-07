@@ -22,7 +22,7 @@ import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 // Using Http Loader for ngx-translate, which loads the json language files with http
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
