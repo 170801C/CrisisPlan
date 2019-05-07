@@ -337,9 +337,15 @@ export class PlanPage implements OnInit {
     console.log("Anything in contact: ", this.contact)
 
     let body = [];
+
     let crit = [];
     let impt = [];
     let norm = [];
+
+    let critHead = '';
+    let imptHead = '';
+    let normHead = '';
+
     let type = {
       text: null,
       style: null
@@ -369,6 +375,8 @@ export class PlanPage implements OnInit {
 
     if (this.criticals.length != 0) {
       console.log("Entering criticals")
+
+      critHead = "Critical";
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
@@ -433,7 +441,7 @@ export class PlanPage implements OnInit {
             ]
           ]
         },
-
+        critHead,
         {
           style: 'tableExample',
           layout: 'noBorders',
