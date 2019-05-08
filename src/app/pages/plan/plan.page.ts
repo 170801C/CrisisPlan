@@ -336,28 +336,25 @@ export class PlanPage implements OnInit {
   createPDF() {
     console.log("Anything in contact: ", this.contact)
 
-    let body = [];
+    let critType = [];
+    let critAction = [];
+    let imptType = [];
+    let imptAction = [];
+    let normType = [];
+    let normAction = [];
 
-    let crit = [];
-    let impt = [];
-    let norm = [];
+    let critBody = [];
+    let imptBody = [];
+    let normBody = [];
 
-    let critHead = '';
-    let imptHead = '';
-    let normHead = '';
+    let critHeader = '';
+    let imptHeader = '';
+    let normHeader = '';
 
     let type = {
       text: null,
       style: null
     }
-    // let value = {
-    //   text: null,
-    //   style: null
-    // }
-    // let unit = {
-    //   text: null,
-    //   style: null
-    // }
     let action = {
       text: null,
       style: null
@@ -376,13 +373,11 @@ export class PlanPage implements OnInit {
     if (this.criticals.length != 0) {
       console.log("Entering criticals")
 
-      critHead = "Critical";
+      critHeader = "Critical";
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
         type['text'] = critical['type'];
-        // value['text'] = critical['value'];
-        // unit['text'] = critical['unit'];
         action['text'] = critical['action'];
         typeDescription['text'] = critical['typeDescription'];
         actionDescription['text'] = critical['actionDescription'];
@@ -390,40 +385,126 @@ export class PlanPage implements OnInit {
         console.log("actiondescription:  ", actionDescription['text'])
 
         // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
-        crit[0] = {};
-        crit[1] = {};
-        crit[2] = {};
-        crit[3] = {};
+        critType[0] = {};
+        critType[1] = {};
+
+        critAction[0] = {};
+        critAction[1] = {};
 
         for (let prop in type) {
-          crit[0][prop] = type[prop];
-        }
-        // for (let prop in value) {
-        //   crit[1][prop] = value[prop];
-        // }
-        // for (let prop in unit) {
-        //   crit[2][prop] = unit[prop];
-        // }
-        for (let prop in action) {
-          crit[1][prop] = action[prop];
+          critType[0][prop] = type[prop];
         }
         for (let prop in typeDescription) {
-          crit[2][prop] = typeDescription[prop];
+          critType[1][prop] = typeDescription[prop];
+        }
+
+        for (let prop in action) {
+          critAction[0][prop] = action[prop];
         }
         for (let prop in actionDescription) {
-          crit[3][prop] = actionDescription[prop];
+          critAction[1][prop] = actionDescription[prop];
         }
+        console.log("What is in critType: ", critType)
+        console.log("What is in critAction: ", critAction)
 
-        console.log("WHat is crit: ", crit)
+        critBody.push(critType, critAction);
+        console.log("What is in critBody: ", critBody)
 
-        body.push(crit);
-
-        // Empty the crit array for the next critical symptom
-        crit = [];
+        // Empty the critType and critAction arrays for the next critical symptom
+        critType = [];
+        critAction = [];
       }
     }
+    else {
+      // Required to insert something in the array, to accomodate pdfmake
+      critBody = [[]];
+    }
 
-    console.log("Whats in body: ", body)
+    if (this.importants.length != 0) {
+      console.log("Entering importants")
+
+      imptHeader = "Important";
+      for (let important of this.importants) {
+        type['text'] = important['type'];
+        action['text'] = important['action'];
+        typeDescription['text'] = important['typeDescription'];
+        actionDescription['text'] = important['actionDescription'];
+
+        imptType[0] = {};
+        imptType[1] = {};
+
+        imptAction[0] = {};
+        imptAction[1] = {};
+
+        for (let prop in type) {
+          imptType[0][prop] = type[prop];
+        }
+        for (let prop in typeDescription) {
+          imptType[1][prop] = typeDescription[prop];
+        }
+
+        for (let prop in action) {
+          imptAction[0][prop] = action[prop];
+        }
+        for (let prop in actionDescription) {
+          imptAction[1][prop] = actionDescription[prop];
+        }
+        console.log("What is in critType: ", imptType)
+        console.log("What is in critAction: ", imptAction)
+
+        imptBody.push(imptType, imptAction);
+        console.log("What is in critBody: ", imptBody)
+
+        imptType = [];
+        imptAction = [];
+      }
+    }
+    else {
+      imptBody = [[]];
+    }
+
+    if (this.normals.length != 0) {
+      console.log("Entering normals")
+
+      normHeader = "Normal";
+      for (let normal of this.normals) {
+        type['text'] = normal['type'];
+        action['text'] = normal['action'];
+        typeDescription['text'] = normal['typeDescription'];
+        actionDescription['text'] = normal['actionDescription'];
+
+        normType[0] = {};
+        normType[1] = {};
+
+        normAction[0] = {};
+        normAction[1] = {};
+
+        for (let prop in type) {
+          normType[0][prop] = type[prop];
+        }
+        for (let prop in typeDescription) {
+          normType[1][prop] = typeDescription[prop];
+        }
+
+        for (let prop in action) {
+          normAction[0][prop] = action[prop];
+        }
+        for (let prop in actionDescription) {
+          normAction[1][prop] = actionDescription[prop];
+        }
+        console.log("What is in critType: ", normType)
+        console.log("What is in critAction: ", normAction)
+
+        normBody.push(normType, normAction);
+        console.log("What is in critBody: ", normBody)
+
+        normType = [];
+        normAction = [];
+      }
+    }
+    else {
+      normBody = [[]];
+    }
 
     // Create the document definition required by pdfmake,then create the pdf.
     var docDefinition = {
@@ -441,20 +522,35 @@ export class PlanPage implements OnInit {
             ]
           ]
         },
-        critHead,
+        critHeader,
         {
           style: 'tableExample',
           layout: 'noBorders',
           table: {
             headerRows: 0,
-            body: body
-            // [{ text: 'Critical', style: 'tableHeader' }, ],
-            // [this.criticals],
-            // ['Sample value 1'],
-            // ['Sample value 1']
+            body: critBody
           }
-        }
+        },
+        imptHeader,
+        {
+          style: 'tableExample',
+          layout: 'noBorders',
+          table: {
+            headerRows: 0,
+            body: imptBody
+          }
+        },
+        normHeader,
+        {
+          style: 'tableExample',
+          layout: 'noBorders',
+          table: {
+            headerRows: 0,
+            body: normBody
+          }
+        },
       ],
+
       styles: {
         tableExample: {
           margin: [0, 5, 0, 15]
