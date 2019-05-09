@@ -288,5 +288,9 @@ export class SymptomsModalPage implements OnInit {
         })
     }
   }
+
+  dropdown() {
+
+  }
 }
 

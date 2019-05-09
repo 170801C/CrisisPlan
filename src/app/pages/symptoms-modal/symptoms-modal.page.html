@@ -10,6 +10,28 @@
 
     <p>Enter your symptom:</p>
 
+    <div class="input" color="primary-contrast">
+      <input>
+      <div class="arrow" color="primary-contrast" (click)="dropdown()">⌄</div>
+    </div>
+
+    <div class="dropdown">
+      <div>
+        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
+      </div>
+      <div>
+        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
+      </div>
+      <div>
+        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
+      </div>
+      <div>
+        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
+      </div>
+    </div>
+
+    <br><br>
+
     <!-- Type input -->
     <input formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
     <datalist id="type">
