@@ -336,34 +336,38 @@ export class PlanPage implements OnInit {
   createPDF() {
     console.log("Anything in contact: ", this.contact)
 
-    let critType = [];
-    let critAction = [];
-    let imptType = [];
-    let imptAction = [];
-    let normType = [];
-    let normAction = [];
+    let critRow1 = [];
+    let critRow2 = [];
+    let imptRow1 = [];
+    let imptRow2 = [];
+    let normRow1 = [];
+    let normRow2 = [];
 
     let critBody = [];
     let imptBody = [];
     let normBody = [];
 
-    let critHeader = '';
-    let imptHeader = '';
-    let normHeader = '';
+    let critHeader = {};
+    let imptHeader = {};
+    let normHeader = {};
 
     let type = {
+      border: [true, true, false, false],
       text: null,
       style: null
     }
     let action = {
+      border: [false, true, true, false],
       text: null,
       style: null
     }
     let typeDescription = {
+      border: [true, false, false, true],
       text: null,
       style: null
     }
     let actionDescription = {
+      border: [false, false, true, true],
       text: null,
       style: null
     }
@@ -373,7 +377,7 @@ export class PlanPage implements OnInit {
     if (this.criticals.length != 0) {
       console.log("Entering criticals")
 
-      critHeader = "Critical";
+      critHeader = {text: '\n\nCritical', bold: true};
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
@@ -382,37 +386,35 @@ export class PlanPage implements OnInit {
         typeDescription['text'] = critical['typeDescription'];
         actionDescription['text'] = critical['actionDescription'];
 
-        console.log("actiondescription:  ", actionDescription['text'])
-
         // Manually populate the critical array. Cannot push the objects into the array as objects are copied by reference, not value/cloned. 
-        critType[0] = {};
-        critType[1] = {};
+        critRow1[0] = {};
+        critRow1[1] = {};
 
-        critAction[0] = {};
-        critAction[1] = {};
+        critRow2[0] = {};
+        critRow2[1] = {};
 
         for (let prop in type) {
-          critType[0][prop] = type[prop];
+          critRow1[0][prop] = type[prop];
         }
-        for (let prop in typeDescription) {
-          critType[1][prop] = typeDescription[prop];
+        for (let prop in action) {
+          critRow1[1][prop] = action[prop];
         }
 
-        for (let prop in action) {
-          critAction[0][prop] = action[prop];
+        for (let prop in typeDescription) {
+          critRow2[0][prop] = typeDescription[prop];
         }
         for (let prop in actionDescription) {
-          critAction[1][prop] = actionDescription[prop];
+          critRow2[1][prop] = actionDescription[prop];
         }
-        console.log("What is in critType: ", critType)
-        console.log("What is in critAction: ", critAction)
+        console.log("What is in critType: ", critRow1)
+        console.log("What is in critAction: ", critRow2)
 
-        critBody.push(critType, critAction);
+        critBody.push(critRow1, critRow2);
         console.log("What is in critBody: ", critBody)
 
         // Empty the critType and critAction arrays for the next critical symptom
-        critType = [];
-        critAction = [];
+        critRow1 = [];
+        critRow2 = [];
       }
     }
     else {
@@ -423,40 +425,37 @@ export class PlanPage implements OnInit {
     if (this.importants.length != 0) {
       console.log("Entering importants")
 
-      imptHeader = "Important";
+      imptHeader = {text: '\n\nImportant', bold: true};
       for (let important of this.importants) {
         type['text'] = important['type'];
         action['text'] = important['action'];
         typeDescription['text'] = important['typeDescription'];
         actionDescription['text'] = important['actionDescription'];
 
-        imptType[0] = {};
-        imptType[1] = {};
+        imptRow1[0] = {};
+        imptRow1[1] = {};
 
-        imptAction[0] = {};
-        imptAction[1] = {};
+        imptRow2[0] = {};
+        imptRow2[1] = {};
 
         for (let prop in type) {
-          imptType[0][prop] = type[prop];
+          imptRow1[0][prop] = type[prop];
+        }
+        for (let prop in action) {
+          imptRow1[1][prop] = action[prop];
         }
         for (let prop in typeDescription) {
-          imptType[1][prop] = typeDescription[prop];
-        }
-
-        for (let prop in action) {
-          imptAction[0][prop] = action[prop];
+          imptRow2[0][prop] = typeDescription[prop];
         }
         for (let prop in actionDescription) {
-          imptAction[1][prop] = actionDescription[prop];
+          imptRow2[1][prop] = actionDescription[prop];
         }
-        console.log("What is in critType: ", imptType)
-        console.log("What is in critAction: ", imptAction)
 
-        imptBody.push(imptType, imptAction);
+        imptBody.push(imptRow1, imptRow2);
         console.log("What is in critBody: ", imptBody)
 
-        imptType = [];
-        imptAction = [];
+        imptRow1 = [];
+        imptRow2 = [];
       }
     }
     else {
@@ -466,40 +465,37 @@ export class PlanPage implements OnInit {
     if (this.normals.length != 0) {
       console.log("Entering normals")
 
-      normHeader = "Normal";
+      normHeader = {text: '\n\nNormal', bold: true};
       for (let normal of this.normals) {
         type['text'] = normal['type'];
         action['text'] = normal['action'];
         typeDescription['text'] = normal['typeDescription'];
         actionDescription['text'] = normal['actionDescription'];
 
-        normType[0] = {};
-        normType[1] = {};
+        normRow1[0] = {};
+        normRow1[1] = {};
 
-        normAction[0] = {};
-        normAction[1] = {};
+        normRow2[0] = {};
+        normRow2[1] = {};
 
         for (let prop in type) {
-          normType[0][prop] = type[prop];
+          normRow1[0][prop] = type[prop];
+        }
+        for (let prop in action) {
+          normRow1[1][prop] = action[prop];
         }
         for (let prop in typeDescription) {
-          normType[1][prop] = typeDescription[prop];
-        }
-
-        for (let prop in action) {
-          normAction[0][prop] = action[prop];
+          normRow2[0][prop] = typeDescription[prop];
         }
         for (let prop in actionDescription) {
-          normAction[1][prop] = actionDescription[prop];
+          normRow2[1][prop] = actionDescription[prop];
         }
-        console.log("What is in critType: ", normType)
-        console.log("What is in critAction: ", normAction)
 
-        normBody.push(normType, normAction);
+        normBody.push(normRow1, normRow2);
         console.log("What is in critBody: ", normBody)
 
-        normType = [];
-        normAction = [];
+        normRow1 = [];
+        normRow2 = [];
       }
     }
     else {
@@ -513,11 +509,11 @@ export class PlanPage implements OnInit {
           alignment: 'justify',
           columns: [
             [
-              'TCS Name',
+              {text: 'TCS Name', bold: true},
               this.contact.name
             ],
             [
-              'TCS Number',
+              {text: 'TCS Number', bold: true},
               this.contact.number
             ]
           ]
@@ -525,8 +521,9 @@ export class PlanPage implements OnInit {
         critHeader,
         {
           style: 'tableExample',
-          layout: 'noBorders',
           table: {
+            widths: ['*', '*'],
+            heights: ['*', '*'],
             headerRows: 0,
             body: critBody
           }
@@ -534,8 +531,9 @@ export class PlanPage implements OnInit {
         imptHeader,
         {
           style: 'tableExample',
-          layout: 'noBorders',
           table: {
+            widths: ['*', '*'],
+            heights: ['*', '*'],
             headerRows: 0,
             body: imptBody
           }
@@ -543,8 +541,9 @@ export class PlanPage implements OnInit {
         normHeader,
         {
           style: 'tableExample',
-          layout: 'noBorders',
           table: {
+            widths: ['*', '*'],
+            heights: ['*', '*'],
             headerRows: 0,
             body: normBody
           }
@@ -554,11 +553,6 @@ export class PlanPage implements OnInit {
       styles: {
         tableExample: {
           margin: [0, 5, 0, 15]
-        },
-        tableHeader: {
-          bold: true,
-          fontSize: 13,
-          color: 'black'
         }
       }
     }
