@@ -1,17 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { symptomModel } from '../../models/symptomModel'
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController, NavParams } from '@ionic/angular';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 @Component({
   selector: 'app-symptoms-modal',
   templateUrl: './symptoms-modal.page.html',
   styleUrls: ['./symptoms-modal.page.scss'],
+  animations: [
+    trigger('showHide', [
+      state('show', style({
+        display: 'block'
+      })),
+      state('hide', style({
+        display: 'none'
+      })),
+    ])
+  ]
 })
 
 export class SymptomsModalPage implements OnInit {
+
+  @ViewChild('typeInput') typeInput: ElementRef;
 
   inputForm: FormGroup;
   symptom: symptomModel = {
@@ -33,6 +46,9 @@ export class SymptomsModalPage implements OnInit {
   criticals = this.navParams.get('criticals');
   importants = this.navParams.get('importants');
   normals = this.navParams.get('normals');
+  isVisible = false;
+  selectedTypeInput = '';
+  defaultTypes = ['Blood pressure', 'Temperature', 'Blood Sugar'];
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
@@ -113,6 +129,11 @@ export class SymptomsModalPage implements OnInit {
     // this.inputForm.get('type').valueChanges.subscribe(val => {
     //   this.setUnitAndIcon(val)
     // })
+  }
+
+  ngAfterViewChecked() {
+    console.log('anything here: ', this.selectedTypeInput)
+    this.typeInput.nativeElement.value = this.selectedTypeInput;
   }
 
   // Getters for form validation
@@ -290,7 +311,12 @@ export class SymptomsModalPage implements OnInit {
   }
 
   dropdown() {
+    this.isVisible = !this.isVisible;
+  }
 
+  selectTypeInput(type) {
+    console.log("what is type: ", type)
+    this.selectedTypeInput = type;
   }
 }
 
