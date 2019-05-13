@@ -13,10 +13,10 @@ const routes: Routes = [
   { path: 'normal', loadChildren: './pages/normal/normal.module#NormalPageModule' },
   { path: 'attention', loadChildren: './pages/attention/attention.module#AttentionPageModule' },
   { path: 'appointment-detail', loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule' },
-  { path: 'tabs/appointments/appointment-detail/:id', loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule' },  { path: 'languages', loadChildren: './pages/languages/languages.module#LanguagesPageModule' },
+  { path: 'tabs/appointments/appointment-detail/:id', loadChildren: './pages/appointment-detail/appointment-detail.module#AppointmentDetailPageModule' },
+  { path: 'languages', loadChildren: './pages/languages/languages.module#LanguagesPageModule' },
   { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
-  { path: 'tutorial', loadChildren: './pages/tutorial/tutorial.module#TutorialPageModule' },
-
+  { path: 'tutorial', loadChildren: './pages/tutorial/tutorial.module#TutorialPageModule' }
 ];
 @NgModule({
   imports: [

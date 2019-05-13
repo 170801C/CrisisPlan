@@ -93,6 +93,7 @@ export class PlanPage implements OnInit {
         //   this.loadContact();
         //   this.loadPlan();
         // })
+
         this.loadContact();
         this.loadPlan();
       })
@@ -126,6 +127,7 @@ export class PlanPage implements OnInit {
     //   this.loadContact();
     //   this.loadPlan();
     // })
+
     this.loadContact();
     this.loadPlan();
   }
@@ -174,7 +176,6 @@ export class PlanPage implements OnInit {
     this.contactService.getContact()
       .then(result => {
         if ('name' in result) {
-          console.log()
           this.contact = result;
           this.contactExists = true;
         }
@@ -212,41 +213,6 @@ export class PlanPage implements OnInit {
         console.log('critical: ', this.criticals);
       })
   }
-
-  // Create a modal to add a new symptom input
-  addInput() {
-    this.modalController.create({
-      component: SymptomsModalPage,
-      componentProps: { symptoms: this.symptoms }
-    }).then(modal => {
-      modal.present();
-
-      // Get the data passed when the modal is dismissed 
-      modal.onWillDismiss().then(data => {
-        if (data.data && data.data['reload']) {
-          console.log("Reload page");
-          this.loadPlan();
-        }
-      })
-    })
-  }
-
-  // openInput(id) {
-  //   this.modalController.create({
-  //     component: SymptomsModalPage,
-  //     componentProps: { symptoms: this.symptoms, id: id }
-  //   }).then(modal => {
-  //     modal.present();
-
-  //     // Get the data passed when the modal is dismissed 
-  //     modal.onWillDismiss().then(data => {
-  //       if (data.data && data.data['reload']) {
-  //         console.log("Reload normal page");
-  //         this.loadPlan();
-  //       }
-  //     })
-  //   })
-  // }
 
   async addNewPlanAlert() {
     const alert = await this.alertController.create({
@@ -332,6 +298,18 @@ export class PlanPage implements OnInit {
     })
   }
 
+  async doRefresh(event) {
+    await this.loadContact()
+
+    await this.loadPlan()
+
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
   // async createPDF() {
   createPDF() {
     console.log("Anything in contact: ", this.contact)
@@ -377,7 +355,7 @@ export class PlanPage implements OnInit {
     if (this.criticals.length != 0) {
       console.log("Entering criticals")
 
-      critHeader = {text: '\n\nCritical', bold: true};
+      critHeader = { text: '\n\nCritical', bold: true };
       for (let critical of this.criticals) {
         console.log("Whats in 1 critical: ", critical)
 
@@ -425,7 +403,7 @@ export class PlanPage implements OnInit {
     if (this.importants.length != 0) {
       console.log("Entering importants")
 
-      imptHeader = {text: '\n\nImportant', bold: true};
+      imptHeader = { text: '\n\nImportant', bold: true };
       for (let important of this.importants) {
         type['text'] = important['type'];
         action['text'] = important['action'];
@@ -465,7 +443,7 @@ export class PlanPage implements OnInit {
     if (this.normals.length != 0) {
       console.log("Entering normals")
 
-      normHeader = {text: '\n\nNormal', bold: true};
+      normHeader = { text: '\n\nNormal', bold: true };
       for (let normal of this.normals) {
         type['text'] = normal['type'];
         action['text'] = normal['action'];
@@ -509,11 +487,11 @@ export class PlanPage implements OnInit {
           alignment: 'justify',
           columns: [
             [
-              {text: 'TCS Name', bold: true},
+              { text: 'TCS Name', bold: true },
               this.contact.name
             ],
             [
-              {text: 'TCS Number', bold: true},
+              { text: 'TCS Number', bold: true },
               this.contact.number
             ]
           ]

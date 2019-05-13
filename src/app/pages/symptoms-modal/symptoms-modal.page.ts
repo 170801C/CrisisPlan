@@ -358,10 +358,10 @@ export class SymptomsModalPage implements OnInit {
     this.isVisible = !this.isVisible;
   }
 
-  selectTypeInput(type, icon) {
-    this.inputForm.get('type').setValue(type);
-    this.inputForm.get('icon').setValue(icon);
-    this.inputForm.get('type').updateValueAndValidity();
+  async selectTypeInput(type, icon) {
+    await this.inputForm.get('type').setValue(type);
+    await this.inputForm.get('icon').setValue(icon)
+    this.inputForm.get('type').markAsTouched();
   }
 }
 
