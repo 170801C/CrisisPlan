@@ -11,24 +11,16 @@
     <p>Enter your symptom:</p>
 
     <div class="input" color="primary-contrast">
-      <input #typeInput formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
+      <input formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
+
       <div class="arrow" color="primary-contrast" (click)="dropdown()">⌄</div>
     </div>
 
     <div [@showHide]="isVisible ? 'show' : 'hide'" class="dropdown">
-      <div style="background-color: yellow" *ngFor="let type of defaultTypes">
-        <ion-icon style="display: inline-block" src="/assets/blood-pressure-control-tool.svg"></ion-icon>
-        <p style="display: inline-block" (click)="selectTypeInput(type)">{{ type }}</p>
+      <div style="background-color: yellow" *ngFor="let typeAndIcon of defaultTypesAndIcons">
+        <ion-icon style="display: inline-block" [src]=typeAndIcon.icon></ion-icon>
+        <p style="display: inline-block" (click)="selectTypeInput(typeAndIcon.type, typeAndIcon.icon)">{{ typeAndIcon.type }}</p>
       </div>
-      <!-- <div>
-        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
-      </div>
-      <div>
-        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
-      </div>
-      <div>
-        <ion-icon src="/assets/blood-pressure-control-tool.svg"></ion-icon>
-      </div> -->
     </div>
 
     <br><br>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl, ValidatorFn, ControlValueAccessor } from '@angular/forms';
 import { symptomModel } from '../../models/symptomModel'
 import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController, NavParams } from '@ionic/angular';
@@ -24,7 +24,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
 export class SymptomsModalPage implements OnInit {
 
-  @ViewChild('typeInput') typeInput: ElementRef;
+  // @ViewChild('typeInput') typeInput: ElementRef;
 
   inputForm: FormGroup;
   symptom: symptomModel = {
@@ -47,8 +47,11 @@ export class SymptomsModalPage implements OnInit {
   importants = this.navParams.get('importants');
   normals = this.navParams.get('normals');
   isVisible = false;
-  selectedTypeInput = '';
-  defaultTypes = ['Blood pressure', 'Temperature', 'Blood Sugar'];
+  defaultTypesAndIcons =
+    [{ type: 'Temperature', icon: '/assets/thermometer.svg' },
+    { type: 'Blood pressure', icon: '/assets/blood-pressure-control-tool.svg' },
+    { type: 'Blood sugar', icon: '/assets/syringe.svg' }]
+  // selectedTypeInput = '';
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
     private navParams: NavParams) { }
@@ -131,16 +134,57 @@ export class SymptomsModalPage implements OnInit {
     // })
   }
 
-  ngAfterViewChecked() {
-    console.log('anything here: ', this.selectedTypeInput)
-    this.typeInput.nativeElement.value = this.selectedTypeInput;
-  }
+  // ngAfterViewChecked() {
+  //   console.log('this.selectedTypeInput:', this.selectedTypeInput)
+  //   this.typeInput.nativeElement.value = this.selectedTypeInput;
+  //   console.log('this.inputForm.value.type:', this.inputForm.value.type) 
+  // }
 
   // Getters for form validation
   get action() { return this.inputForm.get('action'); }
   get type() { return this.inputForm.get('type'); }
   // get value() { return this.inputForm.get('value'); }
   // get unit() { return this.inputForm.get('unit'); }
+
+  // Custom form input (type)
+  // Write the value from the form model into the view
+  // ngOnChanges() {
+  // this.writeValue(this.inputForm.value.type);
+  //   this.inputForm.get('type').updateValueAndValidity();
+  // }
+
+  // writeValue(value: any) {
+  //   console.log("Does writeValue work?")
+  //   // If there is a value to write, then write
+  //   if (value !== undefined) {
+  //     this.inputForm.value.type = value;
+  //     // this.typeInput.nativeElement.value = value;
+  //     console.log("writeValue this.inputForm.value.type: ", this.inputForm.value.type)
+  //   }
+  // }
+  // onChange = (value) => {
+  //   this.inputForm.value.type = value;
+  // };
+  // onTouched = (value) => {
+  //   this.inputForm.value.type = value;
+  // };
+
+  // // Inform outside form directives and controls of this change and to update
+  // registerOnChange(fn) {
+  //   this.onChange = fn;
+  //   console.log("onChange this.inputForm.value.type: ", this.inputForm.value.type)
+  // }
+
+  // // Same as registerOnChange but invoked when the input is touched (e.g. on blur)
+  // registerOnTouched(fn) {
+  //   this.onTouched = fn;
+  // }
+
+  // selectTypeInput(type) {
+  //   this.onChange(type);
+  //   this.onTouched(type);
+  //   console.log("selectTypeInput this.inputForm.value.type: ", this.inputForm.value.type)
+  // }
 
   // Custom validation: For new input: If type exists, invalidate. For existing input: if type is not the same as the previous value, invalidate.
   checkForSameType(): ValidatorFn {
@@ -217,17 +261,17 @@ export class SymptomsModalPage implements OnInit {
   }
 
   // Custom validation: Check value property of form. If NaN value, invalidate.
-  checkForNaN(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (isNaN(control.value)) {
-        console.log("Whats in value: ", isNaN(control.value))
+  // checkForNaN(): ValidatorFn {
+  //   return (control: AbstractControl): { [key: string]: boolean } | null => {
+  //     if (isNaN(control.value)) {
+  //       console.log("Whats in value: ", isNaN(control.value))
 
-        return { 'isNaN': true };
-      }
+  //       return { 'isNaN': true };
+  //     }
 
-      return null;
-    }
-  }
+  //     return null;
+  //   }
+  // }
 
   // setUnitAndIcon() {
   //   console.log("setUnit() called")
@@ -314,9 +358,10 @@ export class SymptomsModalPage implements OnInit {
     this.isVisible = !this.isVisible;
   }
 
-  selectTypeInput(type) {
-    console.log("what is type: ", type)
-    this.selectedTypeInput = type;
+  selectTypeInput(type, icon) {
+    this.inputForm.get('type').setValue(type);
+    this.inputForm.get('icon').setValue(icon);
+    this.inputForm.get('type').updateValueAndValidity();
   }
 }
 

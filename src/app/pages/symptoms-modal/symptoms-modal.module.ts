@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
 import { SymptomsModalPage } from './symptoms-modal.page';
+
 
 const routes: Routes = [
   {
@@ -22,6 +23,13 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule
   ],
-  declarations: [SymptomsModalPage]
+  declarations: [SymptomsModalPage],
+  providers: [
+    { 
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SymptomsModalPage),
+      multi: true
+    }
+  ]
 })
 export class SymptomsModalPageModule {}
