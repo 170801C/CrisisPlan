@@ -45,6 +45,7 @@ export class PlanPage implements OnInit {
   ngOnInit() {
     // this.symptomService.deleteAll();
 
+    // platform.ready() is already called in app.component.ts, may omit in here 
     this.platform.ready()
       .then(() => {
         // Display a toast to inform user to press the back button again to exit the app
@@ -299,10 +300,8 @@ export class PlanPage implements OnInit {
   }
 
   async doRefresh(event) {
-    await this.loadContact()
-
-    await this.loadPlan()
-
+    await this.loadContact();
+    await this.loadPlan();
 
     setTimeout(() => {
       console.log('Async operation has ended');
