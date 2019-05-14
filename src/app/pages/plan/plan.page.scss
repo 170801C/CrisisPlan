@@ -66,3 +66,9 @@ ion-fab-button {
     --background: #FF6600;
 }
 
+.button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+

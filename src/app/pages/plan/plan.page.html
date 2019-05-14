@@ -151,15 +151,16 @@
   </ion-list>
 
   <!-- Add input button -->
-  <ion-grid [hidden]="planExists || contactExists">
+  <ion-grid [hidden]="planExists || contactExists" class="button" style="background: red">
     <ion-row>
-      <ion-col size="auto">
+      <!-- size="auto" is required to size the col to the content's width, else wach col will be sized propotionally to the full width -->
+      <ion-col style="background: green;" size="auto">
         <ion-fab-button routerLink="/tabs/plan/contact" routerDirection="forward">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
 
-      <ion-col size="auto">
+      <ion-col style="background: blue;" size="auto">
         <h2>Create crisis plan</h2>
       </ion-col>
     </ion-row>

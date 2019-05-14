@@ -35,7 +35,7 @@ export class PlanPage implements OnInit {
   customBackActionSubscription: Subscription;
   lastBackPressTime = 0;
   timePeriodToExitApp = 2000;
-  contactAndPlanSubscription: Subscription;
+  // contactAndPlanSubscription: Subscription;
   pdfObj = null;
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
@@ -90,8 +90,44 @@ export class PlanPage implements OnInit {
         //   this.loadPlan();
         // })
 
+        // this.loadContact().then((res) => {
+        //   console.log("what is res: ", res)
+        //   if (res == true) {
+        //     this.contactExists = true;
+        //   }
+        //   else if (res == false) {
+        //     this.contactExists = false;
+        //   }
+        // })
+
+        // return this.contactService.getContact()
+        // .then(result => {
+        //   if ('name' in result) {
+        //     this.contact = result;
+        //     // this.contactExists = true;
+        //     return true;
+        //   }
+        //   else {
+        //     // this.contactExists = false;
+        //     return false;
+        //   }
+  
+        //   console.log("Plan page, actual contact: ", result)
+        // })
+        // var x = new Promise(function(resolve, reject) {
+
+        //   this.loadContact() {
+
+        //   }
+        //   return Promise.resolve(message)
+        //   setTimeout(function() {
+        //     resolve('foo');
+        //   }, 300);
+        // });
         this.loadContact();
         this.loadPlan();
+        this.getTemp();
+        console.log("Plan page, contact object: ", this.contact)
       })
   }
 
@@ -124,8 +160,20 @@ export class PlanPage implements OnInit {
     //   this.loadPlan();
     // })
 
+    // this.loadContact().then((res) => {
+    //   console.log("what is res: ", res)
+    //   if (res == true) {
+    //     this.contactExists = true;
+    //   }
+    //   else if (res == false) {
+    //     this.contactExists = false;
+    //   }
+    // })
+
     this.loadContact();
     this.loadPlan();
+    this.getTemp()
+    console.log("Plan page, contact object: ", this.contact)
   }
 
   // Unsubscribe for garbage colleciton, prevent memory leaks
@@ -139,6 +187,15 @@ export class PlanPage implements OnInit {
     //   console.log("contactAndPlanSubscription unsubscribe")
     //   this.contactAndPlanSubscription.unsubscribe();
     // }
+  }
+
+  getTemp() {
+    this.symptomService.getTempPlan().then((result) => {
+      console.log("Plan page, temp plan: ", result)
+    })
+    this.contactService.getTempContact().then((result) => {
+      console.log("Plan page, temp contact: ", result)
+    })
   }
 
   // Clear the colored arrays
@@ -168,7 +225,7 @@ export class PlanPage implements OnInit {
   }
 
   loadContact() {
-    this.contactService.getContact()
+    return this.contactService.getContact()
       .then(result => {
         if ('name' in result) {
           this.contact = result;
@@ -177,11 +234,13 @@ export class PlanPage implements OnInit {
         else {
           this.contactExists = false;
         }
+
+        console.log("Plan page, actual contact: ", result)
       })
   }
 
   loadPlan() {
-    this.symptomService.getPlan()
+    return this.symptomService.getPlan()
       .then(result => {
         this.symptoms = result;
 
@@ -193,8 +252,9 @@ export class PlanPage implements OnInit {
         }
 
         this.emptyArrays();
-  
         this.sortInputs(this.symptoms);
+
+        console.log("Plan page, actual symptoms: ", result)
       })
   }
 
@@ -215,15 +275,15 @@ export class PlanPage implements OnInit {
           text: 'Ok',
           handler: () => {
             // Empty storage
-            this.contactService.deleteContact();
-            this.symptomService.deletePlan();
-
+            this.contactService.deleteContact().then(() => {
+              this.symptomService.deletePlan().then(() => {
+                // Go to Contact page
+                this.router.navigateByUrl('/tabs/plan/contact');
+              })
+            })
             // For plan and contact: Copy actual to temp
             // this.symptomService.actualToTemp();
             // this.contactService.actualToTemp();
-
-            // Go to Contact page
-            this.router.navigateByUrl('/tabs/plan/contact');
           }
         }
       ]
@@ -280,13 +340,15 @@ export class PlanPage implements OnInit {
     })
   }
 
-  async doRefresh(event) {
-    await this.loadContact();
-    await this.loadPlan();
-
-    setTimeout(() => {
-      event.target.complete();
-    }, 2000);
+  doRefresh(event) {
+    this.loadContact().then(() => {
+      this.loadPlan().then(() => {
+        event.target.complete();
+      })
+    })
+    // setTimeout(() => {
+    //   event.target.complete();
+    // }, 2000);
   }
 
   // async createPDF() {
@@ -356,9 +418,9 @@ export class PlanPage implements OnInit {
         for (let prop in actionDescription) {
           critRow2[1][prop] = actionDescription[prop];
         }
-  
+
         critBody.push(critRow1, critRow2);
-    
+
         // Empty the critType and critAction arrays for the next critical symptom
         critRow1 = [];
         critRow2 = [];
@@ -397,7 +459,7 @@ export class PlanPage implements OnInit {
         }
 
         imptBody.push(imptRow1, imptRow2);
-   
+
         imptRow1 = [];
         imptRow2 = [];
       }
@@ -435,7 +497,7 @@ export class PlanPage implements OnInit {
         }
 
         normBody.push(normRow1, normRow2);
-    
+
         normRow1 = [];
         normRow2 = [];
       }

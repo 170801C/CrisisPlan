@@ -29,7 +29,7 @@ export class ContactService {
 
   getTempContact() {
     return this.storage.get(TEMP_CONTACT_KEY).then(result => {
-      // If no value in key, return an empty array.  
+      // If no value in key, return an empty object  
       if (!result) {
         return {};
       }
@@ -41,7 +41,7 @@ export class ContactService {
 
   getContact() {
     return this.storage.get(CONTACT_KEY).then(result => {
-      // If no value in key, return an empty array.  
+      // If no value in key, return an empty object
       if (!result) {
         return {};
       }
