@@ -61,19 +61,15 @@ export class PlanPage implements OnInit {
         //   }
         // })
 
-        console.log("Router url: ", this.router.url)
-
         // Prevent back button propagation with subscribeWithPriority()
         this.customBackActionSubscription = this.platform.backButton.subscribeWithPriority(1, () => {
           // this.navigateToPreviousPage();
 
           if ((this.router.url == '/tabs/plan') || (this.router.url == '/tabs') || (this.router.url == '/')) {
             if (new Date().getTime() - this.lastBackPressTime < this.timePeriodToExitApp) {
-              console.log("Route matches!! Exit")
               navigator['app'].exitApp();
             }
             else {
-              console.log("Route matches!! Press back again")
               this.exitAppToast()
               this.lastBackPressTime = new Date().getTime();
             }
@@ -83,7 +79,6 @@ export class PlanPage implements OnInit {
           }
           else {
             if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-              console.log("Route does not match!!")
               this.routerOutlet.pop();
             }
           }
@@ -156,7 +151,6 @@ export class PlanPage implements OnInit {
 
   // Sort the plans array into their level categories 
   sortInputs(symptoms) {
-    console.log("Sorting inputs: ", symptoms)
     for (let symptom of symptoms) {
       if (symptom.level == "critical") {
         this.criticals.push(symptom);
@@ -183,9 +177,6 @@ export class PlanPage implements OnInit {
         else {
           this.contactExists = false;
         }
-        console.log("getContact() called: ", result)
-        console.log("Whats in contact: ", this.contact)
-        console.log("contact exist: ", this.contactExists)
       })
   }
 
@@ -193,8 +184,6 @@ export class PlanPage implements OnInit {
     this.symptomService.getPlan()
       .then(result => {
         this.symptoms = result;
-        console.log("getPlan() result: ", result)
-        console.log("this.symptoms: ", this.symptoms)
 
         if (this.symptoms.length > 0) {
           this.planExists = true;
@@ -202,16 +191,10 @@ export class PlanPage implements OnInit {
         else {
           this.planExists = false;
         }
-        console.log("plan exist: ", this.planExists)
 
         this.emptyArrays();
-        console.log("Whats in crit arr:", this.criticals);
-
+  
         this.sortInputs(this.symptoms);
-        console.log('normal: ', this.normals);
-        console.log('attention: ', this.attentions);
-        console.log('important: ', this.importants);
-        console.log('critical: ', this.criticals);
       })
   }
 
@@ -231,14 +214,13 @@ export class PlanPage implements OnInit {
         }, {
           text: 'Ok',
           handler: () => {
-            console.log('Confirm Okay');
             // Empty storage
             this.contactService.deleteContact();
             this.symptomService.deletePlan();
 
             // For plan and contact: Copy actual to temp
-            this.symptomService.actualToTemp();
-            this.contactService.actualToTemp();
+            // this.symptomService.actualToTemp();
+            // this.contactService.actualToTemp();
 
             // Go to Contact page
             this.router.navigateByUrl('/tabs/plan/contact');
@@ -266,7 +248,6 @@ export class PlanPage implements OnInit {
         }, {
           text: 'Ok',
           handler: () => {
-            console.log('Confirm Okay');
             // Empty storage
             this.contactService.deleteTempContact();
             this.symptomService.deleteTempPlan();
@@ -304,15 +285,12 @@ export class PlanPage implements OnInit {
     await this.loadPlan();
 
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }
 
   // async createPDF() {
   createPDF() {
-    console.log("Anything in contact: ", this.contact)
-
     let critRow1 = [];
     let critRow2 = [];
     let imptRow1 = [];
@@ -349,14 +327,9 @@ export class PlanPage implements OnInit {
       style: null
     }
 
-    console.log("Whats in this.criticals: ", this.criticals)
-
     if (this.criticals.length != 0) {
-      console.log("Entering criticals")
-
       critHeader = { text: '\n\nCritical', bold: true };
       for (let critical of this.criticals) {
-        console.log("Whats in 1 critical: ", critical)
 
         type['text'] = critical['type'];
         action['text'] = critical['action'];
@@ -383,12 +356,9 @@ export class PlanPage implements OnInit {
         for (let prop in actionDescription) {
           critRow2[1][prop] = actionDescription[prop];
         }
-        console.log("What is in critType: ", critRow1)
-        console.log("What is in critAction: ", critRow2)
-
+  
         critBody.push(critRow1, critRow2);
-        console.log("What is in critBody: ", critBody)
-
+    
         // Empty the critType and critAction arrays for the next critical symptom
         critRow1 = [];
         critRow2 = [];
@@ -400,8 +370,6 @@ export class PlanPage implements OnInit {
     }
 
     if (this.importants.length != 0) {
-      console.log("Entering importants")
-
       imptHeader = { text: '\n\nImportant', bold: true };
       for (let important of this.importants) {
         type['text'] = important['type'];
@@ -429,8 +397,7 @@ export class PlanPage implements OnInit {
         }
 
         imptBody.push(imptRow1, imptRow2);
-        console.log("What is in critBody: ", imptBody)
-
+   
         imptRow1 = [];
         imptRow2 = [];
       }
@@ -440,7 +407,6 @@ export class PlanPage implements OnInit {
     }
 
     if (this.normals.length != 0) {
-      console.log("Entering normals")
 
       normHeader = { text: '\n\nNormal', bold: true };
       for (let normal of this.normals) {
@@ -469,8 +435,7 @@ export class PlanPage implements OnInit {
         }
 
         normBody.push(normRow1, normRow2);
-        console.log("What is in critBody: ", normBody)
-
+    
         normRow1 = [];
         normRow2 = [];
       }

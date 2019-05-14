@@ -10,14 +10,12 @@ const TEMP_CONTACT_KEY = "myTempContact";
 export class ContactService {
 
   constructor(private storage: Storage) { }
-  
+
   actualToTemp() {
     // Always return, probably to handle promises correctly 
     return this.getContact()
       .then((result) => {
-        console.log("Setting contact actual to temp")
-        console.log("Result to be stored in temp: ", result)
-         this.storage.set(TEMP_CONTACT_KEY, result)
+        this.storage.set(TEMP_CONTACT_KEY, result)
         return this.getContact()
       })
   }
@@ -25,9 +23,6 @@ export class ContactService {
   addTempContact(myContact) {
     return this.storage.get(TEMP_CONTACT_KEY).then(result => {
       // If no value in key, create new with myContact
-      console.log("Existing temp contact: ", result)
-      console.log("Replacing temp contact with: ", myContact)
-
       return this.storage.set(TEMP_CONTACT_KEY, myContact);
     })
   }
@@ -39,7 +34,6 @@ export class ContactService {
         return {};
       }
       else {
-        console.log("Temp Contact storage: ", result);
         return result;
       }
     })
@@ -52,7 +46,6 @@ export class ContactService {
         return {};
       }
       else {
-        console.log("Contact storage: ", result);
         return result;
       }
     })
@@ -61,7 +54,6 @@ export class ContactService {
   // Set temp contact to actual contact 
   tempToActual() {
     return this.storage.get(TEMP_CONTACT_KEY).then(tempResult => {
-      console.log("Setting contact temp to actual")
       return this.storage.set(CONTACT_KEY, tempResult);
     })
   }

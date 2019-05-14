@@ -14,7 +14,6 @@ export class SymptomsService {
   actualToTemp() {
     return this.getPlan()
       .then((result) => {
-        console.log("Result to be stored in temp: ", result)
         return this.storage.set(TEMP_PLAN_KEY, result);
       })
   }
@@ -23,14 +22,10 @@ export class SymptomsService {
     return this.storage.get(TEMP_PLAN_KEY).then(symptoms => {
       // If no value in key, create new with mySymptom
       if (!symptoms) {
-        console.log("No existing symptoms")
         return this.storage.set(TEMP_PLAN_KEY, [mySymptom]);
       }
       else {
         // if there is existing value in key, push new mySymptom to symptoms array
-        console.log("Existing symptoms: ", symptoms)
-        console.log("mySymptom: ", mySymptom)
-
         symptoms.push(mySymptom);
 
         return this.storage.set(TEMP_PLAN_KEY, symptoms);
@@ -46,14 +41,10 @@ export class SymptomsService {
 
   updateTempSymptom(mySymptom) {
     return this.storage.get(TEMP_PLAN_KEY).then(result => {
-      console.log("update mySymptom id: ", mySymptom)
-      console.log("Updating.....")
-
       let updatedPlan = [];
 
       for (let symptom of result) {
         if (symptom.id == mySymptom.id) {
-          console.log("Equals here")
           updatedPlan.push(mySymptom);
         }
         else {
@@ -91,7 +82,6 @@ export class SymptomsService {
         return [];
       }
       else {
-        console.log("Value from temp plan: ", result);
         return result;
       }
     })

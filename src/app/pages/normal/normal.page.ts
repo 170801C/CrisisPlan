@@ -56,7 +56,6 @@ export class NormalPage implements OnInit {
   }
 
   sortInputs(symptoms) {
-    console.log("Sorting inputs: ", symptoms)
     for (let symptom of symptoms) {
       if (symptom.level == "normal") {
         this.normals.push(symptom);
@@ -75,14 +74,11 @@ export class NormalPage implements OnInit {
   loadTempPlan() {
     this.symptomService.getTempPlan()
       .then(result => {
-        console.log("temp getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
 
         this.sortInputs(this.symptoms);
-
-        console.log('normal array: ', this.normals);
       })
   }
 
@@ -111,7 +107,6 @@ export class NormalPage implements OnInit {
       // Get the data passed when the modal is dismissed 
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
-          console.log("Reload normal page");
           this.loadTempPlan();
         }
       })
@@ -128,7 +123,6 @@ export class NormalPage implements OnInit {
       // Get the data passed when the modal is dismissed 
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
-          console.log("Reload normal page");
           this.loadTempPlan();
         }
       })
@@ -137,7 +131,6 @@ export class NormalPage implements OnInit {
 
   // Set temp to actual, then delete temp, for all data 
   allTempToActual() {
-    console.log("Contact: tempToActual then delete temp contact")
     this.contactService.tempToActual().then(() => {
       this.symptomService.tempToActual().then(() => {
         this.contactService.deleteTempContact().then(() => {

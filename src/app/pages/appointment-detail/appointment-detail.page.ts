@@ -31,12 +31,8 @@ export class AppointmentDetailPage implements OnInit {
 
     // If existing input is tapped, retrieve its form values by id, to be displayed in page form for editing/deletion.
     if (this.id != null) {
-
-      console.log("Appointment id exists: ", this.id)
-
       this.appointmentService.getAppointmentById(this.id)
         .then((appointment) => {
-          console.log("Symptom get by id: ", appointment[0])
           // Get appointment by id and insert its values into the form
           this.appointment = appointment[0]
         })
@@ -49,16 +45,12 @@ export class AppointmentDetailPage implements OnInit {
   // get name() { return this.inputForm.get('name'); }
 
   saveInput() {
-    console.log("Appointment model object: ", this.appointment);
-
     // Update existing appointment or add new appointment to plan
     if (this.id != null) {
       this.appointmentService.updateAppointment(this.appointment)
         .then(result => {
           // Create a subscription event that reloads the Appointments page on storage changes
           this.events.publish('Reload-appointment');
-          console.log("Is storage updated: ", result)
-
           // this.router.navigateByUrl('/tabs/appointments');
         })
     }
@@ -67,8 +59,6 @@ export class AppointmentDetailPage implements OnInit {
         .then(result => {
           // Create a subscription event that reloads the Appointments page on storage changes
           this.events.publish('Reload-appointment');
-          console.log("Is storage added: ", result)
-
           // this.router.navigateByUrl('/tabs/appointments');
         })
     }

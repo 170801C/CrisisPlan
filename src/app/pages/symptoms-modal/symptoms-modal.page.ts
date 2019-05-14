@@ -57,8 +57,6 @@ export class SymptomsModalPage implements OnInit {
     private navParams: NavParams) { }
 
   ngOnInit() {
-    console.log("Any id here: ", this.id)
-
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
       icon: [null],
@@ -73,7 +71,6 @@ export class SymptomsModalPage implements OnInit {
     })
 
     // For new input: Set level and color, based on level page 
-    console.log("What is the level: ", this.level)
     if (this.level == "critical") {
       this.inputForm.get('level').setValue("critical");
       this.inputForm.get('color').setValue("#FF0000");
@@ -93,13 +90,8 @@ export class SymptomsModalPage implements OnInit {
 
     // If existing input is tapped, retrieve its form values by id, to be displayed in modal for editing/deletion.
     if (this.id != null) {
-
-      console.log("Symptom id exists: ", this.id)
-
       this.symptomsService.getTempSymptomById(this.id)
         .then((symptom) => {
-          console.log("Symptom get by id: ", symptom[0])
-
           // this.inputForm.get('action').reset()
 
           this.inputForm.get('id').setValue(symptom[0].id);
@@ -112,8 +104,6 @@ export class SymptomsModalPage implements OnInit {
           this.inputForm.get('color').setValue(symptom[0].color);
           this.inputForm.get('level').setValue(symptom[0].level);
           this.inputForm.get('icon').setValue(symptom[0].icon);
-
-          console.log("Whats in id: ", this.inputForm.value.id)
 
           // console.log("Removing validators")
           // this.inputForm.get('type').clearValidators();
@@ -189,16 +179,12 @@ export class SymptomsModalPage implements OnInit {
   // Custom validation: For new input: If type exists, invalidate. For existing input: if type is not the same as the previous value, invalidate.
   checkForSameType(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      console.log("anything in id? ", this.id)
-      console.log("Checking...")
-
       // New input
       if (this.id == null) {
         // If there are existing inputs in Criticals page, check with them, else pass validation.
         if (this.criticals != null) {
           for (let symptom in this.criticals) {
             if (this.criticals[symptom]['type'] == control.value) {
-              console.log("typeFormControl.value exissts on this page: ", control.value)
               return { 'sameType': true }
             }
           }
@@ -206,7 +192,6 @@ export class SymptomsModalPage implements OnInit {
         else if (this.importants != null) {
           for (let symptom in this.importants) {
             if (this.importants[symptom]['type'] == control.value) {
-              console.log("typeFormControl.value exissts on this page: ", control.value)
               return { 'sameType': true }
             }
           }
@@ -214,7 +199,6 @@ export class SymptomsModalPage implements OnInit {
         else if (this.normals != null) {
           for (let symptom in this.normals) {
             if (this.normals[symptom]['type'] == control.value) {
-              console.log("typeFormControl.value exissts on this page: ", control.value)
               return { 'sameType': true }
             }
           }
@@ -227,15 +211,9 @@ export class SymptomsModalPage implements OnInit {
       // Existing input
       else {
         if (this.criticals != null) {
-          console.log("Whats in criticals: ", this.criticals)
           for (let symptom in this.criticals) {
             // Iterate through criticals array. If both types are the same, but not the same item, invalidate.
             if ((this.criticals[symptom]['type'] == control.value) && (this.criticals[symptom]['id'] != this.id)) {
-              console.log("same type but diff item")
-              console.log("type: ", this.criticals[symptom]['type'])
-              console.log("control type: ", control.value)
-              console.log("id: ", this.criticals[symptom]['id'])
-              console.log("control id: ", this.id)
               return { 'sameType': true };
             }
           }
@@ -314,7 +292,6 @@ export class SymptomsModalPage implements OnInit {
   deleteInput(id) {
     this.symptomsService.deleteTempSymptomById(id)
       .then(res => {
-        console.log("Is symptom deleted: ", res)
         // Close the modal and return data --> reload key: true value  
         this.modalController.dismiss({ reload: true });
       })
@@ -333,13 +310,10 @@ export class SymptomsModalPage implements OnInit {
     this.symptom.level = this.inputForm.value.level;
     this.symptom.icon = this.inputForm.value.icon;
 
-    console.log("Symptom model object: ", this.symptom);
-
     // Update existing symptom & plan or add new symptom to plan
     if (this.id != null) {
       this.symptomsService.updateTempSymptom(this.symptom)
         .then(result => {
-          console.log("Is storage updated: ", result)
           // Close the modal and return data --> reload key: true value  
           this.modalController.dismiss({ reload: true });
         })

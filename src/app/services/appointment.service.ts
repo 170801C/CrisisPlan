@@ -13,13 +13,9 @@ export class AppointmentService {
   addAppointment(myAppointment) {
     return this.storage.get(APPOINTMENT_KEY).then(appointments => {
       if (!appointments) {
-        console.log("No existing appointments")
         return this.storage.set(APPOINTMENT_KEY, [myAppointment]);
       }
       else {
-        console.log("Existing appointments: ", appointments)
-        console.log("myAppointment: ", myAppointment)
-
         appointments.push(myAppointment);
 
         return this.storage.set(APPOINTMENT_KEY, appointments);
@@ -36,21 +32,17 @@ export class AppointmentService {
   updateAppointment(myAppointment) {
     return this.storage.get(APPOINTMENT_KEY)
       .then(result => {
-        console.log("updating appointment");
-        console.log("Get storage result: ", result)
-
         let updatedAppointments = [];
 
         for (let appointment of result) {
           if (appointment.id == myAppointment.id) {
-            console.log("Id match")
             updatedAppointments.push(myAppointment);
           }
           else {
             updatedAppointments.push(appointment);
           }
         }
-        
+
         return this.storage.set(APPOINTMENT_KEY, updatedAppointments);
       })
   }

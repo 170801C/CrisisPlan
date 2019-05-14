@@ -39,7 +39,6 @@ export class ImportantPage implements OnInit {
   }
 
   sortInputs(symptoms) {
-    console.log("Sorting inputs: ", symptoms)
     for (let symptom of symptoms) {
       if (symptom.level == "important") {
         this.importants.push(symptom);
@@ -50,14 +49,11 @@ export class ImportantPage implements OnInit {
   loadTempPlan() {
     this.symptomService.getTempPlan()
       .then(result => {
-        console.log("temp getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
 
         this.sortInputs(this.symptoms);
-
-        console.log('important array: ', this.importants);
       })
   }
 
@@ -72,7 +68,6 @@ export class ImportantPage implements OnInit {
       // Get the data passed when the modal is dismissed 
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
-          console.log("Reload important page");
           this.loadTempPlan();
         }
       })
@@ -89,7 +84,6 @@ export class ImportantPage implements OnInit {
       // Get the data passed when the modal is dismissed 
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
-          console.log("Reload important page");
           this.loadTempPlan();
         }
       })

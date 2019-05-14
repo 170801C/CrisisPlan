@@ -80,7 +80,6 @@ export class ContactPage implements OnInit {
     this.contactService.getTempContact()
       .then((result) => {
         this.contact = result;
-        console.log("From temp contact: ", this.contact)
       })
   }
 
@@ -107,14 +106,12 @@ export class ContactPage implements OnInit {
     // contactChanged = true whenever Next button is pressed
     // this.contactChanged = true;
 
-    console.log("Saving temp contact: ", this.contact)
     // Convert [] to {}
-    this.contactObject.name = this.contact.name
-    this.contactObject.number = this.contact.number
-    console.log("contactObject: ", this.contactObject)
+    this.contactObject.name = this.contact.name;
+    this.contactObject.number = this.contact.number;
 
     // Add contact inputs to temp contact 
-    this.contactService.addTempContact(this.contactObject)
+    this.contactService.addTempContact(this.contactObject);
   }
 
   async discardTempAlert() {
@@ -133,7 +130,6 @@ export class ContactPage implements OnInit {
         }, {
           text: 'Ok',
           handler: () => {
-            console.log('Confirm Okay');
             // Delete temp contact
             this.contactService.deleteTempContact();
             // Delete temp plan

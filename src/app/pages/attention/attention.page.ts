@@ -31,7 +31,6 @@ export class AttentionPage implements OnInit {
   }
 
   sortInputs(symptoms) {
-    console.log("Sorting inputs: ", symptoms)
     for (let symptom of symptoms) {
       if (symptom.level == "attention") {
         this.attentions.push(symptom);
@@ -42,14 +41,11 @@ export class AttentionPage implements OnInit {
   loadPlan() {
     this.symptomService.getPlan()
       .then(result => {
-        console.log("getPlan() result: ", result)
         this.symptoms = result;
 
         this.emptyArray();
 
         this.sortInputs(this.symptoms);
-
-        console.log('attention array: ', this.attentions);
       })
   }
 
@@ -64,7 +60,6 @@ export class AttentionPage implements OnInit {
       // Get the data passed when the modal is dismissed 
       modal.onWillDismiss().then(data => {
         if (data.data && data.data['reload']) {
-          console.log("Reload attention page");
           this.loadPlan();
         }
       })

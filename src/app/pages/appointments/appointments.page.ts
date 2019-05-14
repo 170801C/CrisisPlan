@@ -30,14 +30,12 @@ export class AppointmentsPage implements OnInit {
   loadAppointments() {
     this.appointmentService.getAppointments()
       .then(result => {
-        console.log("Appointments: ", result)
         this.appointments = result;
       })
   }
 
   async deleteInput(id) {
     await this.appointmentService.deleteAppointmentById(id)
-    console.log("Deleted appointment")
     this.loadAppointments();
   }
 
