@@ -25,7 +25,7 @@ ion-toolbar p {
     background-color: #FF7776;
 }
 
-.critical p{
+.critical p {
     margin: 0;
     font-size: 18px;
 }
@@ -69,6 +69,7 @@ ion-fab-button {
 .button {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
