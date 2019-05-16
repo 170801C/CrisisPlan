@@ -3,32 +3,32 @@ ion-toolbar {
     color: white;
 }
 
-ion-toolbar p {
-    margin-left: 2vw;
-    margin-right: 2vw;
-}
+// ion-toolbar p {
+//     margin-left: 2vw;
+//     margin-right: 2vw;
+// }
 
-.title {
-    text-align: center;
-}
+// .title {
+//     text-align: center;
+// }
 
-.contact {
-    margin: 2vw;
-}
+// .contact {
+//     margin: 2vw;
+// }
 
-.contact p {
-    margin: 0;
-}
+// .contact p {
+//     margin: 0;
+// }
 
 .criticalHeader {
     height: 1vw;
     background-color: #FF7776;
 }
 
-.critical p {
-    margin: 0;
-    font-size: 18px;
-}
+// .critical p {
+//     margin: 0;
+//     font-size: 18px;
+// }
 
 .critical ion-row:nth-child(2) {
     color: #CECDCD;
@@ -66,10 +66,10 @@ ion-fab-button {
     --background: #FF6600;
 }
 
-.button {
+.createPlanGrid {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    --ion-grid-width: 90%;
 }
-

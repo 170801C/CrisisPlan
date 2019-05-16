@@ -1,6 +1,7 @@
 export interface symptomModel {
     id: number,
-    icon: string,
+    typeIcon: string,
+    actionIcon: string,
     // value: number, 
     // unit: string,
     type: string,

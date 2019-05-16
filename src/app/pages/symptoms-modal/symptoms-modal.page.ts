@@ -29,7 +29,8 @@ export class SymptomsModalPage implements OnInit {
   inputForm: FormGroup;
   symptom: symptomModel = {
     id: null,
-    icon: null,
+    typeIcon: null,
+    actionIcon: null,
     // value: null,
     // unit: null,
     type: null,
@@ -46,11 +47,21 @@ export class SymptomsModalPage implements OnInit {
   criticals = this.navParams.get('criticals');
   importants = this.navParams.get('importants');
   normals = this.navParams.get('normals');
-  isVisible = false;
+  typeIsVisible = false;
+  actionIsVisible = false;
   defaultTypesAndIcons =
-    [{ type: 'Temperature', icon: '/assets/thermometer.svg' },
-    { type: 'Blood pressure', icon: '/assets/blood-pressure-control-tool.svg' },
-    { type: 'Blood sugar', icon: '/assets/syringe.svg' }]
+    [
+      { type: 'Temperature', typeIcon: '/assets/thermometer.svg' },
+      { type: 'Blood pressure', typeIcon: '/assets/blood-pressure-control-tool.svg' },
+      { type: 'Blood sugar', typeIcon: '/assets/syringe.svg' }
+    ]
+  defaultActionsAndIcons =
+    [
+      { action: 'Maintain usual activities/exercise', actionIcon: '/assets/icon/run.svg' },
+      { action: 'Call 995', actionIcon: '/assets/icon/call.svg' },
+      { action: 'Call TCS', actionIcon: '/assets/icon/call.svg' },
+      { action: 'See family doctor/polyclinic', actionIcon: '/assets/icon/stethoscope.svg' }
+    ]
   // selectedTypeInput = '';
 
   constructor(private formBuilder: FormBuilder, private symptomsService: SymptomsService, private modalController: ModalController,
@@ -59,7 +70,8 @@ export class SymptomsModalPage implements OnInit {
   ngOnInit() {
     this.inputForm = this.formBuilder.group({
       id: Date.now(),
-      icon: [null],
+      typeIcon: [null],
+      actionIcon: [null],
       // value: [null, Validators.compose([Validators.required, this.checkForNaN()])],
       // unit: [null, Validators.required],
       type: [null, Validators.compose([Validators.required, this.checkForSameType()])],
@@ -103,7 +115,8 @@ export class SymptomsModalPage implements OnInit {
           this.inputForm.get('action').setValue(symptom[0].action);
           this.inputForm.get('color').setValue(symptom[0].color);
           this.inputForm.get('level').setValue(symptom[0].level);
-          this.inputForm.get('icon').setValue(symptom[0].icon);
+          this.inputForm.get('typeIcon').setValue(symptom[0].typeIcon);
+          this.inputForm.get('actionIcon').setValue(symptom[0].actionIcon);
 
           // console.log("Removing validators")
           // this.inputForm.get('type').clearValidators();
@@ -308,7 +321,8 @@ export class SymptomsModalPage implements OnInit {
     this.symptom.action = this.inputForm.value.action;
     this.symptom.color = this.inputForm.value.color;
     this.symptom.level = this.inputForm.value.level;
-    this.symptom.icon = this.inputForm.value.icon;
+    this.symptom.typeIcon = this.inputForm.value.typeIcon;
+    this.symptom.actionIcon = this.inputForm.value.actionIcon;
 
     // Update existing symptom & plan or add new symptom to plan
     if (this.id != null) {
@@ -328,14 +342,24 @@ export class SymptomsModalPage implements OnInit {
     }
   }
 
-  dropdown() {
-    this.isVisible = !this.isVisible;
+  typeDropdown() {
+    this.typeIsVisible = !this.typeIsVisible;
   }
 
-  async selectTypeInput(type, icon) {
+  actionDropdown() {
+    this.actionIsVisible = !this.actionIsVisible
+  }
+
+  async selectTypeInput(type, typeIcon) {
     await this.inputForm.get('type').setValue(type);
-    await this.inputForm.get('icon').setValue(icon)
+    await this.inputForm.get('typeIcon').setValue(typeIcon)
     this.inputForm.get('type').markAsTouched();
+  }
+
+  async selectActionInput(action, actionIcon) {
+    await this.inputForm.get('action').setValue(action);
+    await this.inputForm.get('actionIcon').setValue(actionIcon)
+    this.inputForm.get('action').markAsTouched();
   }
 }
 

@@ -1,61 +1,105 @@
 <ion-header>
   <ion-toolbar color="primary-contrast">
-    <p slot="start" (click)="createPDF()">PDF</p>
-    <ion-title class="title">Plan</ion-title>
-    <p slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
-    <p slot="end" id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+        <ion-col size="auto">
+          <div>
+            <p slot="start" (click)="createPDF()">Create PDF</p>
+          </div>
+        </ion-col>
+
+        <!-- Empty <ion-col> are for arranging the columns   -->
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <!-- <ion-title> is not included -->
+          <div>
+            Crisis Plan
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            <p slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
+          </div>
+        </ion-col>
+
+        <ion-col size="auto">
+          <div>
+            <p slot="end" id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- Pull to refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid class="contact" color="primary-contrast" *ngIf="contactExists">
+  <!-- Contact -->
+  <ion-grid *ngIf="contactExists" style="background-color: red">
     <ion-row>
       <ion-col>
-        <p>TCS Name:</p>
-        <br>
-        <p><b>{{ contact.name }}</b></p>
+        TCS Name
       </ion-col>
       <ion-col>
-        <p>TCS Contact Number:</p>
-        <br>
-        <p><b>{{ contact.number }}</b></p>
+        TCS Contact No.
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        {{ contact.name }}
+      </ion-col>
+      <ion-col>
+        {{ contact.number }}
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-list>
+  <!-- Symptoms -->
+  <ion-list lines="none" style="background-color: gold">
 
     <!-- Critical list -->
     <!-- Section header line -->
-    <div class="criticalHeader"></div>
+    <div *ngIf="criticals.length > 0" class="criticalHeader"></div>
 
     <!-- <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)"> -->
-    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
-      <ion-grid>
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast"
+      style="background-color: blue">
+      <ion-grid style="background-color: greenyellow" no-padding>
 
         <ion-row>
-          <ion-col size="6">
-            <p>{{ critical.type }}</p>
+          <ion-col size="0.5" style="background-color: orange">
+            <ion-icon [src]=critical.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col size="6">
-            <p>{{ critical.action }}</p>
+          <ion-col style="background-color: pink">
+            {{ critical.type }}
+          </ion-col>
+
+          <ion-col>
+            {{ critical.action }}
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col size="6">
-            <p>{{ critical.typeDescription }}</p>
+          <ion-col size="0.5" style="background-color: darkorange"></ion-col>
+
+          <ion-col>
+            {{ critical.typeDescription }}
           </ion-col>
 
-          <ion-col size="6">
-            <p>{{ critical.actionDescription }}</p>
+          <ion-col>
+            {{ critical.actionDescription }}
           </ion-col>
         </ion-row>
 
@@ -63,7 +107,7 @@
     </ion-item>
 
     <!-- Important list -->
-    <div class="importantHeader" color="primary-contrast"></div>
+    <div *ngIf="importants.length > 0" class="importantHeader"></div>
 
     <ion-item *ngFor="let important of importants" class="important" color="primary-contrast">
       <ion-grid>
@@ -92,7 +136,7 @@
     </ion-item>
 
     <!-- Attention list -->
-    <!-- <ion-item *ngFor="let attention of attentions" class="attention" color="primary-contrast">
+    <!-- <ion-item *ngFor="let attention of attentions" class="attention">
       <ion-grid>
 
         <ion-row>
@@ -119,7 +163,7 @@
     </ion-item> -->
 
     <!-- Normal list -->
-    <div class="normalHeader" color="primary-contrast"></div>
+    <div *ngIf="normals.length > 0" class="normalHeader"></div>
 
     <ion-item *ngFor="let normal of normals" class="normal" color="primary-contrast">
       <ion-grid>
@@ -150,16 +194,16 @@
   </ion-list>
 
   <!-- Add input button -->
-  <ion-grid [hidden]="planExists || contactExists" class="button" style="background: red">
-    <ion-row>
+  <ion-grid [hidden]="planExists || contactExists" class="createPlanGrid" fixed>
+    <ion-row class="ion-justify-content-center">
       <!-- size="auto" is required to size the col to the content's width, else wach col will be sized propotionally to the full width -->
-      <ion-col style="background: green;" size="auto">
+      <ion-col size="auto">
         <ion-fab-button routerLink="/tabs/plan/contact" routerDirection="forward">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
 
-      <ion-col style="background: blue;" size="auto">
+      <ion-col size="auto">
         <h2>Create crisis plan</h2>
       </ion-col>
     </ion-row>
