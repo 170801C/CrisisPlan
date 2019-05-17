@@ -1,27 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>symptomsModal</ion-title>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+        <ion-col size="2">
+          <div>
+            <p>Back</p>
+          </div>
+        </ion-col>
+
+        <ion-col size="3"></ion-col>
+
+        <ion-col size="4">
+          <div>
+            Symptom
+          </div>
+        </ion-col>
+
+        <ion-col size="3"></ion-col>
+
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <form [formGroup]="inputForm" (ngSubmit)="saveInput()">
+  <form [formGroup]="inputForm" (ngSubmit)="saveInput()" style="background-color: pink">
 
-    <p>Enter your symptom:</p>
+    <ion-grid class="inputDiv" style="background-color: yellow">
+      <ion-row>
+        <ion-col style="background-color: yellowgreen">
+            <input placeholder="Enter symptom" formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
+        </ion-col>
+        <ion-col size="auto" (click)="typeDropdown()" style="background-color: red">
+            ⌄
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    <div class="input" color="primary-contrast">
-      <input formControlName="type" list="type" name="type" [(value)]="inputForm.value.type">
+    <div class="inputDiv" color="primary-contrast" style="background-color: yellow">
+      <input placeholder="Enter symptom" formControlName="type" list="type" name="type" [(value)]="inputForm.value.type" style="background-color: yellowgreen">
 
-      <div class="arrow" color="primary-contrast" (click)="typeDropdown()">⌄</div>
+      <div (click)="typeDropdown()" style="background-color: red">⌄</div>
     </div>
 
-    <div [@showHide]="typeIsVisible ? 'show' : 'hide'" class="dropdown">
-      <div style="background-color: yellow" *ngFor="let typeAndIcon of defaultTypesAndIcons">
+    <div [@showHide]="typeIsVisible ? 'show' : 'hide'" class="dropdown" style="background-color: blue">
+      <div style="background-color: green" *ngFor="let typeAndIcon of defaultTypesAndIcons">
         <ion-icon style="display: inline-block" [src]=typeAndIcon.typeIcon></ion-icon>
-        <p style="display: inline-block" (click)="selectTypeInput(typeAndIcon.type, typeAndIcon.typeIcon)">{{ typeAndIcon.type }}</p>
+        <p style="display: inline-block" (click)="selectTypeInput(typeAndIcon.type, typeAndIcon.typeIcon)">
+          {{ typeAndIcon.type }}</p>
       </div>
-    </div>
+    </div>  
 
     <br><br>
 
@@ -99,18 +128,19 @@
 
     <!-- Action input -->
     <div class="input" color="primary-contrast">
-        <input formControlName="action" name="action" [(value)]="inputForm.value.action">
-  
-        <div class="arrow" color="primary-contrast" (click)="actionDropdown()">⌄</div>
+      <input formControlName="action" name="action" [(value)]="inputForm.value.action">
+
+      <div class="arrow" color="primary-contrast" (click)="actionDropdown()">⌄</div>
+    </div>
+
+    <div [@showHide]="actionIsVisible ? 'show' : 'hide'" class="dropdown">
+      <div style="background-color: yellow" *ngFor="let actionAndIcon of defaultActionsAndIcons">
+        <ion-icon style="display: inline-block" [src]=actionAndIcon.actionIcon></ion-icon>
+        <p style="display: inline-block" (click)="selectActionInput(actionAndIcon.action, actionAndIcon.actionIcon)">
+          {{ actionAndIcon.action }}</p>
       </div>
-  
-      <div [@showHide]="actionIsVisible ? 'show' : 'hide'" class="dropdown">
-        <div style="background-color: yellow" *ngFor="let actionAndIcon of defaultActionsAndIcons">
-          <ion-icon style="display: inline-block" [src]=actionAndIcon.actionIcon></ion-icon>
-          <p style="display: inline-block" (click)="selectActionInput(actionAndIcon.action, actionAndIcon.actionIcon)">{{ actionAndIcon.action }}</p>
-        </div>
-      </div>
-      
+    </div>
+
     <!-- <ion-item>
       <ion-label position="stacked">Action</ion-label>
       <ion-input formControlName="action" [(value)]="inputForm.value.action"></ion-input>

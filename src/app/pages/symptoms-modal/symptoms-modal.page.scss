@@ -1,9 +1,30 @@
+ion-toolbar {
+    background-color: #7587DC;
+    color: white;
+}
+
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
 .error {
     color: red;
 }
 
-.input {
+.inputDiv {
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
     border: 2px;
+}
+
+.inputDiv input {
+    width: 90%;
+}
+
+.inputDiv div {
+    width: 10%;
 }
 
 .arrow {
