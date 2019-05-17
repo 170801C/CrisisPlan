@@ -1,3 +1,19 @@
+ion-toolbar {
+    background-color: #7587DC;
+    color: white;
+}
+
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
+.step {
+    // height: 10vw;
+    background-color: #E5E5E5;
+    text-align: center;
+}
+
 .error {
     color: red;
 }
