@@ -9,11 +9,49 @@ ion-toolbar ion-button {
 }
 
 .step {
-    // height: 10vw;
+    height: 8%;
     background-color: #E5E5E5;
     text-align: center;
 }
 
+.step p {
+    margin: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ion-progress-bar {
+    --progress-background: #FFAB00;
+    --background: #8B8B8B;
+}
+
+.nameInput {
+    margin-top: 5%;
+    width: 90%;
+    border-bottom: 1px solid;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.typeInput {
+    margin-top: 3%;
+    width: 90%;
+    border-bottom: 1px solid;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ion-label {
+    color: #8B8B8B;
+}
+
 .error {
+    width: 90%;
     color: red;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }

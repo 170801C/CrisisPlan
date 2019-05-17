@@ -30,17 +30,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid style="background-color: red">
-    <ion-row>
-      <ion-col>
-        TCS Name
-      </ion-col>
-      <ion-col>
-        TCS Contact No.
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
   <div class="step" color="primary-contrast">
     <p>Step 1: Enter TCS Contact</p>
     <!-- <ion-note color="primary">Step 1: Enter TCS Contact</ion-note> -->
@@ -50,22 +39,26 @@
 
   <form (ngSubmit)="saveTempContact()" #contactForm="ngForm">
 
-    <ion-item>
+    <!-- Name input -->
+    <div class="nameInput">
       <ion-label position="stacked">TCS Name</ion-label>
-      <ion-input name="name" #name="ngModel" [(ngModel)]="contact.name" required></ion-input>
-    </ion-item>
+      <ion-input name="name" #name="ngModel" [(ngModel)]="contact.name" clearInput=true required></ion-input>
+    </div>
 
+    <!-- Name validation -->
     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
       <div *ngIf="name.errors.required">
         Name is required
       </div>
     </div>
 
-    <ion-item>
+    <!-- Number input -->
+    <div class="typeInput">
       <ion-label position="stacked">TCS Contact No.</ion-label>
-      <ion-input name="number" #number="ngModel" [(ngModel)]="contact.number" type="number" required></ion-input>
-    </ion-item>
+      <ion-input name="number" #number="ngModel" [(ngModel)]="contact.number" type="number" clearInput=true required></ion-input>
+    </div>
 
+    <!-- Number validation -->
     <div *ngIf="number.invalid && (number.dirty || number.touched)" class="error">
       <div *ngIf="number.errors.required">
         Number is required
