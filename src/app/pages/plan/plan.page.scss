@@ -21,7 +21,7 @@ ion-toolbar {
 // }
 
 .icon {
-    // --ion-grid-column-padding-sm: 20px;
+    // --ion-grid-column-padding: 10px;
     // padding-right: 2px;
 }
 
@@ -72,13 +72,13 @@ ion-toolbar {
 }
 
 ion-fab-button {
-    --background: #FF6600;
+    --background: #FFAB00;
 }
 
-.createPlanGrid {
-    position: absolute;
-    top: 50%;
+.createPlanButton {
+    position: relative;
+    top: 30%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -30%);
     --ion-grid-width: 90%;
 }

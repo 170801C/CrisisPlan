@@ -1,23 +1,73 @@
-.symptoms {
-   text-align: center;
-   color: #FF8D00;
-}
-
-#action1 {
+ion-toolbar {
+    background-color: #7587DC;
     color: white;
-    background-color: #2FB6D3;
 }
 
-#action2 {
-    background-color: #FF7776;
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
+.step {
+    height: 8%;
+    background-color: #E5E5E5;
+    text-align: center;
+}
+
+.step p {
+    margin: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ion-progress-bar {
+    --progress-background: #FF8D00;
+    --background: #8B8B8B;
+    margin-bottom: 3%;
+}
+
+.symptomDiv {
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-bottom: 1px solid;
+}
+
+.typeDescription {
+    color: #8B8B8B;
 }
 
 .action {
+    background-color: #FF7776;
+    color: white;
+    border-radius: 5%; 
+    width: 100%;
     text-align: center;
-    margin: auto;
+    margin-top: 4%;
+}
+
+.action .icon, p {
+    display: inline-block;
+    padding: 2%;
+    margin: 0;
 }
 
 .actionDescription {
     text-align: center;
-    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    color: #8B8B8B;
+}
+
+ion-fab-button {
+    --background: #FF8D00;
+}
+
+.addSymptomButton {
+    position: relative;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    --ion-grid-width: 90%;
 }

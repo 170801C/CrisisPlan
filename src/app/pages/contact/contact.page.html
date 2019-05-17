@@ -32,7 +32,6 @@
 <ion-content>
   <div class="step" color="primary-contrast">
     <p>Step 1: Enter TCS Contact</p>
-    <!-- <ion-note color="primary">Step 1: Enter TCS Contact</ion-note> -->
   </div>
 
   <ion-progress-bar value="0.25"></ion-progress-bar>
@@ -55,7 +54,8 @@
     <!-- Number input -->
     <div class="typeInput">
       <ion-label position="stacked">TCS Contact No.</ion-label>
-      <ion-input name="number" #number="ngModel" [(ngModel)]="contact.number" type="number" clearInput=true required></ion-input>
+      <ion-input name="number" #number="ngModel" [(ngModel)]="contact.number" type="number" clearInput=true required>
+      </ion-input>
     </div>
 
     <!-- Number validation -->

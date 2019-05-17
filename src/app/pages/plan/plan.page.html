@@ -77,12 +77,12 @@
       <ion-grid style="background-color: royalblue" no-padding>
 
         <ion-row class="ion-nowrap">
-          <!-- <ion-col size="auto" fixed class="icon" style="background-color: darksalmon">
+
+          <ion-col size="auto" fixed class="icon" style="background-color: darksalmon">
             <ion-icon [src]=critical.typeIcon></ion-icon>
-          </ion-col> -->
+          </ion-col>
 
           <ion-col>
-            <ion-icon [src]=critical.typeIcon style="background-color: red" class="icon"></ion-icon>
             {{ critical.type }}
           </ion-col>
           <!-- 
@@ -201,7 +201,7 @@
   </ion-list>
 
   <!-- Add input button -->
-  <ion-grid [hidden]="planExists || contactExists" class="createPlanGrid" fixed>
+  <ion-grid [hidden]="planExists || contactExists" class="createPlanButton" fixed>
     <ion-row class="ion-justify-content-center">
       <!-- size="auto" is required to size the col to the content's width, else wach col will be sized propotionally to the full width -->
       <ion-col size="auto">
