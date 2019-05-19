@@ -45,20 +45,30 @@
   </ion-refresher>
 
   <!-- Contact -->
-  <ion-grid *ngIf="contactExists" style="background-color: red">
-    <ion-row>
+  <ion-grid *ngIf="contactExists" class="contactGrid">
+    <ion-row class="ion-nowrap">
+      <ion-col size="1"></ion-col>
+
       <ion-col>
         TCS Name
       </ion-col>
+
+      <ion-col size="1"></ion-col>
+
       <ion-col>
         TCS Contact No.
       </ion-col>
     </ion-row>
 
-    <ion-row>
+    <ion-row class="ion-nowrap">
+      <ion-col size="1"></ion-col>
+
       <ion-col>
         {{ contact.name }}
       </ion-col>
+
+      <ion-col size="1"></ion-col>
+
       <ion-col>
         {{ contact.number }}
       </ion-col>
@@ -66,46 +76,44 @@
   </ion-grid>
 
   <!-- Symptoms -->
-  <ion-list lines="none" style="background-color: gold">
+  <ion-list lines="full">
 
     <!-- Critical list -->
     <!-- Section header line -->
     <div *ngIf="criticals.length > 0" class="criticalHeader"></div>
 
-    <!-- <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" tappable (click)="openInput(critical.id)"> -->
     <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
-      <ion-grid style="background-color: royalblue" no-padding>
+      <ion-grid no-padding class="symptomGrid">
 
-        <ion-row class="ion-nowrap">
+        <ion-row class="ion-nowrap ion-no-padding">
 
-          <ion-col size="auto" fixed class="icon" style="background-color: darksalmon">
-            <ion-icon [src]=critical.typeIcon></ion-icon>
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=critical.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col>
+          <ion-col class="ion-align-self-center">
             {{ critical.type }}
           </ion-col>
-          <!-- 
-          <ion-col size="auto" fixed class="icon" style="background-color: darksalmon">
-            <ion-icon [src]=critical.actionIcon></ion-icon>
-          </ion-col> -->
 
-          <ion-col>
-            <ion-icon [src]=critical.actionIcon style="background-color: red" class="icon"></ion-icon>
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=critical.actionIcon></ion-icon>
+          </ion-col>
+
+          <ion-col class="ion-align-self-center">
             {{ critical.action }}
           </ion-col>
         </ion-row>
 
         <ion-row class="ion-nowrap">
-          <!-- <ion-col style="background-color: darkseagreen"></ion-col> -->
+          <ion-col size="1"></ion-col>
 
-          <ion-col class="num2" style="background-color: darkseagreen">
+          <ion-col>
             {{ critical.typeDescription }}
           </ion-col>
 
-          <!-- <ion-col style="background-color: darkseagreen"></ion-col> -->
+          <ion-col size="1"></ion-col>
 
-          <ion-col class="num2" style="background-color: darkseagreen">
+          <ion-col>
             {{ critical.actionDescription }}
           </ion-col>
         </ion-row>
@@ -117,24 +125,36 @@
     <div *ngIf="importants.length > 0" class="importantHeader"></div>
 
     <ion-item *ngFor="let important of importants" class="important" color="primary-contrast">
-      <ion-grid>
+      <ion-grid no-padding class="symptomGrid">
 
-        <ion-row>
-          <ion-col size="6">
-            <p>{{ important.type }}</p>
+        <ion-row class="ion-nowrap ion-no-padding">
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=important.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col size="6">
-            <p>{{ important.action }}</p>
+          <ion-col class="ion-align-self-center">
+            {{ important.type }}
+          </ion-col>
+
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=important.actionIcon></ion-icon>
+          </ion-col>
+
+          <ion-col class="ion-align-self-center">
+            {{ important.action }}
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col size="6">
+        <ion-row class="ion-nowrap">
+          <ion-col size="1"></ion-col>
+
+          <ion-col>
             {{ important.typeDescription }}
           </ion-col>
 
-          <ion-col size="6">
+          <ion-col size="1"></ion-col>
+
+          <ion-col>
             {{ important.actionDescription }}
           </ion-col>
         </ion-row>
@@ -142,55 +162,40 @@
       </ion-grid>
     </ion-item>
 
-    <!-- Attention list -->
-    <!-- <ion-item *ngFor="let attention of attentions" class="attention">
-      <ion-grid>
-
-        <ion-row>
-          <ion-col size="6">
-            {{ attention.type }}
-          </ion-col>
-
-          <ion-col size="6">
-            {{ attention.action }}
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="6">
-            {{ attention.typeDescription }}
-          </ion-col>
-
-          <ion-col size="6">
-            {{ attention.actionDescription }}
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-    </ion-item> -->
-
     <!-- Normal list -->
     <div *ngIf="normals.length > 0" class="normalHeader"></div>
 
     <ion-item *ngFor="let normal of normals" class="normal" color="primary-contrast">
-      <ion-grid>
+      <ion-grid no-padding class="symptomGrid">
 
-        <ion-row>
-          <ion-col size="6">
-            <p>{{ normal.type }}</p>
+        <ion-row class="ion-nowrap ion-no-padding">
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=normal.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col size="6">
-            <p>{{ normal.action }}</p>
+          <ion-col class="ion-align-self-center">
+            {{ normal.type }}
+          </ion-col>
+
+          <ion-col size="1">
+            <ion-icon class="icon" [src]=normal.actionIcon></ion-icon>
+          </ion-col>
+
+          <ion-col class="ion-align-self-center">
+            {{ normal.action }}
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col size="6">
+        <ion-row class="ion-nowrap">
+          <ion-col size="1"></ion-col>
+
+          <ion-col>
             {{ normal.typeDescription }}
           </ion-col>
 
-          <ion-col size="6">
+          <ion-col size="1"></ion-col>
+
+          <ion-col>
             {{ normal.actionDescription }}
           </ion-col>
         </ion-row>

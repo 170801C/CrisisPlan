@@ -17,7 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.page.html',
-  styleUrls: ['./plan.page.scss'],
+  styleUrls: ['./plan.page.scss']
 })
 export class PlanPage implements OnInit {
   // Declare an array to hold all plans from storage, to be used in template
