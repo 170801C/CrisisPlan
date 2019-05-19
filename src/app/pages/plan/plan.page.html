@@ -4,7 +4,7 @@
       <ion-row class="ion-nowrap ion-align-items-center">
         <ion-col size="auto">
           <div>
-            <p slot="start" (click)="createPDF()">Create PDF</p>
+            <p (click)="createPDF()">Create PDF</p>
           </div>
         </ion-col>
 
@@ -22,13 +22,13 @@
 
         <ion-col size="auto">
           <div>
-            <p slot="end" (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
+            <p (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
           </div>
         </ion-col>
 
         <ion-col size="auto">
           <div>
-            <p slot="end" id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
+            <p id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
           </div>
         </ion-col>
       </ion-row>

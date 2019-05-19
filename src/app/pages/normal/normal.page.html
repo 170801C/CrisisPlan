@@ -1,77 +1,82 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button slot="start">PDF</ion-button>
-    <ion-title>normal</ion-title>
-    <ion-button slot="end" (click)="allTempToActual()">Next</ion-button>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+        <ion-col size="auto">
+          <div>
+            <p>Back</p>
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            Crisis Plan 4/4
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            <ion-button fill="clear" (click)="allTempToActual()">Next</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
+  
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content>
+  <div class="step" color="primary-contrast">
+    <p>Step 4: I'm Feeling Well</p>
+  </div>
 
-  <ion-note color="primary">Step 4: Normal - Continue normal activities</ion-note>
   <ion-progress-bar value="1"></ion-progress-bar>
 
-  <p class="symptoms">Symptoms</p>
-  <hr>
+  <!-- Normal list -->
+  <div class="symptomDiv" color="primary-contrast" *ngFor="let normal of normals" tappable
+    (click)="openInput(normal.id)">
 
-  <!-- Important list -->
-  <ion-list class="ion-no-padding">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap">
+        <ion-col>
+          <ion-icon class="icon" [src]=normal.typeIcon></ion-icon>
+          {{ normal.type }}
+        </ion-col>
 
-    <ion-item *ngFor="let normal of normals" class="normal" color="primary-contrast" tappable
-      (click)="openInput(normal.id)">
+        <ion-col class="typeDescription">
+          {{ normal.typeDescription }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-      <ion-grid>
+    <div class="action">
+      <ion-icon [src]=normal.actionIcon></ion-icon>
+      <p>{{ normal.action }}</p>
+    </div>
 
-        <ion-row>
-          <ion-col>
-            {{ normal.type }}
-          </ion-col>
+    <div class="actionDescription">
+      {{ normal.actionDescription }}
+    </div>
 
-          <ion-col>
-            {{ normal.typeDescription }}
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="action">
-          <ion-col>
-            <ion-button color="danger">
-              {{ normal.action }}
-            </ion-button>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="actionDescription">
-          <ion-col>
-            {{ normal.actionDescription }}
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-
-    </ion-item>
-
-  </ion-list>
+  </div>
 
   <!-- Add input button -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="auto" offset="4">
+  <ion-grid class="addSymptomButton" fixed>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="auto">
         <ion-fab-button (click)="addInput()">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-col>
 
       <ion-col size="auto">
-        <h2>Add input</h2>
+        <h2>Add symptom</h2>
       </ion-col>
     </ion-row>
   </ion-grid>
 
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title id="action1">What to Do</ion-title>
-    <ion-title id="action2">Continue normal activities</ion-title>
-  </ion-toolbar>
-</ion-footer>

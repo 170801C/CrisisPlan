@@ -4,7 +4,7 @@
       <ion-row class="ion-nowrap ion-align-items-center">
         <ion-col size="auto">
           <div>
-            <p slot="start">Back</p>
+            <p>Back</p>
           </div>
         </ion-col>
 
@@ -20,7 +20,7 @@
 
         <ion-col size="auto">
           <div>
-            <ion-button fill="clear" slot="end" [routerLink]="importantPath" routerDirection="forward">Next</ion-button>
+            <ion-button fill="clear" [routerLink]="importantPath" routerDirection="forward">Next</ion-button>
           </div>
         </ion-col>
       </ion-row>
@@ -66,7 +66,7 @@
   <!-- Add input button -->
   <ion-grid class="addSymptomButton" fixed>
     <ion-row class="ion-justify-content-center">
-      <!-- size="auto" is required to size the col to the content's width, else wach col will be sized propotionally to the full width -->
+      <!-- size="auto" is required to size the col to the content's width, else col will be sized propotionally to the full width -->
       <ion-col size="auto">
         <ion-fab-button (click)="addInput()">
           <ion-icon name="add"></ion-icon>

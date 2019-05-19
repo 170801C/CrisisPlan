@@ -4,7 +4,7 @@
       <ion-row class="ion-nowrap ion-align-items-center">
         <ion-col size="auto">
           <div>
-            <p slot="start">Back</p>
+            <p>Back</p>
           </div>
         </ion-col>
 
@@ -20,7 +20,7 @@
 
         <ion-col size="auto">
           <div>
-            <ion-button fill="clear" slot="end" [routerLink]="criticalPath" routerDirection="forward"
+            <ion-button fill="clear" [routerLink]="criticalPath" routerDirection="forward"
               (click)="contactForm.ngSubmit.emit()" [disabled]="!contactForm.valid">Next</ion-button>
           </div>
         </ion-col>

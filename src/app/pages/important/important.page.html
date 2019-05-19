@@ -1,21 +1,69 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button slot="start">PDF</ion-button>
-    <ion-title>important</ion-title>
-    <ion-button [routerLink]="normalPath" routerDirection="forward" slot="end">Next</ion-button>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+        <ion-col size="auto">
+          <div>
+            <p>Back</p>
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            Crisis Plan 3/4
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            <ion-button fill="clear" [routerLink]="normalPath" routerDirection="forward">Next</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content>
+  <div class="step" color="primary-contrast">
+    <p>Step 3: Caution - Symptom Management</p>
+  </div>
 
-  <ion-note color="primary">Step 3: Important - Call TCS</ion-note>
   <ion-progress-bar value="0.75"></ion-progress-bar>
 
-  <p class="symptoms">Symptoms</p>
-  <hr>
-
   <!-- Important list -->
-  <ion-list class="ion-no-padding">
+  <div class="symptomDiv" color="primary-contrast" *ngFor="let important of importants" tappable
+    (click)="openInput(important.id)">
+
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap">
+        <ion-col>
+          <ion-icon class="icon" [src]=important.typeIcon></ion-icon>
+          {{ important.type }}
+        </ion-col>
+
+        <ion-col class="typeDescription">
+          {{ important.typeDescription }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="action">
+      <ion-icon [src]=important.actionIcon></ion-icon>
+      <p>{{ important.action }}</p>
+    </div>
+
+    <div class="actionDescription">
+      {{ important.actionDescription }}
+    </div>
+
+  </div>
+
+  <!-- <ion-list class="ion-no-padding">
 
     <ion-item *ngFor="let important of importants" class="important" color="primary-contrast" tappable
       (click)="openInput(important.id)">
@@ -50,10 +98,25 @@
 
     </ion-item>
 
-  </ion-list>
+  </ion-list> -->
 
   <!-- Add input button -->
-  <ion-grid>
+  <ion-grid class="addSymptomButton" fixed>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="auto">
+          <ion-fab-button (click)="addInput()">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-col>
+  
+        <ion-col size="auto">
+          <h2>Add symptom</h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    
+  <!-- <ion-grid>
     <ion-row>
       <ion-col size="auto" offset="4">
         <ion-fab-button (click)="addInput()">
@@ -65,13 +128,6 @@
         <h2>Add input</h2>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title id="action1">What to Do</ion-title>
-    <ion-title id="action2">Call TCS</ion-title>
-  </ion-toolbar>
-</ion-footer>
