@@ -1,3 +1,40 @@
-.title {
-    text-align: center;
+ion-toolbar {
+    background-color: #7587DC;
+    color: white;
+}
+
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
+ion-item-sliding {
+    border-bottom: 1px solid;
+}
+
+ion-item {
+    padding: 3%;
+}
+
+ion-grid {
+    padding: 0;
+}
+
+.editButton {
+    background-color: #3880ff;
+    padding: 0 4vw 0 4vw; 
+}
+
+.deleteButton {
+    background-color: #f04141;
+    padding: 0 1vw 0 1vw; 
+}
+
+button p {
+    margin: 1vh 0 0 0;
+    font-size: 110%
+}   
+
+ion-icon {
+    font-size: 200%;
 }

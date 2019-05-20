@@ -1,45 +1,69 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title class="title">Appointments</ion-title>
-    <ion-button slot="end" routerLink="/tabs/appointments/appointment-detail" routerDirection="forward">Add</ion-button>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+
+        <ion-col></ion-col>
+
+        <ion-col size="3">
+          <div class="ion-text-nowrap">
+            Appointments
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="1.5">
+          <div class="ion-text-nowrap">
+            <ion-button fill="clear" routerLink="/tabs/appointments/appointment-detail" routerDirection="forward">Add
+            </ion-button>
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <ion-list class="ion-no-padding">
+  <ion-list color="primary-contrast" class="ion-no-padding" lines="none">
 
-    <ion-item *ngFor="let appointment of appointments">
+    <ion-item-sliding *ngFor="let appointment of appointments">
 
-      <ion-grid>
+      <ion-item color="primary-contrast">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              {{ appointment.apptDate }}
+            </ion-col>
 
-        <ion-row>
-          <ion-col>
-            {{ appointment.apptDate }}
-          </ion-col>
+            <ion-col>
+              {{ appointment.apptTime }}
+            </ion-col>
+          </ion-row>
 
-          <ion-col>
-            {{ appointment.apptTime }}
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col>
+              {{ appointment.clinicName }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
 
-        <ion-row>
-          <ion-col>
-            {{ appointment.clinicName }}
-          </ion-col>
-        </ion-row>
+      <ion-item-options>
+        <button class="editButton" tappable (click)="openInput(appointment.id)">
+          <ion-icon name="create"></ion-icon>
+          <p>Edit</p>
+        </button>
 
-      </ion-grid>
+        <button class="deleteButton" tappable (click)="deleteInput(appointment.id)">
+          <ion-icon name="trash"></ion-icon>
+          <p>Delete</p>
+        </button>
+      </ion-item-options>
 
-      <ion-button tappable (click)="openInput(appointment.id)">
-        <ion-icon name="create"></ion-icon>
-      </ion-button>
-
-      <ion-button tappable (click)="deleteInput(appointment.id)">
-        <ion-icon name="trash"></ion-icon>
-      </ion-button>
-
-    </ion-item>
+    </ion-item-sliding>
 
   </ion-list>
 

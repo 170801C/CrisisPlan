@@ -1,16 +1,40 @@
-.title {
-    text-align: center;
+ion-toolbar {
+    background-color: #7587DC;
+    color: white;
+}
+
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
+ion-label {
+    display: inline-block;
+    padding: 5% 0 0 5%;
+}
+
+.dateInput {
+    display: inline-block;
+    margin: 0 5% 0 5%; 
+}
+
+.timeInput {
+    display: inline-block;
+}
+
+ion-datetime {
+    padding: 0;
 }
 
 .error {
     color: red;
+    margin: 0 0 0 5%;
 }
 
-.date {
-    display: inline-block;
-    margin: 1rem;
-}
-
-.time {
-    display: inline-block;
+.nameInput {
+    width: 90%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 1px solid #CECDCD;
 }

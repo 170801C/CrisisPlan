@@ -1,49 +1,79 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button slot="start" routerLink="/tabs/appointments" routerDirection="back">Cancel</ion-button>
-    <ion-title class="title">appointment-detail</ion-title>
-    <ion-button slot="end" routerLink="/tabs/appointments" routerDirection="forward" (click)="inputForm.ngSubmit.emit()">Save</ion-button>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap ion-align-items-center">
+        <ion-col size="auto">
+          <div>
+            <ion-button fill="clear" routerLink="/tabs/appointments" routerDirection="back">Cancel</ion-button>
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            New Appointment
+          </div>
+        </ion-col>
+
+        <ion-col></ion-col>
+
+        <ion-col size="auto">
+          <div>
+            <ion-button fill="clear" routerLink="/tabs/appointments" routerDirection="forward"
+              (click)="inputForm.ngSubmit.emit()" [disabled]="!inputForm.valid">Save</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <form (ngSubmit)="saveInput()" #inputForm="ngForm">
 
     <ion-label position="stacked">Select appointment date & time</ion-label>
 
     <div>
+
       <!-- Date input -->
-      <ion-item class="date">
-        <ion-datetime name="date" #date="ngModel" [(ngModel)]="appointment.apptDate" displayFormat="MM/DD/YYYY" required></ion-datetime>
+      <ion-item class="dateInput">
+        <ion-datetime name="date" #date="ngModel" [(ngModel)]="appointment.apptDate"
+          displayFormat="DD/MM/YYYY" placeholder="dd/mm/yyyy" required>
+        </ion-datetime>
       </ion-item>
 
       <!-- Time input -->
-      <ion-item class="time">
-        <ion-datetime name="time" #time="ngModel" [(ngModel)]="appointment.apptTime" displayFormat="HH:mm" required></ion-datetime>
+      <ion-item class="timeInput">
+        <ion-datetime name="time" #time="ngModel" [(ngModel)]="appointment.apptTime"
+          displayFormat="hh:mma" placeholder="12:00pm" required>
+        </ion-datetime>
       </ion-item>
-    </div>
 
-    <!-- Date validation -->
-    <div *ngIf="date.invalid && (date.dirty || date.touched)" class="error">
-      <div *ngIf="date.errors.required">
-        Date is required
+      <!-- Date validation -->
+      <div *ngIf="date.invalid && (date.dirty || date.touched)" class="error">
+        <div *ngIf="date.errors.required">
+          Date is required
+        </div>
       </div>
-    </div>
 
-    <!-- Time validation -->
-    <div *ngIf="time.invalid && (time.dirty || time.touched)" class="error">
-      <div *ngIf="time.errors.required">
-        Time is required
+      <!-- Time validation -->
+      <div *ngIf="time.invalid && (time.dirty || time.touched)" class="error">
+        <div *ngIf="time.errors.required">
+          Time is required
+        </div>
       </div>
+
     </div>
 
     <ion-label position="stacked">Enter clinic name</ion-label>
-  
+
     <!-- Name input -->
-    <ion-item>
-      <ion-input name="name" #name="ngModel" [(ngModel)]="appointment.clinicName" required></ion-input>
-    </ion-item>
+    <div class="nameInput">
+      <ion-input name="name" #name="ngModel" [(ngModel)]="appointment.clinicName"
+        clearInput=true placeholder="Name of clinic" required></ion-input>
+    </div>
 
     <!-- Name validation -->
     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
