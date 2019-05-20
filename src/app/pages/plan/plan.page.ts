@@ -174,6 +174,7 @@ export class PlanPage implements OnInit {
     this.loadPlan();
     this.getTemp()
     console.log("Plan page, contact object: ", this.contact)
+    console.log("anything in critical length: ", this.criticals.length)
   }
 
   // Unsubscribe for garbage colleciton, prevent memory leaks

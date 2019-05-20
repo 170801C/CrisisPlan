@@ -2,8 +2,8 @@
   <ion-toolbar color="primary-contrast">
     <ion-grid no-padding>
       <ion-row class="ion-nowrap ion-align-items-center">
-        <ion-col size="auto">
-          <div>
+        <ion-col size="3">
+          <div class="ion-text-nowrap">
             <p (click)="createPDF()">Create PDF</p>
           </div>
         </ion-col>
@@ -11,23 +11,22 @@
         <!-- Empty <ion-col> are for arranging the columns   -->
         <ion-col></ion-col>
 
-        <ion-col size="auto">
-          <!-- <ion-title> is not included -->
-          <div>
+        <ion-col size="3">
+          <div class="ion-text-nowrap">
             Crisis Plan
           </div>
         </ion-col>
 
         <ion-col></ion-col>
 
-        <ion-col size="auto">
-          <div>
+        <ion-col size="1.5">
+          <div class="ion-text-nowrap">
             <p (click)="addNewPlanAlert()" [hidden]="!planExists && !contactExists">Add</p>
           </div>
         </ion-col>
 
-        <ion-col size="auto">
-          <div>
+        <ion-col size="1.5">
+          <div class="ion-text-nowrap">
             <p id="edit" (click)="allActualToTemp()" [hidden]="!planExists && !contactExists">Edit</p>
           </div>
         </ion-col>
@@ -80,7 +79,7 @@
 
     <!-- Critical list -->
     <!-- Section header line -->
-    <div *ngIf="criticals.length > 0" class="criticalHeader"></div>
+    <div item-content *ngIf="criticals.length > 0" class="criticalHeader"></div>
 
     <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
       <ion-grid no-padding class="symptomGrid">
