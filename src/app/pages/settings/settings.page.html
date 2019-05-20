@@ -1,24 +1,37 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>{{ 'SETTINGS.title' | translate }}</ion-title>
+  <ion-toolbar color="primary-contrast">
+    <ion-grid no-padding>
+      <ion-row class="ion-nowrap">
+
+        <ion-col size="auto">
+          <div>
+            {{ 'SETTINGS.title' | translate }}
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <ion-list>
+  <ion-list lines="full">
 
-    <ion-item>
+    <ion-item routerLink="/tabs/settings/languages">
       <ion-icon src="/assets/language.svg"></ion-icon>
-      <p routerLink="/tabs/settings/languages">{{ 'SETTINGS.language' | translate }}</p>
+      <p>{{ 'SETTINGS.language' | translate }}</p>
+      <p slot="end">{{ selectedLanguage }}</p>
     </ion-item>
-    <ion-item>
+
+    <ion-item routerLink="/tabs/settings/tutorial">
       <ion-icon src="/assets/open-book.svg"></ion-icon>
-      <p routerLink="/tabs/settings/tutorial">{{ 'SETTINGS.tutorial' | translate }}</p>
+      <p>{{ 'SETTINGS.tutorial' | translate }}</p>
     </ion-item>
-    <ion-item>
+
+    <ion-item routerLink="/tabs/settings/about">
       <ion-icon src="/assets/info-button.svg"></ion-icon>
-      <p routerLink="/tabs/settings/about">{{'SETTINGS.about' | translate }}</p>
+      <p>{{'SETTINGS.about' | translate }}</p>
     </ion-item>
 
   </ion-list>

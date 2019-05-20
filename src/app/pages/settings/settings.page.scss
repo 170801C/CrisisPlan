@@ -1,0 +1,27 @@
+ion-toolbar {
+    background-color: #7587DC;
+    color: white;
+    text-align: center;
+}
+
+ion-toolbar ion-col {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ion-list {
+    padding: 0;
+}
+
+ion-icon {
+    margin: 3%;
+}
+
+p {
+    margin: 3% 0 3% 0;
+}
+
+p:nth-child(3) {
+    margin-right: 3%;
+}

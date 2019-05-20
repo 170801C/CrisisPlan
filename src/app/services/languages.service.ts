@@ -19,7 +19,7 @@ export class LanguagesService {
     // Set the default language to fallback on when a selected language is not available
     this.translate.setDefaultLang(language);
 
-    // Get the previously used set language from storage, and set it as the inital app language，elsefallback to the default language.
+    // Get the previously used set language from storage, and set it as the inital app language，else fallback to the default language.
     return this.getLanguage()
       .then((result) => {
         return this.setLanguage(result);
@@ -28,7 +28,6 @@ export class LanguagesService {
 
   selectLanguageValues() {
     return [
-      // { text: 'English', value: 'en', img: 'assets/imgs/en.png' },
       { text: 'English', value: 'en' },
       { text: '中文', value: 'ch' },
       { text: 'Malay', value: 'ml' },

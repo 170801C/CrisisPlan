@@ -19,12 +19,6 @@ export class LanguagesPage implements OnInit {
     this.selectedLanguage = this.languagesService.selectedLanguage;
   }
 
-  // ionViewWillEnter() {
-  //   this.languages = this.languagesService.selectLanguageValues();
-
-  //   this.selectedLanguage = this.languagesService.selectedLanguage;
-  // }
-
   select(lng) {
     // Set and store the selected language
     this.languagesService.setLanguage(lng);
