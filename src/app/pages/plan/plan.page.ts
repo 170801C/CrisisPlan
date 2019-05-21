@@ -40,7 +40,7 @@ export class PlanPage implements OnInit {
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private file: File, private fileOpener: FileOpener, private routerOutlet: IonRouterOutlet) { }
+    private file: File, private fileOpener: FileOpener, private routerOutlet: IonRouterOutlet) {}
 
   ngOnInit() {
     // this.symptomService.deleteAll();
@@ -111,7 +111,7 @@ export class PlanPage implements OnInit {
         //     // this.contactExists = false;
         //     return false;
         //   }
-  
+
         //   console.log("Plan page, actual contact: ", result)
         // })
         // var x = new Promise(function(resolve, reject) {

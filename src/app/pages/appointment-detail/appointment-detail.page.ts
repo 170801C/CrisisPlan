@@ -3,7 +3,7 @@ import { appointmentModel } from '../../models/appointmentModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Events } from '@ionic/angular';
+import { Events, AlertController } from '@ionic/angular';
 import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 // import { LocalNotifications, ELocalNotificationTriggerUnit, ILocalNotificationActionType, ILocalNotification } from '@ionic-native/local-notifications/ngx';
 
@@ -33,7 +33,8 @@ export class AppointmentDetailPage implements OnInit {
   currentDateTime = null;
 
   constructor(private formBuilder: FormBuilder, private appointmentService: AppointmentService,
-    private route: ActivatedRoute, private router: Router, private events: Events, private localNotifications: LocalNotifications) { }
+    private route: ActivatedRoute, private router: Router, private events: Events, private localNotifications: LocalNotifications,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -69,11 +70,11 @@ export class AppointmentDetailPage implements OnInit {
     // If the appointment dateTime is than the current dateTime (future appointment), schedule a notification for the appointment.
     console.log("appt datetime: ", this.appointmentDateTime)
     console.log("current date time: ", this.currentDateTime)
-    
+
     if (this.appointmentDateTime > this.currentDateTime) {
-      this.scheduleNotification(this.appointmentDateTime);
+      this.scheduleNotification(this.appointmentDateTime, this.appointment.apptDate, this.appointment.apptTime,  this.appointment.clinicName);
     }
- 
+
     // Update existing appointment or add new appointment to plan
     if (this.id != null) {
       this.appointmentService.updateAppointment(this.appointment)
@@ -93,16 +94,21 @@ export class AppointmentDetailPage implements OnInit {
     }
   }
 
-  scheduleNotification(appointmentDateTime) {
+  scheduleNotification(appointmentDateTime, appointmentDate, appointmentTime, clinic) {
     console.log("is this scheduled? ")
     this.localNotifications.schedule({
       id: 1,
-      title: 'Attention',
-      text: 'Simons Notification',
+      title: 'Crisis Plan Medical Appointment',
+      text: 'Please be reminded that you have an upcoming medical appointment: ' + appointmentDate + ', ' + appointmentTime + ', ' + clinic,
       trigger: { at: new Date(appointmentDateTime) },
       foreground: true,
+      // Android only features
+      icon: "/resources/icon.png",
+      lockscreen: true,
+      vibrate: true,
+      led: true
     });
 
-    console.log("Is finised? ")
+    console.log("Is finished? ")
   }
 }
