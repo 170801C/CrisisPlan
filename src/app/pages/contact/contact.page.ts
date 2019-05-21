@@ -28,7 +28,7 @@ export class ContactPage implements OnInit {
   }
   criticalPath: string;
   // Visible back button 
-  // defaultBackLink: string;
+  defaultBackLink: string;
   customBackActionSubscription: Subscription;
   // contactChanged = false;
 
@@ -38,7 +38,8 @@ export class ContactPage implements OnInit {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
         // Visible back button 
-        // this.defaultBackLink = event.url.replace('/contact', '');
+        this.defaultBackLink = event.url.replace('/contact', '');
+        
         this.criticalPath = event.url + '/critical';  // event.url : 'http://localhost:8100/tabs/plan/contact'
       }
     });
@@ -114,10 +115,39 @@ export class ContactPage implements OnInit {
     this.contactService.addTempContact(this.contactObject);
   }
 
-  async discardTempAlert() {
+  // async discardTempAlert() {
+  //   const alert = await this.alertController.create({
+  //     header: 'Add new plan',
+  //     message: '<strong>Discard current changes?</strong>',
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //         // Optional properties
+  //         // cssClass: 'secondary',
+  //         // handler: (blah) => {
+  //         //   console.log('Confirm Cancel: blah');
+  //         // }
+  //       }, {
+  //         text: 'Ok',
+  //         handler: () => {
+  //           // Delete temp contact
+  //           this.contactService.deleteTempContact();
+  //           // Delete temp plan
+  //           this.symptomService.deleteTempPlan();
+
+  //           // Go to Plan page
+  //           // this.router.navigateByUrl('/tabs/plan/contact');
+  //         }
+  //       }
+  //     ]
+  //   });
+  // }
+
+  async discardChangesAlert() {
     const alert = await this.alertController.create({
-      header: 'Add new plan',
-      message: '<strong>Discard current changes?</strong>',
+      header: 'Discard changes',
+      message: '<strong>Discard changes?</strong>',
       buttons: [
         {
           text: 'Cancel',
@@ -130,16 +160,19 @@ export class ContactPage implements OnInit {
         }, {
           text: 'Ok',
           handler: () => {
-            // Delete temp contact
+            // Empty storage
             this.contactService.deleteTempContact();
-            // Delete temp plan
             this.symptomService.deleteTempPlan();
 
             // Go to Plan page
-            // this.router.navigateByUrl('/tabs/plan/contact');
+            this.router.navigateByUrl('/tabs/plan');
+            this.router.navigateByUrl(this.defaultBackLink);
+            
           }
         }
       ]
     });
+
+    await alert.present();
   }
 }

@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Events } from '@ionic/angular';
+import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
+// import { LocalNotifications, ELocalNotificationTriggerUnit, ILocalNotificationActionType, ILocalNotification } from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
@@ -22,9 +24,16 @@ export class AppointmentDetailPage implements OnInit {
   }
   // Get existing input id, if tapped
   id = null;
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  appointmentDateTime = null;
+  currentDateTime = null;
 
   constructor(private formBuilder: FormBuilder, private appointmentService: AppointmentService,
-    private route: ActivatedRoute, private router: Router, private events: Events) { }
+    private route: ActivatedRoute, private router: Router, private events: Events, private localNotifications: LocalNotifications) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -45,6 +54,26 @@ export class AppointmentDetailPage implements OnInit {
   // get name() { return this.inputForm.get('name'); }
 
   saveInput() {
+    this.year = parseInt(this.appointment.apptDate.slice(0, 4));
+    // Javascript new Date month runs from 0 - 11, not 1 - 12. So minus 1 to get the correct month.
+    this.month = parseInt(this.appointment.apptDate.slice(5, 7)) - 1;
+    this.day = parseInt(this.appointment.apptDate.slice(8));
+    this.hour = parseInt(this.appointment.apptTime.slice(0, 2));
+    this.minute = parseInt(this.appointment.apptTime.slice(3));
+
+    console.log("Date: ", new Date(this.year, this.month, this.day, this.hour, this.minute))
+
+    this.appointmentDateTime = new Date(this.year, this.month, this.day, this.hour, this.minute).getTime();
+    this.currentDateTime = new Date().getTime();
+
+    // If the appointment dateTime is than the current dateTime (future appointment), schedule a notification for the appointment.
+    console.log("appt datetime: ", this.appointmentDateTime)
+    console.log("current date time: ", this.currentDateTime)
+    
+    if (this.appointmentDateTime > this.currentDateTime) {
+      this.scheduleNotification(this.appointmentDateTime);
+    }
+ 
     // Update existing appointment or add new appointment to plan
     if (this.id != null) {
       this.appointmentService.updateAppointment(this.appointment)
@@ -62,5 +91,18 @@ export class AppointmentDetailPage implements OnInit {
           // this.router.navigateByUrl('/tabs/appointments');
         })
     }
+  }
+
+  scheduleNotification(appointmentDateTime) {
+    console.log("is this scheduled? ")
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Attention',
+      text: 'Simons Notification',
+      trigger: { at: new Date(appointmentDateTime) },
+      foreground: true,
+    });
+
+    console.log("Is finised? ")
   }
 }

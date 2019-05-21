@@ -15,11 +15,15 @@ export class CriticalPage implements OnInit {
   symptoms = [];
   criticals = [];
   importantPath: string;
+  defaultBackLink: string;
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
     private router: Router) {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event instanceof NavigationEnd && event.url) {
+        // Visible back button 
+        this.defaultBackLink = event.url.replace('/critical', '');
+
         this.importantPath = event.url + '/important';
       }
     });

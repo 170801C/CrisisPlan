@@ -19,10 +19,14 @@ export class LanguagesPage implements OnInit {
     this.selectedLanguage = this.languagesService.selectedLanguage;
   }
 
-  select(lng) {
+  save() {
     // Set and store the selected language
-    this.languagesService.setLanguage(lng);
+    this.languagesService.setLanguage(this.selectedLanguage);
 
-    this.selectedLanguage = this.languagesService.selectedLanguage;
+    // this.selectedLanguage = this.languagesService.selectedLanguage;
+  }
+
+  select(lng) {
+    this.selectedLanguage = lng;
   }
 }

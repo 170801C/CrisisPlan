@@ -5,7 +5,7 @@ import { SymptomsService } from '../../services/symptoms.service';
 import { ContactService } from '../../services/contact.service';
 import { Platform } from '@ionic/angular';
 import { GeneralService } from '../../services/general.service';
-import { Router } from '@angular/router';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 
 
 @Component({
@@ -18,9 +18,16 @@ export class NormalPage implements OnInit {
   symptoms = [];
   normals = [];
   // planChanged = false;
+  defaultBackLink: string;
 
   constructor(private platform: Platform, private modalController: ModalController, private symptomService: SymptomsService,
     private contactService: ContactService, private generalService: GeneralService, private router: Router) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event && event instanceof NavigationEnd && event.url) {
+        // Visible back button 
+        this.defaultBackLink = event.url.replace('/normal', '');
+      }
+    })
   }
 
   ngOnInit() {

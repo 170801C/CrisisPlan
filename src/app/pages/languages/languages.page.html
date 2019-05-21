@@ -4,7 +4,7 @@
       <ion-row class="ion-nowrap ion-align-items-center">
         <ion-col size="auto">
           <div>
-            <p>Cancel</p>
+            <p routerLink="/tabs/settings" routerDirection="back">Cancel</p>
           </div>
         </ion-col>
 
@@ -20,23 +20,19 @@
 
         <ion-col size="auto">
           <div>
-            <ion-button fill="clear" [routerLink]="normalPath" routerDirection="forward">Save</ion-button>
+            <ion-button fill="clear" (click)="save()" routerLink="/tabs/settings" routerDirection="forward">Save</ion-button>
           </div>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-toolbar>
-
-  <!-- <ion-toolbar>
-    <ion-title>{{ 'LANGUAGES.title' | translate }}</ion-title>
-  </ion-toolbar> -->
 </ion-header>
 
 <ion-content padding>
 
   <ion-list>
 
-    <ion-item *ngFor="let lng of languages" (click)="select(lng.value)">
+    <ion-item *ngFor="let lng of languages" (click)="select(lng.value)" #lang>
       {{ lng.text }}
 
       <!-- Tick icon -->

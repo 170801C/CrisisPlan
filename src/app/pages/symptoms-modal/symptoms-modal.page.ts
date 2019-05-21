@@ -361,5 +361,9 @@ export class SymptomsModalPage implements OnInit {
     await this.inputForm.get('actionIcon').setValue(actionIcon)
     this.inputForm.get('action').markAsTouched();
   }
+
+  back() {
+    this.modalController.dismiss({});
+  }
 }
 

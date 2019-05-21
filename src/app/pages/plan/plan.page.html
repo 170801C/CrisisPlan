@@ -35,7 +35,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content  style="background-color:darkorange">
+<ion-content>
   <!-- Pull to refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
@@ -44,8 +44,8 @@
   </ion-refresher>
 
   <!-- Contact -->
-  <ion-grid *ngIf="contactExists" class="contactGrid"  style="background-color: red">
-    <ion-row class="ion-nowrap" style="background-color: darkorchid">
+  <ion-grid *ngIf="contactExists" class="contactGrid">
+    <ion-row class="ion-nowrap">
       <ion-col size="1"></ion-col>
 
       <ion-col>
@@ -59,7 +59,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-nowrap" style="background-color: floralwhite">
+    <ion-row class="ion-nowrap">
       <ion-col size="1"></ion-col>
 
       <ion-col>
@@ -75,14 +75,14 @@
   </ion-grid>
 
   <!-- Symptoms -->
-  <ion-list lines="full" style="background-color: teal">
+  <ion-list lines="full">
 
     <!-- Critical list -->
     <!-- Section header line -->
     <div item-content *ngIf="criticals.length > 0" class="criticalHeader"></div>
 
-    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast" style="background-color: yellow">
-      <ion-grid no-padding class="symptomGrid" style="background-color: green">
+    <ion-item *ngFor="let critical of criticals" class="critical" color="primary-contrast">
+      <ion-grid no-padding class="symptomGrid">
 
         <ion-row class="ion-nowrap ion-no-padding">
 

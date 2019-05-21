@@ -25,6 +25,7 @@ export class AppointmentService {
 
   getAppointmentById(id) {
     return this.storage.get(APPOINTMENT_KEY).then(result => {
+      console.log(result)
       return result.filter(item => item.id == id)
     })
   }
