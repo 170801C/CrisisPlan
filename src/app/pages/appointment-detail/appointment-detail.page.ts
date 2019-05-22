@@ -95,7 +95,7 @@ export class AppointmentDetailPage implements OnInit {
   }
 
   scheduleNotification(appointmentDateTime, appointmentDate, appointmentTime, clinic) {
-    console.log("is this scheduled? ")
+    console.log("is this scheduled?")
     this.localNotifications.schedule({
       id: 1,
       title: 'Crisis Plan Medical Appointment',
