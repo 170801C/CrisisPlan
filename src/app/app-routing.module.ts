@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+// import { TempToActualService } from './services/temp-to-actual.service';
+// import { PlanPage } from './pages/plan/plan.page';
 
 const routes: Routes = [
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'plan', loadChildren: './pages/plan/plan.module#PlanPageModule' },
+  // { path: 'plan', loadChildren: './pages/plan/plan.module#PlanPageModule', resolve: {myKey: TempToActualService} },
   { path: 'appointments', loadChildren: './pages/appointments/appointments.module#AppointmentsPageModule' },
   { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'symptoms-modal', loadChildren: './pages/symptoms-modal/symptoms-modal.module#SymptomsModalPageModule' },
@@ -21,6 +24,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  // providers: [TempToActualService]
 })
 export class AppRoutingModule {}

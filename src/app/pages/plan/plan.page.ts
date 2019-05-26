@@ -4,13 +4,14 @@ import { SymptomsService } from '../../services/symptoms.service';
 import { ModalController } from '@ionic/angular';
 import { SymptomsModalPage } from '../symptoms-modal/symptoms-modal.page';
 import { ContactService } from '../../services/contact.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -39,10 +40,22 @@ export class PlanPage implements OnInit {
 
   constructor(private platform: Platform, private symptomService: SymptomsService, private modalController: ModalController,
     private router: Router, private contactService: ContactService, private alertController: AlertController, private toastController: ToastController,
-    private file: File, private fileOpener: FileOpener, private routerOutlet: IonRouterOutlet) {}
+    private file: File, private fileOpener: FileOpener, private routerOutlet: IonRouterOutlet, private actRoute: ActivatedRoute) { }
 
   ngOnInit() {
     // this.symptomService.deleteAll();
+
+    // Check if it is an activated route (normal -> plan), else do a subscription? 
+    // if (this.actRoute) {
+    //   console.log("Coming from act route!!")
+    //   this.loadContact();
+    //   this.loadPlan();
+    //   this.getTemp()
+    // }
+
+    // isActive(instruction: any[]): boolean {
+    //   return this.router.isRouteActive(this.router.generate(instruction));
+    // }
 
     // platform.ready() is already called in app.component.ts, may omit in here 
     this.platform.ready()
@@ -309,7 +322,7 @@ export class PlanPage implements OnInit {
             this.symptomService.deleteTempPlan();
 
             // Go to Plan page
-            this.router.navigateByUrl('/tabs/plan');
+            this.router.navigateByUrl('/plan');
           }
         }
       ]

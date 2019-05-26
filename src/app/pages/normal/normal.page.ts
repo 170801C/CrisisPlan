@@ -138,15 +138,18 @@ export class NormalPage implements OnInit {
 
   // Set temp to actual, then delete temp, for all data 
   allTempToActual() {
-    this.contactService.tempToActual().then(() => {
-      this.symptomService.tempToActual().then(() => {
-        this.contactService.deleteTempContact().then(() => {
-          this.symptomService.deleteTempPlan().then(() => {
-            this.router.navigateByUrl('/tabs/plan');
-          })
-        })
-      })
-    })
+    this.router.navigateByUrl(`/tabs/plan`);
+    // this.router.navigateByUrl(`/plan`);
+
+    // this.contactService.tempToActual().then(() => {
+    //   this.symptomService.tempToActual().then(() => {
+    //     this.contactService.deleteTempContact().then(() => {
+    //       this.symptomService.deleteTempPlan().then(() => {
+    //         this.router.navigateByUrl('/tabs/plan');
+    //       })
+    //     })
+    //   })
+    // })
 
     // Need not promise chain the deletion, becuase user is not allowed to press back to enter previous plan steps 
     // this.contactService.deleteTempContact();

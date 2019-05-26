@@ -27,6 +27,7 @@
 
   <form [formGroup]="inputForm" (ngSubmit)="saveInput()">
 
+    <!-- Type input -->
     <div class="inputDiv" color="primary-contrast">
       <div>
         <ion-icon class="inputIcon" src="/assets/icon/sad.svg"></ion-icon>
@@ -36,6 +37,7 @@
       </div>
     </div>
 
+    <!-- Type input dropdown-->
     <div [@showHide]="typeIsVisible ? 'show' : 'hide'" class="dropdown" *ngFor="let typeAndIcon of defaultTypesAndIcons"
       (click)="selectTypeInput(typeAndIcon.type, typeAndIcon.typeIcon)">
       <ion-icon class="dropdownIcon" [src]=typeAndIcon.typeIcon></ion-icon>

@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { TempToActualService } from '../services/temp-to-actual.service';
 
 const routes: Routes = [
   {
@@ -16,7 +17,8 @@ const routes: Routes = [
           {
             path: '',
             // Relative file path to this filename.module#module_name
-            loadChildren: '../pages/plan/plan.module#PlanPageModule'
+            loadChildren: '../pages/plan/plan.module#PlanPageModule',
+            resolve: { myKey: TempToActualService }
           },
           {
             path: 'contact',
@@ -87,20 +89,23 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/plan',
-        pathMatch: 'full'
+        loadChildren: '../pages/plan/plan.module#PlanPageModule',
+        // redirectTo: '/tabs/plan',
+        // pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/plan',
-    pathMatch: 'full'
+    loadChildren: '../pages/plan/plan.module#PlanPageModule',
+    // redirectTo: '/tabs/plan',
+    // pathMatch: 'full'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [TempToActualService]
 })
 export class TabsPageRoutingModule { }

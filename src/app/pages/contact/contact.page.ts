@@ -165,9 +165,8 @@ export class ContactPage implements OnInit {
             this.symptomService.deleteTempPlan();
 
             // Go to Plan page
-            this.router.navigateByUrl('/tabs/plan');
+            this.router.navigateByUrl('/plan');
             this.router.navigateByUrl(this.defaultBackLink);
-            
           }
         }
       ]
