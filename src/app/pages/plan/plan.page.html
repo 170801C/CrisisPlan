@@ -4,7 +4,8 @@
       <ion-row class="ion-nowrap ion-align-items-center">
         <ion-col size="3">
           <div class="ion-text-nowrap">
-            <p (click)="createPDF()">Create PDF</p>
+            <!-- <p (click)="createPDF()">Create PDF</p> -->
+            <ion-button fill="clear" (click)="createPDF()" [hidden]="!contactExists && !planExists">Create PDF</ion-button>
           </div>
         </ion-col>
 
@@ -90,7 +91,7 @@
             <ion-icon class="icon" [src]=critical.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ critical.type }}
           </ion-col>
 
@@ -98,7 +99,7 @@
             <ion-icon class="icon" [src]=critical.actionIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ critical.action }}
           </ion-col>
         </ion-row>
@@ -106,13 +107,13 @@
         <ion-row class="ion-nowrap">
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5">
             {{ critical.typeDescription }}
           </ion-col>
 
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5">
             {{ critical.actionDescription }}
           </ion-col>
         </ion-row>
@@ -131,7 +132,7 @@
             <ion-icon class="icon" [src]=important.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ important.type }}
           </ion-col>
 
@@ -139,7 +140,7 @@
             <ion-icon class="icon" [src]=important.actionIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ important.action }}
           </ion-col>
         </ion-row>
@@ -147,13 +148,13 @@
         <ion-row class="ion-nowrap">
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5">
             {{ important.typeDescription }}
           </ion-col>
 
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5">
             {{ important.actionDescription }}
           </ion-col>
         </ion-row>
@@ -172,7 +173,7 @@
             <ion-icon class="icon" [src]=normal.typeIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ normal.type }}
           </ion-col>
 
@@ -180,7 +181,7 @@
             <ion-icon class="icon" [src]=normal.actionIcon></ion-icon>
           </ion-col>
 
-          <ion-col class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
             {{ normal.action }}
           </ion-col>
         </ion-row>
@@ -188,13 +189,13 @@
         <ion-row class="ion-nowrap">
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5"> 
             {{ normal.typeDescription }}
           </ion-col>
 
           <ion-col size="1"></ion-col>
 
-          <ion-col>
+          <ion-col size="5">
             {{ normal.actionDescription }}
           </ion-col>
         </ion-row>

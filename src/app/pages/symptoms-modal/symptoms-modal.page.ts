@@ -91,10 +91,6 @@ export class SymptomsModalPage implements OnInit {
       this.inputForm.get('level').setValue("important");
       this.inputForm.get('color').setValue("#FFA500");
     }
-    else if (this.level == "attention") {
-      this.inputForm.get('level').setValue("attention");
-      this.inputForm.get('color').setValue("#FFFF00");
-    }
     else if (this.level == "normal") {
       this.inputForm.get('level').setValue("normal");
       this.inputForm.get('color').setValue("#008000");

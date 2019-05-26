@@ -41,25 +41,37 @@
 
     <ion-grid no-padding>
       <ion-row class="ion-nowrap">
-        <ion-col>
+        <ion-col size="1" class="ion-align-self-center">
           <ion-icon class="icon" [src]=critical.typeIcon></ion-icon>
+        </ion-col>
+
+        <ion-col size="5" class="typeDescription">
           {{ critical.type }}
         </ion-col>
 
-        <ion-col class="typeDescription">
+        <ion-col size="1" class="ion-align-self-center">
+          <ion-icon class="icon" [src]=critical.actionIcon></ion-icon>
+        </ion-col>
+
+        <ion-col size="5" class="typeDescription">
+          {{ critical.action }}
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-nowrap">
+        <ion-col size="1"></ion-col>
+
+        <ion-col size="5">
           {{ critical.typeDescription }}
+        </ion-col>
+
+        <ion-col size="1"></ion-col>
+
+        <ion-col size="5">
+          {{ critical.actionDescription }}
         </ion-col>
       </ion-row>
     </ion-grid>
-
-    <div class="action">
-      <ion-icon [src]=critical.actionIcon></ion-icon>
-      <p>{{ critical.action }}</p>
-    </div>
-
-    <div class="actionDescription">
-      {{ critical.actionDescription }}
-    </div>
 
   </div>
 

@@ -150,16 +150,16 @@
       </div>
     </div>
 
-    <!-- Submit form button -->
+    <!-- Add symptom button -->
     <ion-button expand="full" type="submit" [disabled]="!inputForm.valid">
       <ion-icon name="checkmark"></ion-icon>
-      Add input
+      Add/Edit symptom
     </ion-button>
 
     <!-- Delete input button -->
     <ion-button color="danger" expand="full" [hidden]="id == null" (click)="deleteInput(inputForm.value.id)">
       <ion-icon name="trash"></ion-icon>
-      Delete input
+      Delete symptom
     </ion-button>
 
   </form>

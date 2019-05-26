@@ -3,6 +3,11 @@ ion-toolbar {
     color: white;
 }
 
+ion-toolbar ion-button {
+    color: white;
+    text-transform: none;
+}
+
 .contactGrid {
     padding: 4% 0 4% 0;
 }
@@ -33,7 +38,7 @@ ion-col {
 }
 
 .critical ion-row:nth-child(2) {
-    color: #CECDCD;
+    color: #8B8B8B;
 }
 
 .importantHeader {
@@ -41,13 +46,8 @@ ion-col {
     background-color: #FFAB00
 }
 
-.important p {
-    margin: 0;
-    font-size: 18px;
-}
-
 .important ion-row:nth-child(2) {
-    color: #CECDCD;
+    color: #8B8B8B;
 }
 
 .normalHeader {
@@ -55,13 +55,8 @@ ion-col {
     background-color: #2FB6D3;
 }
 
-.normal p {
-    margin: 0;
-    font-size: 18px;
-}
-
 .normal ion-row:nth-child(2) {
-    color: #CECDCD;
+    color: #8B8B8B;
 }
 
 ion-fab-button {

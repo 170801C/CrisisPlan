@@ -28,7 +28,6 @@ export class PlanPage implements OnInit {
   symptoms = [];
   criticals = [];
   importants = [];
-  attentions = [];
   normals = [];
   planExists: boolean;
   contactExists: boolean;
@@ -203,7 +202,6 @@ export class PlanPage implements OnInit {
   emptyArrays() {
     this.criticals.length = 0;
     this.importants.length = 0;
-    this.attentions.length = 0;
     this.normals.length = 0;
   }
 
@@ -215,9 +213,6 @@ export class PlanPage implements OnInit {
       }
       else if (symptom.level == "important") {
         this.importants.push(symptom);
-      }
-      else if (symptom.level == "attention") {
-        this.attentions.push(symptom);
       }
       else if (symptom.level == "normal") {
         this.normals.push(symptom);
@@ -352,7 +347,6 @@ export class PlanPage implements OnInit {
     // }, 2000);
   }
 
-  // async createPDF() {
   createPDF() {
     let critRow1 = [];
     let critRow2 = [];
